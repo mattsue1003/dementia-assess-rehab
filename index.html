@@ -170,7 +170,7 @@ body.driving #deck{display:none}
 .pad2 canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
 .errs{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1}
 .err{background:var(--tint);border-radius:18px;padding:10px 14px;display:flex;gap:14px;align-items:center;font-size:19px;line-height:1.45}
-.err svg{width:120px;height:120px;flex:none}
+.err svg{width:150px;height:150px;flex:none}
 .err b{font-family:var(--fh);font-weight:400;font-size:25px;display:block}
 .cues{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:space-between}
 .cue{border:0;text-align:left;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:var(--tint);border-radius:16px;padding:10px 16px;font-size:23px;color:var(--ink);transition:background .2s}
@@ -219,7 +219,7 @@ body.driving #deck{display:none}
 .qrc img{width:118px;height:118px;border-radius:10px;background:#fff;padding:6px;image-rendering:pixelated}
 .qrc h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:27px}
 .qrc p{margin:0;font-size:18px;line-height:1.45;color:var(--ink2)}
-.refs{margin:0;padding-left:1.3em;font-size:18px;line-height:1.6;columns:2;column-gap:36px;flex:1}
+.refs{margin:0;padding-left:1.3em;font-size:15px;line-height:1.42;columns:2;column-gap:36px;flex:1}
 .refs li{break-inside:avoid;margin-bottom:6px}
 
 /* games */
@@ -365,6 +365,7 @@ a.qrlink:hover,a.qr:hover{outline:3px solid var(--cc);outline-offset:2px}
 .qfb{display:flex;align-items:center;gap:16px;background:#fff6dc;border-radius:18px;padding:12px 18px;font-size:21px;line-height:1.5;min-height:92px;visibility:hidden}
 .qfb.on{visibility:visible}
 .qfb span{flex:1}
+.qsrc{display:block;font-size:15px;color:#7a8399;margin-top:4px}
 .qend{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
 .stamp{width:230px;height:230px;border-radius:50%;border:8px double var(--cc);color:var(--cc);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-10deg);font-family:var(--fh);animation:stampin .5s cubic-bezier(.2,1.6,.4,1) both}
 .stamp b{font-size:46px;font-weight:400;line-height:1.1}.stamp small{font-size:20px}
@@ -424,10 +425,62 @@ body.mob .qopts{grid-template-columns:1fr}
 body.mob .qq{font-size:24px}
 body.mob .ppr{grid-template-columns:44px 1fr 70px;font-size:16px}body.mob .ppr .tr,body.mob .ppr button{display:none}
 body.mob .tomap{display:none}
+
+/* zoom: enlarge any block in a popup */
+#zoom{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(34,48,74,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#zoom.on{display:flex}
+#zoom .slide{position:relative;inset:auto;display:block;flex:none}
+#zoom .card,#zoom .slide.wide .card{position:relative;left:auto;top:auto;width:auto;height:auto;padding:26px 30px;animation:none;transform-origin:center center;box-shadow:0 24px 80px rgba(0,0,0,.3);display:block}
+#zoom .bd{display:block}
+#zoom .zx{position:fixed;right:max(20px,env(safe-area-inset-right,0px));top:max(20px,env(safe-area-inset-top,0px));width:56px;height:56px;border:0;border-radius:50%;background:#fff;color:var(--ink);font-size:30px;box-shadow:0 6px 0 rgba(0,0,0,.2);z-index:2}
+#zoom .zhint{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:rgba(255,253,248,.92);border-radius:999px;padding:6px 18px;font-family:var(--fh);font-size:17px;color:var(--ink)}
+#zbtn{position:absolute;z-index:6;display:none;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--ink);color:#fff;font-family:var(--fh);font-size:16px;padding:5px 12px 5px 9px;box-shadow:0 3px 0 rgba(0,0,0,.2);pointer-events:auto}
+#zbtn svg{width:18px;height:18px}
+#zbtn.on{display:inline-flex}
+body.zpick .slide.on .zable{outline:3px dashed color-mix(in srgb,var(--cc) 70%,transparent);outline-offset:3px;cursor:zoom-in}
+body.zpick .slide.on .zable:hover{outline-style:solid;background-color:color-mix(in srgb,var(--cc) 8%,transparent)}
+.bar #bZoom.on{background:var(--ink);color:#fff}
+body.mob #zbtn{display:none!important}
+
+.formbtns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:19px;color:var(--ink2)}
+.formbtns button{border:0;background:var(--cc);color:#fff;border-radius:999px;padding:8px 20px;font-family:var(--fh);font-size:20px;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.slide[data-ch="3"] .formbtns button{color:var(--ink)}
+button.formtile{border:0;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--fb);transition:transform .15s}
+button.formtile:hover{transform:translateY(-3px);background:var(--tint2)}
+button.formtile em{font-style:normal;font-family:var(--fh);font-size:19px;color:var(--cc)}
+.offlinks{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.offlinks a{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:8px;text-decoration:none;color:var(--ink);font-size:15px;line-height:1.4}
+.offlinks a img{width:76px;height:76px;image-rendering:pixelated;flex:none}
+.offlinks a b{display:block;font-family:var(--fh);font-weight:400;font-size:20px}
+/* form modal */
+#form{position:fixed;inset:0;z-index:55;display:none;align-items:center;justify-content:center;background:rgba(34,48,74,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+#form.on{display:flex}
+.fbox{background:var(--paper);border-radius:26px;width:min(1180px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.3);font-size:clamp(16px,1.45vw,22px);--cc:var(--c2);--tint:color-mix(in srgb,var(--c2) 10%,#fff);--tint2:color-mix(in srgb,var(--c2) 22%,#fff)}
+.fhead{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--cc);color:#fff}
+.fhead h3{margin:0;font-family:var(--fh);font-weight:400;font-size:1.6em;flex:1}
+.fhead button{border:0;background:#fff;color:var(--ink);border-radius:999px;padding:6px 16px;font-family:var(--fh);font-size:.9em}
+.fbody{overflow:auto;padding:16px 24px;display:flex;flex-direction:column;gap:10px}
+.fintro{background:#fff6dc;border-radius:14px;padding:10px 16px;line-height:1.55}
+.fq2{display:grid;grid-template-columns:2.2em 1fr auto;gap:12px;align-items:center;background:var(--tint);border-radius:14px;padding:8px 10px 8px 14px;line-height:1.45}
+.fq2 .n{font-family:var(--fn);font-weight:700;color:var(--cc)}
+.fq2 small{display:block;color:var(--ink2);font-size:.82em}
+.fopts{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.fopts button{border:2px solid var(--tint2);background:#fff;border-radius:12px;padding:5px 12px;font-size:.88em;color:var(--ink);font-family:var(--fb);text-align:left}
+.fopts button.on{background:var(--cc);border-color:var(--cc);color:#fff}
+.fopts button i{font-style:normal;font-family:var(--fn);font-weight:600;opacity:.75;margin-left:6px}
+.ffoot{display:flex;align-items:center;gap:18px;padding:14px 24px;background:var(--ink);color:#fff}
+.ffoot .big{color:#fff;font-size:2.2em;white-space:nowrap}
+.ffoot span{flex:1;line-height:1.5}
+.fsrc{font-size:.75em;color:#7a8399;padding:0 24px 12px;background:var(--paper)}
+.fsel{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media (max-width:700px){.fq2{grid-template-columns:2em 1fr}.fopts{grid-column:1/-1;justify-content:flex-start}}
+body.mob .offlinks{grid-template-columns:1fr 1fr}
 @media (prefers-reduced-motion:reduce){.slide.on .card{animation:none}.mc{transition:none}}
 </style></head><body>
 
 <canvas id="world" aria-hidden="true"></canvas>
+<div id="form" role="dialog" aria-modal="true" aria-label="評估表單"><div class="fbox"><div class="fhead"><h3 id="fT"></h3><button id="fR">清除重填</button><button id="fX">關閉 ✕</button></div><div class="fbody" id="fB"></div><div class="ffoot" id="fF"></div><div class="fsrc" id="fS"></div></div></div>
+<div id="zoom" role="dialog" aria-modal="true" aria-label="放大檢視"><button class="zx" aria-label="關閉放大">✕</button><span class="zhint">點空白處或按 Esc 關閉 · ← → 換頁</span></div>
 <div id="ui">
   <div class="top">
     <div class="brand"><i></i>記憶小島</div>
@@ -436,6 +489,7 @@ body.mob .tomap{display:none}
   </div>
   <div id="map"><svg id="mapLines" viewBox="0 0 1600 900"></svg><div class="mhub" id="mhub">失智症評估及復健復能<small>點任何一個看板，前往那一站</small></div><div id="mapCards"></div><div class="maptip">按 <kbd>→</kbd> 前往閃爍的下一站 · <kbd>M</kbd> 開關地圖</div></div>
   <main id="deck"></main>
+  <button id="zbtn" title="放大這一塊 (雙擊也可以)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>放大</button>
   <aside id="toc" aria-label="目錄"></aside>
   <div id="hud">
     <div class="hudbox"><b>開車逛小島</b><br>方向鍵或 WASD 開車 · 靠近站牌按 <kbd>Enter</kbd> 進站 · <kbd>Esc</kbd> 回簡報</div>
@@ -446,6 +500,7 @@ body.mob .tomap{display:none}
     <button id="near"></button>
   </div>
   <div class="bar">
+    <button id="bZoom" title="點選畫面上任一區塊放大 (Z)"><svg style="width:20px;height:20px;vertical-align:-4px;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>放大</button>
     <button id="bMap" title="地圖 (M)">地圖</button>
     <button id="bToc" title="目錄 (T)">目錄</button>
     <button id="bDrive" class="drive" title="自由開車 (D)">開車逛逛</button>
@@ -504,7 +559,7 @@ S(0,'','',`
    <a class="qr" href="${PAGES_URL}" target="_blank" rel="noopener">${qrImg(PAGES_URL,5)}掃描或點我帶走簡報</a>
    <a class="qr" href="${FB_URL}" target="_blank" rel="noopener">${qrImg(FB_URL,5)}追蹤我的粉絲專頁</a>
  </div>
- <div class="hint">按 <kbd>→</kbd> 往下 · <kbd>M</kbd> 打開地圖點看板跳站 · <kbd>D</kbd> 自己開車逛小島</div>`,{cover:true});
+ <div class="hint">按 <kbd>→</kbd> 往下 · <kbd>M</kbd> 地圖 · <kbd>Z</kbd> 或雙擊任一區塊放大 · <kbd>D</kbd> 開車</div>`,{cover:true});
 
 S(0,'開場 · 講師介紹','我是鍾孟修，職能治療師',`
  <div class="spk">
@@ -546,7 +601,7 @@ S(0,'暖身 · 記住它們','先記住這五個詞',`
  <div class="row" style="align-items:center"><button class="btn cc" onclick="document.getElementById('words').classList.toggle('hide')">蓋起來 / 打開</button><span class="src" style="font-size:17px">很多認知篩檢（Mini-Cog、ICOPE、MoCA）都用「記幾個詞，過幾分鐘再問」的設計。</span></div>`);
 
 /* ---- 認識失智 ---- */
-QZ(1,'認識失智 · 先猜猜看','進站前先猜一題',[{q:'台灣 65 歲以上的社區長者，大約多少比例有失智症？',o:['2%','8%','15%','25%'],a:1,e:'約 8%（7.99%）。每 12 位長輩就有 1 位。下一頁看完整數字。'}],{pre:true});
+QZ(1,'認識失智 · 先猜猜看','進站前先猜一題',[{q:'台灣 65 歲以上的社區長者，大約多少比例有失智症？',o:['2%','8%','15%','25%'],a:1,e:'約 8%（7.99%）。每 12 位長輩就有 1 位。下一頁看完整數字。',s:'衛生福利部（2024）全國社區失智症流行病學調查'}],{pre:true});
 S(1,'認識失智 · 台灣現況','65 歲以上，每 100 人約有 8 位',`
  <div class="row f1">
   <div class="col" style="flex:0 0 330px">
@@ -647,12 +702,12 @@ S(1,'認識失智 · 可以預防的部分','14 個可改變的危險因子',`
 
 /* ---- 評估 ---- */
 QZ(1,'認識失智 · 闖關測驗','認識失智 闖關測驗',[
- {q:'失智症和輕度認知障礙（MCI）最主要的差別是？',o:['記憶分數的高低','日常生活獨立性有沒有受影響','年齡大小','有沒有在吃藥'],a:1,e:'DSM-5：失智症的認知退步已經影響日常生活獨立性；MCI 還能自己過日子。'},
- {q:'台灣社區長者最常見的失智類型是？',o:['血管型','路易氏體','阿茲海默型','額顳葉型'],a:2,e:'阿茲海默型約占 57%，其次是血管型約 23%。'},
- {q:'下面哪一個比較像「失智警訊」？',o:['偶爾忘記鑰匙放哪','在住了很久的社區迷路','叫不出名字，晚點想起來','新手機要多學幾次'],a:1,e:'熟悉的地方迷路，屬於時間地點概念與視空間退步。其他三項是正常老化。'},
- {q:'「認知時好時壞、鮮明的視幻覺、容易跌倒」最像哪一型？',o:['阿茲海默型','路易氏體','額顳葉型','血管型'],a:1,e:'路易氏體失智症：波動、視幻覺、巴金森症狀，復能要先管跌倒。'},
- {q:'Lancet 2024 指出，約多少比例的失智症理論上可以預防或延後？',o:['15%','30%','45%','70%'],a:2,e:'約 45%，來自 14 個可改變的危險因子，其中包括缺乏運動。'}]);
-QZ(2,'評估工具 · 先猜猜看','進站前先猜一題',[{q:'哪一種方法最能看出失智對生活的影響？',o:['量表總分','請他實際做一次家事','腦部影像','抽血檢查'],a:1,e:'實際操作觀察。分數告訴你「多少」，觀察告訴你「卡在哪一步」。這一站會教你怎麼看。'}],{pre:true});
+ {q:'失智症和輕度認知障礙（MCI）最主要的差別是？',o:['記憶分數的高低','日常生活獨立性有沒有受影響','年齡大小','有沒有在吃藥'],a:1,e:'DSM-5：失智症的認知退步已經影響日常生活獨立性；MCI 還能自己過日子。',s:'APA（2013）DSM-5 神經認知障礙症'},
+ {q:'台灣社區長者最常見的失智類型是？',o:['血管型','路易氏體','阿茲海默型','額顳葉型'],a:2,e:'阿茲海默型約占 57%，其次是血管型約 23%。',s:'衛生福利部（2024）全國社區失智症流行病學調查'},
+ {q:'下面哪一個比較像「失智警訊」？',o:['偶爾忘記鑰匙放哪','在住了很久的社區迷路','叫不出名字，晚點想起來','新手機要多學幾次'],a:1,e:'熟悉的地方迷路，屬於時間地點概念與視空間退步。其他三項是正常老化。',s:'台灣失智症協會〈失智症十大警訊〉'},
+ {q:'「認知時好時壞、鮮明的視幻覺、容易跌倒」最像哪一型？',o:['阿茲海默型','路易氏體','額顳葉型','血管型'],a:1,e:'路易氏體失智症：波動、視幻覺、巴金森症狀，復能要先管跌倒。',s:'McKeith IG, et al. Neurology 2017（路易氏體失智症第四版共識）'},
+ {q:'Lancet 2024 指出，約多少比例的失智症理論上可以預防或延後？',o:['15%','30%','45%','70%'],a:2,e:'約 45%，來自 14 個可改變的危險因子，其中包括缺乏運動。',s:'Livingston G, et al. Lancet 2024'}]);
+QZ(2,'評估工具 · 先猜猜看','進站前先猜一題',[{q:'哪一種方法最能看出失智對生活的影響？',o:['量表總分','請他實際做一次家事','腦部影像','抽血檢查'],a:1,e:'實際操作觀察。分數告訴你「多少」，觀察告訴你「卡在哪一步」。這一站會教你怎麼看。',s:'Baum CM, et al. Am J Occup Ther 2008（EFPT）'}],{pre:true});
 S(2,'評估工具 · 流程','評估是一條路，不是一張表',`
  <div class="flow">
   ${[['1','察覺','家人、社區據點發現改變','AD8'],['2','篩檢','社區或門診快速篩','SPMSQ · Mini-Cog · ICOPE'],['3','診斷','醫師問病史、抽血、影像','MMSE · MoCA · CASI'],['4','分期','嚴重度','CDR'],['5','功能需求','生活、情緒、照顧者','ADL · IADL · NPI · ZBI'],['6','計畫與追蹤','設目標、定期再評','GAS · 重測']].map((a,i)=>`${i?'<div class="ar">›</div>':''}<div class="st"><span class="k">${a[0]}</span><h3>${a[1]}</h3><p>${a[2]}</p><p><b>${a[3]}</b></p></div>`).join('')}
@@ -672,6 +727,7 @@ S(2,'評估工具 · 社區篩檢','四個常用的快速篩檢',`
   <tr><td>Mini-Cog</td><td>施測者</td><td>記 3 個詞＋畫時鐘＋回想</td><td>約 3 分</td><td>總分 5 分，&lt; 3 分（部分研究用 &lt; 4）</td></tr>
   <tr><td>ICOPE 認知</td><td>施測者</td><td>記 3 個詞、時間與地點定向、回想</td><td>約 2 分</td><td>任一題答錯</td></tr>
  </table>
+ <div class="formbtns"><span>點開表單，可以直接勾選計分：</span><button data-form="ad8">AD8</button><button data-form="spmsq">SPMSQ</button><button data-form="minicog">Mini-Cog</button><button data-form="icope">ICOPE 認知</button></div>
  <div class="note">SPMSQ 也是長照照管評估會用到的工具；ICOPE（WHO 長者功能整合照護）是國健署推動的長者功能評估，認知是六大功能之一。</div>`,{wide:true});
 
 S(2,'評估工具 · AD8 試填','AD8：問的是「改變」',`
@@ -690,28 +746,35 @@ S(2,'評估工具 · 臨床量表','醫院常見的四個量表',`
  </div>
  <div class="src">量表多有版權與施測規範，請使用正式授權版本並接受訓練後施測。</div>`);
 
+S(2,'評估工具 · 表單庫','點開就能填的評估表單',`
+ <div class="grid g3">
+  ${[['ad8','AD8 極早期失智篩檢','8 題 · 家屬或本人 · 3 分鐘'],['spmsq','SPMSQ 簡易心智狀態問卷','10 題 · 施測者 · 5 分鐘'],['minicog','Mini-Cog','3 詞＋畫時鐘 · 3 分鐘'],['icope','ICOPE 認知功能','3 步驟 · 2 分鐘'],['barthel','巴氏量表（BADL）','10 項 · 0–100 分'],['iadl','Lawton IADL','8 項 · 工具性日常生活']].map(f=>`<button class="tile formtile" data-form="${f[0]}"><h3>${f[1]}</h3><p>${f[2]}</p><em>開啟表單 ↗</em></button>`).join('')}
+ </div>
+ <div class="tile" style="flex:0 0 auto"><h3>需要授權或訓練的量表：請到官方網站取得</h3>
+  <div class="offlinks">${[['MoCA','https://mocacognition.com/','需完成官方訓練認證'],['MMSE-2','https://www.parinc.com/products/MMSE-2','PAR 出版，需購買'],['CDR','https://knightadrc.wustl.edu/professionals-clinicians/cdr-dementia-staging-instrument/','華盛頓大學，需線上訓練'],['Mini-Cog 官方','https://mini-cog.com/','含各語言版本與施測說明']].map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${qrImg(l[1],3)}<span><b>${l[0]}</b>${l[2]}</span></a>`).join('')}</div></div>
+ <div class="src">表單為教學示範版，依原始文獻與台灣常用中文版整理；正式施測請使用主管機關公告或原作者授權的版本。</div>`,{wide:true});
+
 S(2,'評估工具 · 畫時鐘','畫一個時鐘：一張圖看很多能力',`
- <div class="clockwrap">
-  <div class="col">
-   <div class="pad2 f1"><canvas id="clk"></canvas></div>
-   <div class="row"><button class="btn cc" id="clkCircle">先畫好圓圈</button><button class="btn alt" id="clkClear">清除</button></div>
+ <div class="row f1">
+  <div class="col" style="flex:0 0 520px">
+   <div class="tile f1"><span class="k">Clock Drawing Test</span><h3>怎麼施測</h3><p>給一張白紙（或畫好的圓圈）：<br><b>「請畫一個時鐘，把數字都填上，再把時間畫成 11 點 10 分。」</b></p><p>不給提示、不限時，觀察他怎麼規劃：先寫 12、3、6、9，還是從 1 依序寫。</p></div>
+   <div class="tile solid" style="flex:0 0 auto"><h3>Mini-Cog 的計分</h3><p>正常時鐘 = <b>2 分</b>：12 個數字順序與位置正確，指針指向 11 和 2。<br>其他情況 = 0 分。指針長短不計。</p></div>
+   <button class="btn cc" data-form="minicog" style="align-self:flex-start">開啟 Mini-Cog 表單</button>
   </div>
-  <div class="col">
-   <div class="note" style="font-size:22px"><b>指導語：</b>「請畫一個時鐘，把數字都填上，再把時間畫成 <b>11 點 10 分</b>。」</div>
-   <div class="errs">
-    <div class="err">${clockSVG('crowd')}<span><b>數字擠一邊</b>計畫與視空間</span></div>
-    <div class="err">${clockSVG('pull')}<span><b>指針指到 10</b>被「10」字拉走：抽象思考、執行功能</span></div>
-    <div class="err">${clockSVG('miss')}<span><b>缺數字或重複</b>注意力、記憶、監控</span></div>
-    <div class="err">${clockSVG('none')}<span><b>沒有指針或寫字代替</b>概念理解、執行功能</span></div>
-   </div>
+  <div class="errs f1">
+   <div class="err">${clockSVG('crowd')}<span><b>數字擠一邊</b>計畫與視空間</span></div>
+   <div class="err">${clockSVG('pull')}<span><b>指針指到 10</b>被「10」字拉走：抽象思考、執行功能</span></div>
+   <div class="err">${clockSVG('miss')}<span><b>缺數字或重複</b>注意力、記憶、監控</span></div>
+   <div class="err">${clockSVG('none')}<span><b>沒有指針或寫字代替</b>概念理解、執行功能</span></div>
   </div>
- </div>`,{wide:true,init:initClock});
+ </div>`,{wide:true});
 
 S(2,'評估工具 · 日常功能','先看 IADL：最早出問題的地方',`
  <div class="grid g2">
   <div class="tile"><span class="k">BADL · 巴氏量表 0–100</span><h3>基本日常生活</h3><p><span class="pill">進食</span><span class="pill">移位</span><span class="pill">個人衛生</span><span class="pill">如廁</span><span class="pill">洗澡</span><span class="pill">平地走動</span><span class="pill">上下樓梯</span><span class="pill">穿脫衣褲鞋襪</span><span class="pill">大便控制</span><span class="pill">小便控制</span></p><p>中度以後才明顯下降。</p></div>
   <div class="tile solid"><span class="k">IADL · Lawton 8 項</span><h3>工具性日常生活</h3><p><span class="pill" style="background:rgba(255,255,255,.25)">打電話</span><span class="pill" style="background:rgba(255,255,255,.25)">購物</span><span class="pill" style="background:rgba(255,255,255,.25)">備餐</span><span class="pill" style="background:rgba(255,255,255,.25)">家事</span><span class="pill" style="background:rgba(255,255,255,.25)">洗衣</span><span class="pill" style="background:rgba(255,255,255,.25)">外出交通</span><span class="pill" style="background:rgba(255,255,255,.25)">服藥</span><span class="pill" style="background:rgba(255,255,255,.25)">理財</span></p><p><b>服藥、理財、交通</b>常是第一個出錯的。</p></div>
  </div>
+ <div class="formbtns"><span>點開表單：</span><button data-form="barthel">巴氏量表</button><button data-form="iadl">Lawton IADL</button></div>
  <div class="note">問卷問的是「能不能」，家人回答常偏高或偏低。最準的方法是<b>請長者實際做一次</b>，看他卡在哪一步（下一頁）。</div>`);
 
 S(2,'評估工具 · 觀察式評估','看他做，記下你給了多少提示',`
@@ -762,13 +825,13 @@ S(2,'評估工具 · 案例練習','陳阿公，79 歲：你會用哪些評估�
 
 /* ---- 復健復能 ---- */
 QZ(2,'評估工具 · 闖關測驗','評估工具 闖關測驗',[
- {q:'AD8 幾分以上，建議進一步評估？',o:['1 分','2 分','4 分','6 分'],a:1,e:'≥ 2 分。AD8 問的是「這幾年有沒有改變」，家屬或本人都能填。'},
- {q:'對 MCI 比較敏感、包含連線與畫時鐘的工具是？',o:['MMSE','MoCA','巴氏量表','AD8'],a:1,e:'MoCA 加入執行功能與視空間題目，對輕微退步比 MMSE 敏感。'},
- {q:'CDR 的主要用途是？',o:['社區快速篩檢','判斷失智的嚴重度（分期）','評估照顧者負荷','測走路速度'],a:1,e:'CDR 0、0.5、1、2、3，用來分期，身障鑑定也會用。'},
- {q:'失智初期，通常最早出問題的是？',o:['進食','如廁','服藥與理財','床椅移位'],a:2,e:'IADL（服藥、理財、交通）先退，BADL（吃飯、如廁、移位）後退。'},
- {q:'單純走路 1.2 m/s，邊走邊倒數 0.9 m/s，雙重任務成本是？',o:['10%','25%','33%','75%'],a:1,e:'(1.2 − 0.9) ÷ 1.2 = 25%，超過 20% 值得追蹤。'},
- {q:'社區篩檢結果異常，下一步最適合的是？',o:['告訴家屬「他失智了」','轉介醫師或失智共照中心','先買保健食品','一年後再篩一次'],a:1,e:'篩檢不等於診斷，診斷要交給醫師。'}]);
-QZ(3,'復健復能 · 先猜猜看','進站前先猜一題',[{q:'你覺得哪一項對降低失智風險的研究證據最多？',o:['保健食品','規律運動','手機益智遊戲','多睡一點'],a:1,e:'規律運動。WHO 2019 指引強建議身體活動；這一站會講多少量才夠。'}],{pre:true});
+ {q:'AD8 幾分以上，建議進一步評估？',o:['1 分','2 分','4 分','6 分'],a:1,e:'≥ 2 分。AD8 問的是「這幾年有沒有改變」，家屬或本人都能填。',s:'Galvin JE, et al. Neurology 2005（AD8）'},
+ {q:'對 MCI 比較敏感、包含連線與畫時鐘的工具是？',o:['MMSE','MoCA','巴氏量表','AD8'],a:1,e:'MoCA 加入執行功能與視空間題目，對輕微退步比 MMSE 敏感。',s:'Nasreddine ZS, et al. J Am Geriatr Soc 2005（MoCA）'},
+ {q:'CDR 的主要用途是？',o:['社區快速篩檢','判斷失智的嚴重度（分期）','評估照顧者負荷','測走路速度'],a:1,e:'CDR 0、0.5、1、2、3，用來分期，身障鑑定也會用。',s:'Morris JC. Neurology 1993（CDR）'},
+ {q:'失智初期，通常最早出問題的是？',o:['進食','如廁','服藥與理財','床椅移位'],a:2,e:'IADL（服藥、理財、交通）先退，BADL（吃飯、如廁、移位）後退。',s:'Jekel K, et al. Alzheimers Res Ther 2015（MCI 與 IADL 系統性回顧）'},
+ {q:'單純走路 1.2 m/s，邊走邊倒數 0.9 m/s，雙重任務成本是？',o:['10%','25%','33%','75%'],a:1,e:'(1.2 − 0.9) ÷ 1.2 = 25%，超過 20% 值得追蹤。',s:'Montero-Odasso M, et al. JAMA Neurol 2017'},
+ {q:'社區篩檢結果異常，下一步最適合的是？',o:['告訴家屬「他失智了」','轉介醫師或失智共照中心','先買保健食品','一年後再篩一次'],a:1,e:'篩檢不等於診斷，診斷要交給醫師。',s:'WHO（2019）ICOPE 長者整合照護指引'}]);
+QZ(3,'復健復能 · 先猜猜看','進站前先猜一題',[{q:'根據 WHO 降低認知退化與失智風險指引，下列哪一項是「被建議」的做法？',o:['吃維生素 B、E 或魚油補充品','規律的身體活動','多睡一點就好','玩手機益智遊戲'],a:1,e:'規律身體活動：對認知正常的成人是「強建議」，對 MCI 是「條件式建議」，第二版指引仍保留。維生素 B、E、魚油與綜合補充品則明確「不建議」。認知訓練證據等級較低，只有條件式建議。',s:'WHO（2019）Risk reduction of cognitive decline and dementia；WHO 指引第二版；Livingston G, et al. Lancet 2024'}],{pre:true});
 S(3,'復健復能 · 兩個概念','復健和復能，差在哪裡？',`
  <div class="grid g2">
   <div class="tile"><span class="k">Rehabilitation</span><h3>復健</h3><ul class="dots"><li>以<b>能力</b>為主：肌力、平衡、認知功能</li><li>常在醫院、診所、治療室</li><li>治療師主導，練「身體」</li></ul></div>
@@ -870,16 +933,16 @@ S(3,'復健復能 · 資源','照顧者是團隊的一員',`
 
 /* ---- 認知遊戲 ---- */
 QZ(3,'復健復能 · 闖關測驗','復健復能 闖關測驗',[
- {q:'「復能」最核心的出發點是？',o:['治療師的專業判斷','個案自己的生活目標','量表分數','醫囑'],a:1,e:'復能從「他想做什麼」開始，在真實生活情境裡練。'},
- {q:'「答對就把間隔拉長，答錯就給答案、退回上一個間隔」是哪個技巧？',o:['無錯誤學習','間隔提取','逐步減少提示','認知刺激'],a:1,e:'間隔提取（spaced retrieval），適合教一個重要的新資訊。'},
- {q:'CST 認知刺激治療的標準形式是？',o:['每週 1 次、共 4 週','每週 2 次、共 7 週','每天 1 次、共 1 個月','沒有固定'],a:1,e:'每週 2 次、每次 45 分鐘、共 14 堂，5–8 人小團體。'},
- {q:'行為問題 DICE 方法裡的「I」是指？',o:['立刻介入','找原因（Investigate）','給指示','先隔離'],a:1,e:'Describe 描述 → Investigate 找原因 → Create 擬定對策 → Evaluate 評估。'},
- {q:'想讓阿嬤自己泡早餐牛奶，第一步最好是？',o:['每天反覆練習 10 次','任務分析，找出卡關的步驟','改喝即溶咖啡','請家人幫她泡'],a:1,e:'先拆步驟，只補卡關的那一步；常常改環境就解決了。'},
- {q:'WHO 2020 建議長者肌力訓練每週至少幾天？',o:['1 天','2 天','5 天','不需要'],a:1,e:'每週 ≥ 2 天大肌群肌力訓練，加上 ≥ 3 天平衡與多元活動。'}]);
-QZ(4,'認知遊戲 · 先猜猜看','進站前先猜一題',[{q:'帶長輩玩認知遊戲，你覺得成功率大約多少最好？',o:['30–40%','50%','70–80%','100%'],a:2,e:'七到八成。太難會退縮，太簡單會無聊。等一下自己玩玩看。'}],{pre:true});
+ {q:'「復能」最核心的出發點是？',o:['治療師的專業判斷','個案自己的生活目標','量表分數','醫囑'],a:1,e:'復能從「他想做什麼」開始，在真實生活情境裡練。',s:'Clare L, et al. Alzheimers Dement 2019（GREAT 試驗）'},
+ {q:'「答對就把間隔拉長，答錯就給答案、退回上一個間隔」是哪個技巧？',o:['無錯誤學習','間隔提取','逐步減少提示','認知刺激'],a:1,e:'間隔提取（spaced retrieval），適合教一個重要的新資訊。',s:'Clare L, Woods RT. Neuropsychol Rehabil 2004'},
+ {q:'CST 認知刺激治療的標準形式是？',o:['每週 1 次、共 4 週','每週 2 次、共 7 週','每天 1 次、共 1 個月','沒有固定'],a:1,e:'每週 2 次、每次 45 分鐘、共 14 堂，5–8 人小團體。',s:'Spector A, et al. Br J Psychiatry 2003'},
+ {q:'行為問題 DICE 方法裡的「I」是指？',o:['立刻介入','找原因（Investigate）','給指示','先隔離'],a:1,e:'Describe 描述 → Investigate 找原因 → Create 擬定對策 → Evaluate 評估。',s:'Kales HC, et al. J Am Geriatr Soc 2014'},
+ {q:'想讓阿嬤自己泡早餐牛奶，第一步最好是？',o:['每天反覆練習 10 次','任務分析，找出卡關的步驟','改喝即溶咖啡','請家人幫她泡'],a:1,e:'先拆步驟，只補卡關的那一步；常常改環境就解決了。',s:'Clare L, et al. Alzheimers Dement 2019（GREAT 試驗）'},
+ {q:'WHO 2020 建議長者肌力訓練每週至少幾天？',o:['1 天','2 天','5 天','不需要'],a:1,e:'每週 ≥ 2 天大肌群肌力訓練，加上 ≥ 3 天平衡與多元活動。',s:'WHO（2020）身體活動與靜態行為指引'}]);
+QZ(4,'認知遊戲 · 先猜猜看','進站前先猜一題',[{q:'帶長輩玩認知遊戲，難度大約調到答對率多少，學得最好？',o:['30–40%','50% 左右','約 80–85%','每題都 100% 答對'],a:2,e:'學習研究的「85% 規則」：答對率約 85% 時學得最快。太難會退縮，太簡單學不到東西。',s:'Wilson RC, et al. Nat Commun 2019（The Eighty Five Percent Rule）'}],{pre:true});
 S(4,'認知遊戲 · 設計原則','好的認知遊戲有這六個特質',`
  <div class="grid g3">
-  ${[['剛剛好的挑戰','成功率大約七到八成，太難會退縮，太簡單會無聊'],['錯了不扣分','用無錯誤學習的精神：提示、示範、再來一次'],['有意義','連結他的生活與年代：市場、老歌、節慶'],['分級','同一個遊戲備好易、中、難三版'],['多感官','看、聽、摸、動作一起來'],['一起玩','輪流、合作、互相鼓勵，社交本身就是刺激']].map(a=>`<div class="tile"><h3>${a[0]}</h3><p>${a[1]}</p></div>`).join('')}
+  ${[['剛剛好的挑戰','答對率約八成多最好（學習研究的 85% 規則）；太難退縮、太簡單無聊'],['錯了不扣分','用無錯誤學習的精神：提示、示範、再來一次'],['有意義','連結他的生活與年代：市場、老歌、節慶'],['分級','同一個遊戲備好易、中、難三版'],['多感官','看、聽、摸、動作一起來'],['一起玩','輪流、合作、互相鼓勵，社交本身就是刺激']].map(a=>`<div class="tile"><h3>${a[0]}</h3><p>${a[1]}</p></div>`).join('')}
  </div>
  <div class="note">接下來六個遊戲可以直接在這份簡報玩。每個遊戲都標了練到的能力。</div>`);
 
@@ -926,8 +989,8 @@ S(4,'遊戲 6 · 回想時間','還記得一開始的五個詞嗎？',`
 
 S(4,'認知遊戲 · 更多資源','帶回去用的遊戲網站',`
  <div class="qrgrid">
-  ${[['elder-brain-games','樂齡動腦遊戲館','猜歌、猜老物件、翻牌、顏色字、買菜記憶等 13 個遊戲'],
-     ['one-set-many-games','一題多玩','同一份題目，換 27 種玩法，可自己出題'],
+  ${[['slide-game-video','簡報遊戲影片工坊','把遊戲簡報做成影片，投影或播放就能帶活動'],
+     ['tangle-steps','纏繞畫步驟示範','一筆一筆的步驟動畫，方形、圓形、A4 各 12 課'],
      ['order-different-slides','長者遊戲簡報生成器','找缺少、找不同、數一數、影子配對，做成投影片'],
      ['pop-song-guess','台灣金曲猜歌','依年代分組的國台語老歌，懷舊團體好用'],
      ['dementia-talk','失智溝通紙偶劇場','29 個情境，對照好的與不好的回應方式'],
@@ -936,11 +999,11 @@ S(4,'認知遊戲 · 更多資源','帶回去用的遊戲網站',`
 
 /* ---- 結語 ---- */
 QZ(4,'認知遊戲 · 闖關測驗','認知遊戲 闖關測驗',[
- {q:'「顏色字」遊戲主要練的是？',o:['抑制控制（執行功能）','長期記憶','肌力','語言流暢'],a:0,e:'要壓住「唸字」的自動反應，去看顏色：Stroop 效應。'},
- {q:'連連看「1→甲→2→乙」比純數字多練了什麼？',o:['視力','注意力轉換','計算','肌耐力'],a:1,e:'在兩組序列間切換，類似連線測驗 B。'},
- {q:'長輩答錯時，帶領者最好怎麼做？',o:['扣分','直接跳下一題','給提示或示範，讓他成功一次','提醒他要專心'],a:2,e:'無錯誤學習的精神：降低難度、提示，結束在成功經驗。'},
- {q:'想不起來，但看到選項就認得，多半是？',o:['編碼困難','提取比較慢','聽力不好','不想回答'],a:1,e:'再認可以、回想不行＝提取慢；連再認都不行，才比較像編碼困難。'},
- {q:'同一個遊戲最好準備幾種難度？',o:['一種就好','易、中、難三種','越難越好','讓長輩自己決定'],a:1,e:'分級讓每個人都找到剛剛好的挑戰。'}]);
+ {q:'「顏色字」遊戲主要練的是？',o:['抑制控制（執行功能）','長期記憶','肌力','語言流暢'],a:0,e:'要壓住「唸字」的自動反應，去看顏色：Stroop 效應。',s:'Stroop JR. J Exp Psychol 1935'},
+ {q:'連連看「1→甲→2→乙」比純數字多練了什麼？',o:['視力','注意力轉換','計算','肌耐力'],a:1,e:'在兩組序列間切換，類似連線測驗 B。',s:'Bowie CR, Harvey PD. Nat Protoc 2006（連線測驗）'},
+ {q:'長輩答錯時，帶領者最好怎麼做？',o:['扣分','直接跳下一題','給提示或示範，讓他成功一次','提醒他要專心'],a:2,e:'無錯誤學習的精神：降低難度、提示，結束在成功經驗。',s:'Clare L, Woods RT. Neuropsychol Rehabil 2004（無錯誤學習）'},
+ {q:'想不起來，但看到選項就認得，多半是？',o:['編碼困難','提取比較慢','聽力不好','不想回答'],a:1,e:'再認可以、回想不行＝提取慢；連再認都不行，才比較像編碼困難。',s:'Dubois B, et al. Lancet Neurol 2007'},
+ {q:'同一個遊戲最好準備幾種難度？',o:['一種就好','易、中、難三種','越難越好','讓長輩自己決定'],a:1,e:'分級讓每個人都維持在剛剛好的答對率（約 85%）：程度好的不無聊，程度弱的不挫折。',s:'Wilson RC, et al. Nat Commun 2019'}]);
 S(5,'結語 · 學習護照','你的學習護照',`<div class="ppb" id="ppb"></div>`,{init:c=>{c._onshow=()=>renderPP(c);renderPP(c);}});
 S(5,'結語 · 帶走三件事','今天帶走三件事',`
  <div class="grid g3">
@@ -975,6 +1038,15 @@ S(5,'結語 · 參考資料','參考資料',`
   <li>WHO. Risk reduction of cognitive decline and dementia: guidelines. 2019.</li>
   <li>WHO. Guidelines on physical activity and sedentary behaviour. 2020.</li>
   <li>Kales HC, Gitlin LN, Lyketsos CG. The DICE approach. J Am Geriatr Soc. 2014.</li>
+  <li>WHO. Risk reduction of cognitive decline and dementia: WHO guidelines, second edition.</li>
+  <li>McKeith IG, et al. Diagnosis and management of dementia with Lewy bodies: fourth consensus report. Neurology. 2017.</li>
+  <li>Jekel K, et al. Mild cognitive impairment and deficits in instrumental activities of daily living. Alzheimers Res Ther. 2015.</li>
+  <li>Dubois B, et al. Research criteria for the diagnosis of Alzheimer's disease. Lancet Neurol. 2007.</li>
+  <li>Wilson RC, et al. The Eighty Five Percent Rule for optimal learning. Nat Commun. 2019.</li>
+  <li>Stroop JR. Studies of interference in serial verbal reactions. J Exp Psychol. 1935.</li>
+  <li>Bowie CR, Harvey PD. Administration and interpretation of the Trail Making Test. Nat Protoc. 2006.</li>
+  <li>Mahoney FI, Barthel DW. Functional evaluation: the Barthel Index. Md State Med J. 1965.</li>
+  <li>Lawton MP, Brody EM. Assessment of older people: instrumental activities of daily living. Gerontologist. 1969.</li>
  </ol>`,{wide:true});
 
 S(5,'終點','謝謝大家，開車回家路上小心',`
@@ -1047,7 +1119,7 @@ function initQuiz(c,ch,qs,o){const box=c.querySelector('.qz');let k=0,sc=0,res=[
   <div class="qfb"><span></span><button class="btn cc">${o.pre?'開始這一站 →':k<qs.length-1?'下一題 →':'看結果 →'}</button></div>`;
   const op=box.querySelector('.qopts'),fb=box.querySelector('.qfb');
   op.onclick=e=>{const b=e.target.closest('button');if(!b||op.classList.contains('locked'))return;const i=+b.dataset.i,ok=i===Q.a;op.classList.add('locked');op.children[Q.a].classList.add('right');if(!ok)b.classList.add('wrong');res[k]=ok;if(ok)sc++;
-   fb.querySelector('span').innerHTML=(ok?'<b style="color:var(--ok)">答對了！</b>　':'<b style="color:var(--bad)">差一點。</b>　')+Q.e;fb.classList.add('on');};
+   fb.querySelector('span').innerHTML=(ok?'<b style="color:var(--ok)">答對了！</b>　':'<b style="color:var(--bad)">差一點。</b>　')+Q.e+(Q.s?'<small class="qsrc">來源：'+Q.s+'</small>':'');fb.classList.add('on');};
   fb.querySelector('button').onclick=()=>{if(o.pre){go(SL.indexOf(SL.find(x=>x.el===c))+1);return;}if(k<qs.length-1){k++;q();}else end();};};
  const end=()=>{const pct=sc/qs.length,ok=pct>=0.6;const prev=PASS[ch];if(!prev||sc>=prev.s){PASS[ch]={s:sc,n:qs.length};savePP();}
   box.innerHTML=`<div class="qend"><div class="stamp ${ok?'':'fail'}"><small>${CH[ch].n}</small><b>${ok?'通關':'再試試'}</b><small>${sc} / ${qs.length}</small></div>
@@ -1121,12 +1193,13 @@ const toc=document.getElementById('toc');
 toc.innerHTML=CH.map((c,ci)=>`<h4 style="--cc:${c.c}"><b></b>${c.n}</h4>`+SL.map((s,i)=>s.ch===ci?`<button data-i="${i}">${i+1}. ${s.title||'封面'}</button>`:'').join('')).join('');
 toc.onclick=e=>{const b=e.target.closest('button');if(!b)return;go(+b.dataset.i);toc.classList.remove('on');};
 let cur=-1;
-function go(i){i=Math.max(0,Math.min(SL.length-1,i));if(document.body.classList.contains('mob')){SL[i].el.scrollIntoView({behavior:'smooth'});return;}if(mapOn)hideMap();else if(i===cur&&cur>=0)return;const prevCh=cur>=0?SL[cur].ch:-1;if(cur>=0)SL[cur].el.classList.remove('on');cur=i;const s=SL[i];s.el.classList.add('on');
+function go(i){closeZoom();zbtn.classList.remove('on');i=Math.max(0,Math.min(SL.length-1,i));if(document.body.classList.contains('mob')){SL[i].el.scrollIntoView({behavior:'smooth'});return;}if(mapOn)hideMap();else if(i===cur&&cur>=0)return;const prevCh=cur>=0?SL[cur].ch:-1;if(cur>=0)SL[cur].el.classList.remove('on');cur=i;const s=SL[i];s.el.classList.add('on');
  if(s.init&&!s.done){s.done=true;try{s.init(s.el);}catch(err){console.error(err);}}
  if(s.el._onshow)setTimeout(s.el._onshow,60);
  document.getElementById('num').textContent=(i+1)+' / '+SL.length;document.getElementById('prog').style.width=((i+1)/SL.length*100)+'%';
  chips.querySelectorAll('.chip').forEach(b=>b.classList.toggle('on',+b.dataset.c===s.ch));toc.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
  try{history.replaceState(null,'','#s'+(i+1));}catch(e){}
+ if(document.body.classList.contains('zpick'))setTimeout(markZables,30);
  W3&&W3.toStation(s.ch,s.cover?'cover':s.wide?'wide':'card');}
 /* ---- mind-map of billboards ---- */
 let mapOn=false,nextCh=1;
@@ -1159,6 +1232,69 @@ function prev(){if(mapOn){const c=cur;cur=-1;go(c);return;}go(cur-1);}
 deck.addEventListener('click',e=>{if(e.target.closest('.tomap'))showMap();});
 document.getElementById('pp').onclick=()=>go(SL.findIndex(s=>s.tag==='結語 · 學習護照'));
 window.boardClick=i=>{if(document.body.classList.contains('driving'))return;go(SL.findIndex(s=>s.ch===i));};
+
+
+/* ---- assessment forms (teaching versions) ---- */
+const YN=[['是，有改變',1],['沒有',0],['不知道',0]];
+const FORMS={
+ ad8:{t:'AD8 極早期失智篩檢',intro:'請家屬（或本人）回想：跟幾年前比，以下是否「有改變」？只有改變是因為記憶或思考問題才算。',
+  items:['判斷力上的困難（例如落入圈套或騙局、財務上不好的決定）','對活動和嗜好的興趣降低','重複相同的問題、故事和陳述','在學習如何使用工具、電器或小器具上有困難','忘記正確的月份和年份','處理複雜的財務上有困難（例如繳費、所得稅）','記住約會的時間有困難','有持續的思考和記憶方面的問題'].map(q=>({q,o:YN})),
+  res:t=>[t+' 分',t>=2?'≥ 2 分：建議到神經內科、精神科或失智共同照護中心進一步評估。':'未達 2 分。若家人仍擔心，半年到一年後再篩一次。'],
+  src:'Galvin JE, et al. Neurology 2005；中文版參考台灣失智症協會。AD8 為篩檢工具，不能用來診斷。'},
+ spmsq:{t:'SPMSQ 簡易心智狀態問卷',intro:'由施測者逐題詢問長者，記錄「答錯」的題數。',edu:true,
+  items:[['今天是幾年幾月幾日？','年、月、日都要對'],['今天是星期幾？',''],['這是什麼地方？','說出所在地點或場所名稱即可'],['您的電話號碼是幾號？','沒有電話者改問：您住在什麼地方？'],['您幾歲了？',''],['您的出生年月日？',''],['現任的總統是誰？',''],['前任的總統是誰？',''],['您媽媽叫什麼名字？',''],['從 20 減 3，一直減下去','17、14、11、8、5、2 全對才算對']].map(a=>({q:a[0],h:a[1],o:[['答對',0],['答錯',1]]})),
+  res:(t,edu)=>{const adj=edu==='low'?t-1:edu==='high'?t+1:t;const lv=adj<=2?'心智功能完整':adj<=4?'輕度心智功能障礙':adj<=7?'中度心智功能障礙':'重度心智功能障礙';return['錯 '+t+' 題',(edu!=='mid'?'依教育程度調整後視為錯 '+Math.max(0,adj)+' 題，':'')+lv+'。'+(adj>=3?'建議轉介進一步評估。':'')];},
+  src:'Pfeiffer E. J Am Geriatr Soc 1975；常用中文版。判讀：錯 0–2 完整、3–4 輕度、5–7 中度、8–10 重度；小學以下可多錯 1 題，高中以上少錯 1 題。'},
+ minicog:{t:'Mini-Cog',intro:'步驟 1：清楚唸出三個詞（例如「香蕉、日出、椅子」），請長者複誦並記住。步驟 2：請他畫時鐘，時間是 11 點 10 分。步驟 3：請他說出剛剛的三個詞。',
+  items:[{q:'回想第 1 個詞（香蕉）',o:[['想起來',1],['想不起來',0]]},{q:'回想第 2 個詞（日出）',o:[['想起來',1],['想不起來',0]]},{q:'回想第 3 個詞（椅子）',o:[['想起來',1],['想不起來',0]]},{q:'畫時鐘',h:'12 個數字順序與位置正確，指針指向 11 和 2',o:[['正常',2],['不正常',0]]}],
+  res:t=>[t+' / 5 分',t<3?'未滿 3 分：篩檢陽性，建議進一步評估。（部分研究用 < 4 分當切點）':'3 分以上：篩檢陰性。'],
+  src:'Borson S, et al. Int J Geriatr Psychiatry 2000；官方說明與各語言版本：mini-cog.com。教學可用，請勿修改原量表。'},
+ icope:{t:'ICOPE 長者功能評估：認知',intro:'先說三個詞（例如「花、門、米」）請長者複誦記住，接著問定向題，最後請他回想三個詞。',
+  items:[{q:'時間定向：今天是哪一年、哪一月、哪一天？',o:[['全部正確',0],['有答錯',1]]},{q:'地點定向：您現在在哪裡？',o:[['正確',0],['答錯',1]]},{q:'回想剛剛的三個詞',o:[['三個都記得',0],['有忘記',1]]}],
+  res:t=>[t?'需追蹤':'通過',t?'任一題答錯：建議做進一步的認知評估（如 AD8、MMSE 或轉介醫師）。':'三題都通過，維持運動、社交與每年追蹤。'],
+  src:'WHO（2019）ICOPE 指引；國民健康署長者功能評估。三個詞可依地方調整為常見、無關聯的名詞。'},
+ barthel:{t:'巴氏量表（Barthel Index）',intro:'依長者「實際」的表現勾選，不是「能不能做」。',
+  items:[['進食',[['自己吃',10],['需部分協助（切食物、攪拌）',5],['無法自己吃',0]]],['移位（輪椅與床）',[['獨立',15],['需少量協助或提醒',10],['可坐起但需大量協助',5],['需完全協助',0]]],['個人衛生（洗臉、刷牙、梳頭、刮鬍）',[['獨立',5],['需協助',0]]],['如廁',[['獨立',10],['需協助保持平衡、整理衣物或衛生紙',5],['需完全協助',0]]],['洗澡',[['獨立完成',5],['需協助',0]]],['平地走動',[['可走 50 公尺（可用輔具）',15],['需稍扶持或口頭指導',10],['無法走但可操作輪椅 50 公尺',5],['需完全協助',0]]],['上下樓梯',[['獨立（可扶扶手）',10],['需稍協助或監督',5],['無法上下樓梯',0]]],['穿脫衣褲鞋襪',[['獨立',10],['需協助但可完成一半以上',5],['需完全協助',0]]],['大便控制',[['不會失禁',10],['偶爾失禁（每週不超過一次）',5],['需人協助',0]]],['小便控制',[['不會失禁',10],['偶爾失禁（每週不超過一次）',5],['需人協助',0]]]].map(a=>({q:a[0],o:a[1]})),
+  res:t=>[t+' / 100',t===100?'完全獨立':t>=91?'輕度依賴':t>=61?'中度依賴':t>=21?'嚴重依賴':'完全依賴'],
+  src:'Mahoney FI, Barthel DW. 1965；依台灣長照常用中文版整理。分級：100 獨立、91–99 輕度、61–90 中度、21–60 嚴重、0–20 完全依賴。'},
+ iadl:{t:'Lawton 工具性日常生活活動（IADL）',intro:'依最近一個月的實際表現勾選。此為教學簡化版：「自己完成」計 1 分，其餘 0 分。',
+  items:['使用電話','上街購物','準備餐點','做家事','洗衣服','外出（搭車或開車）','自己服藥（正確時間、劑量）','處理財務（繳費、管錢）'].map(q=>({q,o:[['自己完成',1],['需要部分協助',0],['完全無法',0]]})),
+  res:t=>[t+' / 8 分',t===8?'IADL 獨立。':'有 '+(8-t)+' 項需要協助。服藥、理財、交通常是失智初期最早出問題的地方，可以優先安排實作觀察與復能目標。'],
+  src:'Lawton MP, Brody EM. Gerontologist 1969。原版各項有細部給分規則（例如打電話、做家事、洗衣可部分給分），正式施測請用原版。'}};
+const fEl=document.getElementById('form');let fKey=null,fAns={},fEdu='mid';
+function openForm(k){const F=FORMS[k];if(!F)return;fKey=k;fAns={};fEdu='mid';document.getElementById('fT').textContent=F.t;document.getElementById('fS').textContent='來源：'+F.src;
+ document.getElementById('fB').innerHTML=`<div class="fintro">${F.intro}</div>`+(F.edu?`<div class="fsel"><b>教育程度：</b><div class="fopts" data-edu>${[['low','小學以下'],['mid','國中'],['high','高中以上']].map(e=>`<button data-e="${e[0]}" class="${e[0]==='mid'?'on':''}">${e[1]}</button>`).join('')}</div></div>`:'')+
+  F.items.map((it,i)=>`<div class="fq2"><span class="n">${i+1}</span><span>${it.q}${it.h?`<small>${it.h}</small>`:''}</span><div class="fopts" data-i="${i}">${it.o.map((o,j)=>`<button data-j="${j}">${o[0]}<i>${o[1]}</i></button>`).join('')}</div></div>`).join('');
+ fScore();fEl.classList.add('on');fEl.querySelector('#fX').focus({preventScroll:true});}
+function fScore(){const F=FORMS[fKey];const n=Object.keys(fAns).length;let t=0;Object.entries(fAns).forEach(([i,j])=>t+=F.items[i].o[j][1]);const r=F.res(t,fEdu);
+ document.getElementById('fF').innerHTML=`<span class="big">${r[0]}</span><span>${n<F.items.length?'已填 '+n+' / '+F.items.length+' 題。':''}${r[1]}</span>`;}
+document.getElementById('fB').addEventListener('click',e=>{const b=e.target.closest('.fopts button');if(!b)return;const g=b.parentElement;g.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(g.hasAttribute('data-edu'))fEdu=b.dataset.e;else fAns[g.dataset.i]=+b.dataset.j;fScore();});
+document.getElementById('fX').onclick=()=>fEl.classList.remove('on');document.getElementById('fR').onclick=()=>openForm(fKey);
+fEl.addEventListener('click',e=>{if(e.target===fEl)fEl.classList.remove('on');});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-form]');if(b&&!b.closest('#form')){if(document.body.classList.contains('zpick'))return;openForm(b.dataset.form);}});
+/* ---- zoom: any block on a card can pop out enlarged ---- */
+const ZSEL='.tile,.tbl,.note,.fq,.gq,.err,.qrc,.flow,.spectrum,.ad8,.cues,.cuebox,.combo,.words,.steps,.sr,.game,.qz,.gamecard,.fbcard,.roles,.ppb,.refs,.recbox,.toolchips,.cst,.calc,.lead,.agenda,.ice>.col>.tile,.spk .ph,.pad2,.errs,.bars';
+const zoomEl=document.getElementById('zoom'),zbtn=document.getElementById('zbtn');let zcur=null;
+function zableOf(t){const card=t&&t.closest&&t.closest('.slide.on .card');if(!card||card.closest('#zoom'))return null;let el=t.closest(ZSEL),top=null;while(el&&card.contains(el)&&el!==card){top=el;el=el.parentElement&&el.parentElement.closest(ZSEL);}if(!top){const bd=t.closest('.bd');if(bd&&card.contains(bd)){let x=t;while(x.parentElement&&x.parentElement!==bd)x=x.parentElement;if(x!==bd)top=x;}}return top;}
+function markZables(){document.querySelectorAll('.zable').forEach(e=>e.classList.remove('zable'));const s=SL[cur];if(!s)return;s.el.querySelectorAll(ZSEL).forEach(e=>{if(zableOf(e)===e)e.classList.add('zable');});}
+function openZoom(el){if(!el||document.body.classList.contains('mob'))return;closeZoom();const slide=el.closest('.slide'),card=el.closest('.card');const r=el.getBoundingClientRect(),k=(window.STG&&STG.k)||1;
+ const w=r.width/k,h=r.height/k;const ph=document.createElement('span');ph.style.display='none';el.parentNode.insertBefore(ph,el);
+ const cs=getComputedStyle(slide);const wrap=document.createElement('section');wrap.className='slide on'+(slide.classList.contains('wide')?' wide':'');wrap.dataset.ch=slide.dataset.ch;['--cc'].forEach(v=>wrap.style.setProperty(v,cs.getPropertyValue(v)));
+ const c2=document.createElement('div');c2.className='card';const bd=document.createElement('div');bd.className='bd';c2.appendChild(bd);wrap.appendChild(c2);
+ zcur={el,ph,w0:el.style.width,h0:el.style.minHeight,f0:el.style.flex};el.style.width=w+'px';el.style.minHeight=h+'px';el.style.flex='none';bd.appendChild(el);zoomEl.appendChild(wrap);zoomEl.classList.add('on');
+ const W=w+60,H=h+52;const f=Math.min(innerWidth*.92/W,innerHeight*.86/H,4);c2.style.transform='scale('+f+')';wrap.style.width=W*f+'px';wrap.style.height=H*f+'px';c2.style.width=W+'px';c2.style.minHeight=H+'px';c2.style.position='absolute';c2.style.left=(W*f-W)/2+'px';c2.style.top=(H*f-H)/2+'px';
+ zbtn.classList.remove('on');setPick(false);zoomEl.querySelector('.zx').focus({preventScroll:true});}
+function closeZoom(){if(!zcur)return;const {el,ph,w0,h0,f0}=zcur;el.style.width=w0;el.style.minHeight=h0;el.style.flex=f0;ph.parentNode.insertBefore(el,ph);ph.remove();zoomEl.querySelectorAll('.slide').forEach(x=>x.remove());zoomEl.classList.remove('on');zcur=null;}
+zoomEl.addEventListener('click',e=>{if(e.target===zoomEl||e.target.closest('.zx'))closeZoom();});
+function setPick(on){document.body.classList.toggle('zpick',on);document.getElementById('bZoom').classList.toggle('on',on);if(on)markZables();}
+document.getElementById('bZoom').onclick=()=>setPick(!document.body.classList.contains('zpick'));
+deck.addEventListener('click',e=>{if(!document.body.classList.contains('zpick'))return;const z=zableOf(e.target);if(z){e.preventDefault();e.stopPropagation();openZoom(z);}},true);
+deck.addEventListener('dblclick',e=>{if(e.target.closest('button,input,canvas,a,select,textarea'))return;const z=zableOf(e.target);if(z){window.getSelection&&getSelection().removeAllRanges();openZoom(z);}});
+let zHover=null,zHide=null;const ui=document.getElementById('ui');
+deck.addEventListener('mouseover',e=>{const z=zableOf(e.target);if(!z)return;clearTimeout(zHide);if(z===zHover&&zbtn.classList.contains('on'))return;zHover=z;const r=z.getBoundingClientRect(),u=ui.getBoundingClientRect(),k=(window.STG&&STG.k)||1;zbtn.style.left=((r.right-u.left)/k-92)+'px';zbtn.style.top=((r.top-u.top)/k+6)+'px';zbtn.classList.add('on');});
+deck.addEventListener('mouseleave',()=>{zHide=setTimeout(()=>zbtn.classList.remove('on'),300);});
+zbtn.addEventListener('mouseenter',()=>clearTimeout(zHide));
+zbtn.onclick=()=>{if(zHover)openZoom(zHover);};
 /* mobile: init all slides so widgets work in reading mode */
 function layout(){const mob=innerWidth<820||innerHeight<480;document.body.classList.toggle('mob',mob);const ui=document.getElementById('ui');if(mob){hideMap();renderMap();}
  if(mob){ui.style.transform='none';SL.forEach(s=>{s.el.classList.add('on');if(s.init&&!s.done){s.done=true;try{s.init(s.el)}catch(e){}}});}
@@ -1171,6 +1307,10 @@ document.getElementById('bDrive').onclick=()=>setDrive(!document.body.classList.
 function setDrive(on){if(on&&mapOn)hideMap();document.body.classList.toggle('driving',on);document.getElementById('bDrive').textContent=on?'回到簡報':'開車逛逛';W3&&W3.setDrive(on);if(!on)W3&&W3.toStation(SL[cur].ch,SL[cur].cover?'cover':SL[cur].wide?'wide':'card');}
 const KEYS={};
 addEventListener('keydown',e=>{const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;const k=e.key;
+ if(fEl.classList.contains('on')){if(k==='Escape')fEl.classList.remove('on');return;}
+ if(zcur&&k==='Escape'){closeZoom();return;}
+ if(document.body.classList.contains('zpick')&&k==='Escape'){setPick(false);return;}
+ if((k==='z'||k==='Z')&&!document.body.classList.contains('driving')){if(zcur)closeZoom();else setPick(!document.body.classList.contains('zpick'));return;}
  if(document.body.classList.contains('driving')){if(k==='Escape'||k==='d'||k==='D'){setDrive(false);return;}if(k==='Enter'){W3.enterNear();return;}KEYS[k.toLowerCase()]=true;if(k.startsWith('Arrow')||k===' ')e.preventDefault();return;}
  if(k==='ArrowRight'||k==='PageDown'||(k===' '&&!(tg&&tg.tagName==='BUTTON'))){e.preventDefault();next();}
  else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();prev();}
