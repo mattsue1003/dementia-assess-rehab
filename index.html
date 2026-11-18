@@ -978,14 +978,14 @@ function AG(tag,title,id,pill,opts,intro,extra){S(4,tag,title,`
   <div class="gbar"><span class="pill">${pill}</span>${opts}<div class="stat"><span class="qn">準備</span><button class="btn alt agp" title="暫停 / 繼續">暫停</button><button class="btn alt ags" title="跳下一題">下一題</button></div></div>
   ${extra||''}
   <div class="garea"><div class="stage"></div><div class="tbar"><i></i></div>
-   <div class="gover"><h3>${intro[0]}</h3><span>${intro[1]}</span><button class="btn cc" data-start>開始（10 題）</button></div></div>
+   <div class="gover"><h3>${intro[0]}</h3><span>${intro[1]}</span><button class="btn cc" data-start>開始（${id==='g-nback'?16:10} 題）</button></div></div>
  </div>`,{wide:true,init:c=>initAG(c,id)});}
 AG('遊戲 1 · 顏色字','念出字的「顏色」，不是字','g-stroop','抑制控制 · 執行功能',
  '<div class="seg" data-g="spd"><button data-v="3000">慢 3 秒</button><button class="on" data-v="2000">標準 2 秒</button><button data-v="1500">快 1.5 秒</button></div><div class="seg" data-g="ans"><button class="on" data-v="1">顯示答案</button><button data-v="0">不顯示</button></div>',
  ['顏色字','畫面每 2 秒換一個字，大家一起大聲念出字的<b>顏色</b>。<br>例如看到藍色的「紅」，要念「藍」。']);
 AG('遊戲 2 · 2-back','和「上上個」一樣就拍手','g-nback','工作記憶 · 2-back',
  '<div class="seg" data-g="spd"><button data-v="3500">慢 3.5 秒</button><button class="on" data-v="2800">標準 2.8 秒</button><button data-v="2200">快 2.2 秒</button></div>',
- ['2-back 記憶拍手','數字會一個一個出現。當現在的數字和<b>上上個</b>一樣，就拍一下手！<br>前兩個數字先記住，從第 3 個開始判斷，共 10 題。']);
+ ['2-back 記憶拍手','數字會一個一個出現。當現在的數字和<b>上上個</b>一樣，就拍一下手！<br>前兩個數字先記住，從第 3 個開始判斷，共 16 題，其中 7 題要拍手。']);
 AG('遊戲 3 · 超慢跑算式','原地超慢跑，同時算算式','g-jog','雙重任務 · 計算',
  '<div class="seg" data-g="lv"><button class="on" data-v="1">簡單</button><button data-v="2">普通</button><button data-v="3">挑戰</button></div><div class="seg" data-g="spd"><button data-v="4000">4 秒</button><button class="on" data-v="3000">3 秒</button><button data-v="2500">2.5 秒</button></div>',
  ['超慢跑 × 算式','先跟著音樂原地超慢跑（腳跟不用落地、小步、能邊跑邊說話的速度）。<br>算式每 3 秒換一題，邊跑邊大聲說出答案。'],
@@ -1170,7 +1170,7 @@ function initAG(c,id){const st=c.querySelector('.stage'),bar=c.querySelector('.t
   requestAnimationFrame(loop);}
  function start(){O.hidden=true;i=0;paused=false;pb.textContent='暫停';ctx=G.setup?G.setup(c):{};let n=3;st.innerHTML='<div class="cd">3</div>';qn.textContent='預備';G.onStart&&G.onStart(c);
   const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);running=true;round();requestAnimationFrame(loop);}else st.innerHTML='<div class="cd">'+n+'</div>';},800);c._cd=t;}
- function end(){running=false;bar.style.width='0%';G.onEnd&&G.onEnd(c);O.hidden=false;O.innerHTML=`<h3>完成 ${total()} 題！</h3><span>${G.endMsg||'大家都很棒！可以換成更快的速度再挑戰一次。'}</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;}
+ function end(){running=false;bar.style.width='0%';G.onEnd&&G.onEnd(c);O.hidden=false;O.innerHTML=`<h3>完成 ${G.judged||total()} 題！</h3><span>${G.endMsg||'大家都很棒！可以換成更快的速度再挑戰一次。'}</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;}
  pb.onclick=()=>{if(!running)return;paused=!paused;pb.textContent=paused?'繼續':'暫停';if(paused){pAt=performance.now();G.onPause&&G.onPause(c,true);}else{t0+=performance.now()-pAt;G.onPause&&G.onPause(c,false);}};
  c.querySelector('.ags').onclick=()=>{if(!running)return;t0=-1e9;};
  c._stop=()=>{if(running||c._cd){clearInterval(c._cd);c._cd=null;running=false;G.onEnd&&G.onEnd(c);O.hidden=false;O.querySelector('h3')&&0;}};
@@ -1183,8 +1183,8 @@ const GAMES={
   make(i,st,ctx,c){let w=rnd(5),k=w;if(Math.random()<.85){do{k=rnd(5)}while(k===w);}st.innerHTML=`<div class="sw" style="color:${COLS[k].c}">${COLS[w].n}</div><div class="sans" style="visibility:hidden">念：<b style="color:${COLS[k].c}">${COLS[k].n}色</b></div>`;const a=st.querySelector('.sans');
    return{tick:(el,D)=>{if(segVal(c,'ans')==='1'&&el>D*.6)a.style.visibility='visible';}};},
   endMsg:'念錯沒關係！Stroop 效應就是：大腦會先「讀字」，要壓住這個自動反應才能說出顏色。'},
- 'g-nback':{total:12,label:i=>i<2?'先記住（'+(i+1)+'/2）':'判斷 '+(i-1)+' / 10',
-  setup(){const a=[];for(let k=0;k<12;k++){if(k>=2&&Math.random()<.35)a.push(a[k-2]);else{let v;do{v=1+rnd(9)}while(k>=2&&v===a[k-2]||k>=1&&v===a[k-1]);a.push(v);}}return{a};},
+ 'g-nback':{total:18,judged:16,label:i=>i<2?'先記住（'+(i+1)+'/2）':'判斷 '+(i-1)+' / 16',
+  setup(){/* 16 judged trials, exactly 7 are hits */const hits=new Set(shuffle([...Array(16)].map((_,k)=>k+2)).slice(0,7));const a=[];for(let k=0;k<18;k++){if(hits.has(k))a.push(a[k-2]);else{let v;do{v=1+rnd(9)}while(k>=2&&v===a[k-2]||k>=1&&v===a[k-1]);a.push(v);}}return{a};},
   idle:()=>'<div class="nb">7</div>',
   make(i,st,ctx){const v=ctx.a[i],hit=i>=2&&ctx.a[i-2]===v;st.innerHTML=`<div class="nb">${v}</div><div class="clap" style="visibility:hidden">${hit?'<b>拍手！</b>跟上上個一樣':'不用拍手'}</div>`;const cl=st.querySelector('.clap');if(hit)cl.classList.add('hit');
    return{tick:(el,D)=>{if(i>=2&&el>D*.62)cl.style.visibility='visible';}};},
