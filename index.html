@@ -492,6 +492,7 @@ body.mob .offlinks{grid-template-columns:1fr 1fr}
 @keyframes step{0%,45%{opacity:1;transform:translateY(-12px)}50%,100%{opacity:.25;transform:none}}
 .ngrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;width:min(100%,980px)}
 .ngrid span{background:#fff;border-radius:18px;display:grid;place-items:center;font-family:var(--fn);font-weight:700;font-size:66px;height:104px;color:var(--ink);box-shadow:0 4px 0 var(--tint2)}
+.ngrid.g43{grid-template-columns:repeat(4,1fr);width:min(100%,860px)}.ngrid.g43 span{height:138px;font-size:88px}
 .ngrid span.hl{background:var(--bad);color:#fff}
 .reveal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:#fff;font-family:var(--fh);font-size:56px;padding:18px 44px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
 .reveal b{font-family:var(--fn);font-size:90px;color:#ffd44d;margin:0 8px;vertical-align:-6px}
@@ -501,7 +502,7 @@ body.mob .offlinks{grid-template-columns:1fr 1fr}
 .ytbox{width:180px;height:101px;border-radius:10px;overflow:hidden;background:#000}
 .ytbox:empty,.ytbox:has(div:empty){display:none}
 .ytbox iframe{width:180px;height:101px;border:0}
-body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size:70px}body.mob .ngrid span{font-size:30px;height:56px}
+body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size:70px}body.mob .ngrid span,body.mob .ngrid.g43 span{font-size:30px;height:56px}
 @media (prefers-reduced-motion:reduce){.slide.on .card{animation:none}.mc{transition:none}}
 </style></head><body>
 
@@ -990,9 +991,9 @@ AG('遊戲 3 · 超慢跑算式','原地超慢跑，同時算算式','g-jog','�
  '<div class="seg" data-g="lv"><button class="on" data-v="1">簡單</button><button data-v="2">普通</button><button data-v="3">挑戰</button></div><div class="seg" data-g="spd"><button data-v="4000">4 秒</button><button class="on" data-v="3000">3 秒</button><button data-v="2500">2.5 秒</button></div>',
  ['超慢跑 × 算式','先跟著音樂原地超慢跑（腳跟不用落地、小步、能邊跑邊說話的速度）。<br>算式每 3 秒換一題，邊跑邊大聲說出答案。'],
  '<div class="music" data-yt="AmrZugRy8OA"></div>');
-AG('遊戲 4 · 找缺少','1 到 21，少了哪一個？','g-miss','視覺搜尋 · 注意力',
+AG('遊戲 4 · 找缺少','1 到 13，少了哪一個？','g-miss','視覺搜尋 · 注意力',
  '<div class="seg" data-g="spd"><button class="on" data-v="5000">5 秒</button><button data-v="8000">8 秒</button><button data-v="12000">12 秒</button></div>',
- ['找缺少的數字','4 × 5 的格子裡放了 1 到 21 其中 20 個數字，有一個不見了。<br>5 秒內找出<b>少了哪一個</b>，時間到會公布答案。']);
+ ['找缺少的數字','4 × 3 的格子裡放了 1 到 13 其中 12 個數字，有一個不見了。<br>5 秒內找出<b>少了哪一個</b>，時間到會公布答案。']);
 AG('遊戲 5 · 找重複','1 到 20，哪一個出現兩次？','g-dup','視覺搜尋 · 注意力',
  '<div class="seg" data-g="spd"><button class="on" data-v="5000">5 秒</button><button data-v="8000">8 秒</button><button data-v="12000">12 秒</button></div>',
  ['找重複的數字','4 × 5 的格子裡有 1 到 20，但其中<b>一個數字出現兩次</b>（所以有一個數字不見了）。<br>5 秒內找出重複的那一個。']);
@@ -1177,7 +1178,7 @@ function initAG(c,id){const st=c.querySelector('.stage'),bar=c.querySelector('.t
  O.querySelector('[data-start]').onclick=start;segs(c);G.init&&G.init(c);st.innerHTML=G.idle?G.idle():'';}
 const COLS=[{n:'紅',c:'#e5484d'},{n:'藍',c:'#2f63d6'},{n:'黃',c:'#e0a800'},{n:'綠',c:'#2f9e5b'},{n:'紫',c:'#7c4fe0'}];
 const rnd=n=>Math.random()*n|0;
-function gridHTML(nums){return '<div class="ngrid">'+nums.map(n=>`<span data-n="${n}">${n}</span>`).join('')+'</div>';}
+function gridHTML(nums,cls){return '<div class="ngrid'+(cls?' '+cls:'')+'">'+nums.map(n=>`<span data-n="${n}">${n}</span>`).join('')+'</div>';}
 const GAMES={
  'g-stroop':{idle:()=>'<div class="sw" style="color:#2f63d6">紅</div>',
   make(i,st,ctx,c){let w=rnd(5),k=w;if(Math.random()<.85){do{k=rnd(5)}while(k===w);}st.innerHTML=`<div class="sw" style="color:${COLS[k].c}">${COLS[w].n}</div><div class="sans" style="visibility:hidden">念：<b style="color:${COLS[k].c}">${COLS[k].n}色</b></div>`;const a=st.querySelector('.sans');
@@ -1198,10 +1199,10 @@ const GAMES={
    return{tick:(el,D)=>{if(el>D*.68&&ea.classList.contains('q')){ea.textContent=ans;ea.classList.remove('q');}}};},
   onStart:c=>musicPlay(c,true),onEnd:c=>musicPlay(c,false),onPause:(c,p)=>musicPlay(c,!p),
   endMsg:'超慢跑約每分鐘 180 步、小步輕跑；加上算式就是「動作＋認知」的雙重任務訓練。'},
- 'g-miss':{rev:1800,idle:()=>gridHTML([...Array(20)].map((_,k)=>k+1)),
-  make(i,st){const miss=1+rnd(21);const nums=shuffle([...Array(21)].map((_,k)=>k+1).filter(n=>n!==miss));st.innerHTML=gridHTML(nums)+`<div class="reveal" hidden>少了 <b>${miss}</b></div>`;
+ 'g-miss':{rev:1800,idle:()=>gridHTML([...Array(12)].map((_,k)=>k+1),'g43'),
+  make(i,st){const miss=1+rnd(13);const nums=shuffle([...Array(13)].map((_,k)=>k+1).filter(n=>n!==miss));st.innerHTML=gridHTML(nums,'g43')+`<div class="reveal" hidden>少了 <b>${miss}</b></div>`;
    return{reveal:()=>{st.querySelector('.reveal').hidden=false;}};},
-  endMsg:'找缺少要邊掃描、邊在心裡排順序，練視覺搜尋和工作記憶。可以先從 1 到 10 開始。'},
+  endMsg:'找缺少要邊掃描、邊在心裡排順序，練視覺搜尋和工作記憶。想加難度可以把時間調短。'},
  'g-dup':{rev:1800,idle:()=>gridHTML([...Array(20)].map((_,k)=>k+1)),
   make(i,st){const all=[...Array(20)].map((_,k)=>k+1);const gone=rnd(20);const dup=all[(gone+1+rnd(19))%20];all[gone]=dup;const nums=shuffle(all);st.innerHTML=gridHTML(nums)+`<div class="reveal" hidden><b>${dup}</b> 出現兩次</div>`;
    return{reveal:()=>{st.querySelector('.reveal').hidden=false;st.querySelectorAll('.ngrid span[data-n="'+dup+'"]').forEach(x=>x.classList.add('hl'));}};},
