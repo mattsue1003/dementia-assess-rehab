@@ -475,6 +475,33 @@ button.formtile em{font-style:normal;font-family:var(--fh);font-size:19px;color:
 .fsel{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 @media (max-width:700px){.fq2{grid-template-columns:2em 1fr}.fopts{grid-column:1/-1;justify-content:flex-start}}
 body.mob .offlinks{grid-template-columns:1fr 1fr}
+
+.ag .garea{display:flex;flex-direction:column}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:16px;min-height:0}
+.tbar{height:12px;background:rgba(255,255,255,.7)}.tbar i{display:block;height:100%;width:0;background:var(--cc)}
+.cd{font-family:var(--fn);font-weight:700;font-size:220px;color:var(--cc);line-height:1;animation:pop .6s both}
+.sw{font-family:var(--fh);font-size:260px;line-height:1}
+.sans{font-family:var(--fh);font-size:34px;color:var(--ink2)}
+.nb{font-family:var(--fn);font-weight:700;font-size:280px;line-height:1;color:var(--ink);background:#fff;border-radius:40px;padding:10px 70px;box-shadow:0 10px 0 var(--tint2)}
+.clap{font-family:var(--fh);font-size:34px;color:var(--ink2)}.clap.hit{color:#fff;background:var(--bad);padding:6px 26px;border-radius:999px}.clap b{font-size:44px;font-weight:400;margin-right:10px}
+.eq{font-family:var(--fn);font-weight:700;font-size:170px;line-height:1;color:var(--ink);white-space:nowrap}
+.eq .ea{color:var(--ok)}.eq .ea.q{color:var(--cc)}
+.ag .gover{background:var(--tint)}
+.ag .gbar .btn{padding:6px 18px;font-size:18px}
+.feet{display:flex;gap:30px}.feet i{width:46px;height:70px;border-radius:24px 24px 18px 18px;background:var(--cc);opacity:.25;animation:step .667s infinite}.feet i:last-child{animation-delay:.333s}
+@keyframes step{0%,45%{opacity:1;transform:translateY(-12px)}50%,100%{opacity:.25;transform:none}}
+.ngrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;width:min(100%,980px)}
+.ngrid span{background:#fff;border-radius:18px;display:grid;place-items:center;font-family:var(--fn);font-weight:700;font-size:66px;height:104px;color:var(--ink);box-shadow:0 4px 0 var(--tint2)}
+.ngrid span.hl{background:var(--bad);color:#fff}
+.reveal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:#fff;font-family:var(--fh);font-size:56px;padding:18px 44px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.reveal b{font-family:var(--fn);font-size:90px;color:#ffd44d;margin:0 8px;vertical-align:-6px}
+.reveal[hidden]{display:none}
+.music .mrow{display:flex;align-items:center;gap:12px;background:var(--tint);border-radius:16px;padding:6px 10px 6px 16px;font-size:18px}
+.music .mt{flex:1}
+.ytbox{width:180px;height:101px;border-radius:10px;overflow:hidden;background:#000}
+.ytbox:empty,.ytbox:has(div:empty){display:none}
+.ytbox iframe{width:180px;height:101px;border:0}
+body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size:70px}body.mob .ngrid span{font-size:30px;height:56px}
 @media (prefers-reduced-motion:reduce){.slide.on .card{animation:none}.mc{transition:none}}
 </style></head><body>
 
@@ -944,42 +971,31 @@ S(4,'認知遊戲 · 設計原則','好的認知遊戲有這六個特質',`
  <div class="grid g3">
   ${[['剛剛好的挑戰','答對率約八成多最好（學習研究的 85% 規則）；太難退縮、太簡單無聊'],['錯了不扣分','用無錯誤學習的精神：提示、示範、再來一次'],['有意義','連結他的生活與年代：市場、老歌、節慶'],['分級','同一個遊戲備好易、中、難三版'],['多感官','看、聽、摸、動作一起來'],['一起玩','輪流、合作、互相鼓勵，社交本身就是刺激']].map(a=>`<div class="tile"><h3>${a[0]}</h3><p>${a[1]}</p></div>`).join('')}
  </div>
- <div class="note">接下來六個遊戲可以直接在這份簡報玩。每個遊戲都標了練到的能力。</div>`);
+ <div class="note">接下來七個遊戲，前六個直接在簡報裡帶，第七個用另開的網頁。每個遊戲都標了練到的能力。</div>`);
 
-S(4,'遊戲 1 · 顏色字','說出字的「顏色」，不是字',`
- <div class="game" id="g-stroop">
-  <div class="gbar"><span class="pill">抑制控制 · 執行功能</span><div class="seg" data-g="mode"><button class="on" data-v="ink">按顏色</button><button data-v="word">按字</button></div><div class="seg" data-g="lv"><button data-v="0">全部一致</button><button class="on" data-v="1">混合</button></div><div class="stat"><span id="stT">30 秒</span><span id="stS">0 分</span></div></div>
-  <div class="garea">
-   <div class="stroopword" id="stW">紅</div>
-   <div class="stroopbtns" id="stB"></div>
-   <div class="gover" id="stO"><h3>顏色字</h3><span>畫面出現一個字，按下它的<b>顏色</b>。三十秒內答對越多越好。</span><button class="btn cc" data-start>開始</button></div>
-  </div>
- </div>`,{wide:true,init:initStroop});
-
-S(4,'遊戲 2 · 翻牌配對','記住位置，找出一對',`
- <div class="game" id="g-mem">
-  <div class="gbar"><span class="pill">工作記憶 · 視空間</span><div class="seg" data-g="n"><button data-v="4">4 對</button><button class="on" data-v="6">6 對</button><button data-v="8">8 對</button></div><div class="seg" data-g="peek"><button class="on" data-v="1">先看 3 秒</button><button data-v="0">不偷看</button></div><div class="stat"><span id="mmM">0 次</span><span id="mmP">0 對</span></div></div>
-  <div class="garea"><div class="mem" id="mmG"></div><div class="gover" id="mmO"><h3>翻牌配對</h3><span>翻兩張，一樣就留著。找出所有台灣水果。</span><button class="btn cc" data-start>開始</button></div></div>
- </div>`,{wide:true,init:initMem});
-
-S(4,'遊戲 3 · 連連看','照順序點：1 → 2 → 3 …',`
- <div class="game" id="g-trail">
-  <div class="gbar"><span class="pill">注意力 · 處理速度 · 轉換</span><div class="seg" data-g="mode"><button class="on" data-v="num">數字 1→2→3</button><button data-v="alt">交替 1→甲→2→乙</button></div><div class="seg" data-g="n"><button data-v="8">8 個</button><button class="on" data-v="12">12 個</button><button data-v="16">16 個</button></div><div class="stat"><span id="trT">0.0 秒</span><span id="trE">錯 0</span></div></div>
-  <div class="garea"><div class="trail" id="trA"><svg id="trS"></svg></div><div class="gover" id="trO"><h3>連連看</h3><span>依順序點圓圈。交替版是「數字、天干」輪流：1、甲、2、乙、3、丙…</span><button class="btn cc" data-start>開始</button></div></div>
- </div>`,{wide:true,init:initTrail});
-
-S(4,'遊戲 4 · 菜市場算錢','去菜市場：要付多少？',`
- <div class="game" id="g-mkt">
-  <div class="gbar"><span class="pill">計算 · 執行功能 · 生活應用</span><div class="seg" data-g="lv"><button class="on" data-v="1">買一樣</button><button data-v="2">買兩樣</button><button data-v="3">付 500 找零</button></div><div class="stat"><span id="mkS">答對 0</span></div></div>
-  <div class="garea"><div class="market" id="mkA"></div></div>
- </div>`,{wide:true,init:initMkt});
-
-S(4,'遊戲 5 · 分類','放進對的籃子',`
- <div class="game" id="g-sort">
-  <div class="gbar"><span class="pill">概念形成 · 語意記憶</span><div class="seg" data-g="set"><button class="on" data-v="0">蔬果交通</button><button data-v="1">家裡房間</button><button data-v="2">台灣味</button></div><div class="stat"><span id="soS">0 / 9</span></div></div>
-  <div class="garea"><div class="sort"><div class="pool" id="soP"></div><div class="bins" id="soB"></div></div></div>
- </div>`,{wide:true,init:initSort});
-
+function AG(tag,title,id,pill,opts,intro,extra){S(4,tag,title,`
+ <div class="game ag" id="${id}">
+  <div class="gbar"><span class="pill">${pill}</span>${opts}<div class="stat"><span class="qn">準備</span><button class="btn alt agp" title="暫停 / 繼續">暫停</button><button class="btn alt ags" title="跳下一題">下一題</button></div></div>
+  ${extra||''}
+  <div class="garea"><div class="stage"></div><div class="tbar"><i></i></div>
+   <div class="gover"><h3>${intro[0]}</h3><span>${intro[1]}</span><button class="btn cc" data-start>開始（10 題）</button></div></div>
+ </div>`,{wide:true,init:c=>initAG(c,id)});}
+AG('遊戲 1 · 顏色字','念出字的「顏色」，不是字','g-stroop','抑制控制 · 執行功能',
+ '<div class="seg" data-g="spd"><button data-v="3000">慢 3 秒</button><button class="on" data-v="2000">標準 2 秒</button><button data-v="1500">快 1.5 秒</button></div><div class="seg" data-g="ans"><button class="on" data-v="1">顯示答案</button><button data-v="0">不顯示</button></div>',
+ ['顏色字','畫面每 2 秒換一個字，大家一起大聲念出字的<b>顏色</b>。<br>例如看到藍色的「紅」，要念「藍」。']);
+AG('遊戲 2 · 2-back','和「上上個」一樣就拍手','g-nback','工作記憶 · 2-back',
+ '<div class="seg" data-g="spd"><button data-v="3500">慢 3.5 秒</button><button class="on" data-v="2800">標準 2.8 秒</button><button data-v="2200">快 2.2 秒</button></div>',
+ ['2-back 記憶拍手','數字會一個一個出現。當現在的數字和<b>上上個</b>一樣，就拍一下手！<br>前兩個數字先記住，從第 3 個開始判斷，共 10 題。']);
+AG('遊戲 3 · 超慢跑算式','原地超慢跑，同時算算式','g-jog','雙重任務 · 計算',
+ '<div class="seg" data-g="lv"><button class="on" data-v="1">簡單</button><button data-v="2">普通</button><button data-v="3">挑戰</button></div><div class="seg" data-g="spd"><button data-v="4000">4 秒</button><button class="on" data-v="3000">3 秒</button><button data-v="2500">2.5 秒</button></div>',
+ ['超慢跑 × 算式','先跟著音樂原地超慢跑（腳跟不用落地、小步、能邊跑邊說話的速度）。<br>算式每 3 秒換一題，邊跑邊大聲說出答案。'],
+ '<div class="music" data-yt="AmrZugRy8OA"></div>');
+AG('遊戲 4 · 找缺少','1 到 21，少了哪一個？','g-miss','視覺搜尋 · 注意力',
+ '<div class="seg" data-g="spd"><button class="on" data-v="5000">5 秒</button><button data-v="8000">8 秒</button><button data-v="12000">12 秒</button></div>',
+ ['找缺少的數字','4 × 5 的格子裡放了 1 到 21 其中 20 個數字，有一個不見了。<br>5 秒內找出<b>少了哪一個</b>，時間到會公布答案。']);
+AG('遊戲 5 · 找重複','1 到 20，哪一個出現兩次？','g-dup','視覺搜尋 · 注意力',
+ '<div class="seg" data-g="spd"><button class="on" data-v="5000">5 秒</button><button data-v="8000">8 秒</button><button data-v="12000">12 秒</button></div>',
+ ['找重複的數字','4 × 5 的格子裡有 1 到 20，但其中<b>一個數字出現兩次</b>（所以有一個數字不見了）。<br>5 秒內找出重複的那一個。']);
 S(4,'遊戲 6 · 回想時間','還記得一開始的五個詞嗎？',`
  <div class="game" id="g-rec">
   <div class="gbar"><span class="pill">延遲回憶 · 再認</span><span style="font-size:19px">第一步：先在紙上寫下記得的。第二步：從下面點選。</span><div class="stat"><button class="btn cc" id="rcC">對答案</button><button class="btn alt" id="rcR">重來</button></div></div>
@@ -987,6 +1003,14 @@ S(4,'遊戲 6 · 回想時間','還記得一開始的五個詞嗎？',`
   <div class="note" id="rcN">自由回想想不起來，但看到選項就認得：多半是「提取」慢。連選項都認不出來：「記進去」（編碼）就有困難，阿茲海默症早期常見。</div>
  </div>`,{wide:true,init:initRecall});
 
+S(4,'遊戲 7 · 傳炸彈','傳炸彈：一邊答題一邊傳',`
+ <div class="ice">
+  <a class="gamecard" href="https://mattsue1003.github.io/bomb-pass-game/" target="_blank" rel="noopener">${qrImg('https://mattsue1003.github.io/bomb-pass-game/',5)}<b>傳炸彈</b><span>音樂一停、炸彈就爆！</span><em>點我開啟遊戲 ↗</em></a>
+  <div class="col">
+   <div class="tile f1"><h3>怎麼玩</h3><ol style="margin:0;padding-left:1.2em;font-size:22px;line-height:1.6"><li>大家圍成一圈，準備一顆球或任何物品當「炸彈」。</li><li>按開始，音樂響起，畫面出現題目，例如「說出一種水果」。</li><li>拿到炸彈的人要說出答案，才能傳給下一位。</li><li>倒數時間是隨機的，誰手上的炸彈爆炸，就抽一張任務卡。</li></ol></div>
+   <div class="note">練到的能力：語意流暢度（快速提取）、反應速度、輪流與社交。帶長輩時把時間調長、題目換成懷舊主題，任務卡用「唱一句老歌」這種輕鬆的。</div>
+  </div>
+ </div>`);
 S(4,'認知遊戲 · 更多資源','帶回去用的遊戲網站',`
  <div class="qrgrid">
   ${[['slide-game-video','簡報遊戲影片工坊','把遊戲簡報做成影片，投影或播放就能帶活動'],
@@ -1000,7 +1024,7 @@ S(4,'認知遊戲 · 更多資源','帶回去用的遊戲網站',`
 /* ---- 結語 ---- */
 QZ(4,'認知遊戲 · 闖關測驗','認知遊戲 闖關測驗',[
  {q:'「顏色字」遊戲主要練的是？',o:['抑制控制（執行功能）','長期記憶','肌力','語言流暢'],a:0,e:'要壓住「唸字」的自動反應，去看顏色：Stroop 效應。',s:'Stroop JR. J Exp Psychol 1935'},
- {q:'連連看「1→甲→2→乙」比純數字多練了什麼？',o:['視力','注意力轉換','計算','肌耐力'],a:1,e:'在兩組序列間切換，類似連線測驗 B。',s:'Bowie CR, Harvey PD. Nat Protoc 2006（連線測驗）'},
+ {q:'2-back 遊戲：數字和「上上個」一樣就拍手，主要考的是？',o:['長期記憶','工作記憶','肌力','視力'],a:1,e:'N-back 是最常用的工作記憶作業：要一邊記住前兩個，一邊更新。',s:'Owen AM, et al. Hum Brain Mapp 2005（N-back 統合分析）'},
  {q:'長輩答錯時，帶領者最好怎麼做？',o:['扣分','直接跳下一題','給提示或示範，讓他成功一次','提醒他要專心'],a:2,e:'無錯誤學習的精神：降低難度、提示，結束在成功經驗。',s:'Clare L, Woods RT. Neuropsychol Rehabil 2004（無錯誤學習）'},
  {q:'想不起來，但看到選項就認得，多半是？',o:['編碼困難','提取比較慢','聽力不好','不想回答'],a:1,e:'再認可以、回想不行＝提取慢；連再認都不行，才比較像編碼困難。',s:'Dubois B, et al. Lancet Neurol 2007'},
  {q:'同一個遊戲最好準備幾種難度？',o:['一種就好','易、中、難三種','越難越好','讓長輩自己決定'],a:1,e:'分級讓每個人都維持在剛剛好的答對率（約 85%）：程度好的不無聊，程度弱的不挫折。',s:'Wilson RC, et al. Nat Commun 2019'}]);
@@ -1134,48 +1158,61 @@ function renderPP(c){const b=c.querySelector('#ppb');let tot=0,max=0,weak=null,w
   `<div class="ppsum"><span class="big">${tot}<small style="font-size:28px">/${max}</small></span><span>${QUIZ_CH.every(passed)?'四個印章全部集滿，恭喜完成今天的學習！':'集滿四個印章就完成今天的學習。'}${weak&&wv<1?'<br>最值得回去複習的一站：〈'+CH[weak].n+'〉':''}</span></div>`;
  b.querySelectorAll('button[data-q]').forEach(x=>x.onclick=()=>go(SL.findIndex(y=>y.quiz&&y.ch===+x.dataset.q)));}
 /* ---- games ---- */
-function initStroop(c){const COL=[{n:'紅',c:'#e5484d'},{n:'藍',c:'#3d6fe0'},{n:'黃',c:'#d9a000'},{n:'綠',c:'#2f9e5b'}];
- const W=c.querySelector('#stW'),B=c.querySelector('#stB'),O=c.querySelector('#stO'),A=c.querySelector('.garea');let cur=null,score=0,tot=0,t0=0,iv=null;
- B.innerHTML=COL.map((x,i)=>`<button data-i="${i}" style="background:${x.c}">${x.n}色</button>`).join('');
- const next=()=>{const w=Math.random()*4|0;let k=w;if(segVal(c,'lv')==='1'&&Math.random()<.7){do{k=Math.random()*4|0}while(k===w);}cur={w,k};W.textContent=COL[w].n;W.style.color=COL[k].c;};
- const end=()=>{clearInterval(iv);iv=null;O.hidden=false;O.innerHTML=`<h3>${score} 分</h3><span>答對 ${score} / ${tot}（正確率 ${tot?Math.round(score/tot*100):0}%）<br>換成「按字」或「全部一致」，比較看看哪個比較快。這就是 Stroop 效應。</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;};
- const start=()=>{score=0;tot=0;O.hidden=true;t0=Date.now();next();c.querySelector('#stS').textContent='0 分';clearInterval(iv);iv=setInterval(()=>{const l=30-(Date.now()-t0)/1000;c.querySelector('#stT').textContent=Math.max(0,Math.ceil(l))+' 秒';if(l<=0)end();},200);};
- B.onclick=e=>{const b=e.target.closest('button');if(!b||!iv)return;const ans=segVal(c,'mode')==='ink'?cur.k:cur.w;tot++;const ok=+b.dataset.i===ans;if(ok)score++;A.classList.remove('flash-ok','flash-no');void A.offsetWidth;A.classList.add(ok?'flash-ok':'flash-no');c.querySelector('#stS').textContent=score+' 分';next();};
- O.querySelector('[data-start]').onclick=start;segs(c);next();}
-function initMem(c){const IT=[['🍌','香蕉'],['🍍','鳳梨'],['🍉','西瓜'],['🥭','芒果'],['🍇','葡萄'],['🍊','橘子'],['🍓','草莓'],['🍎','蘋果']];
- const G=c.querySelector('#mmG'),O=c.querySelector('#mmO');let open=[],moves=0,got=0,n=6,lock=false;
- const st=()=>{c.querySelector('#mmM').textContent=moves+' 次';c.querySelector('#mmP').textContent=got+' / '+n+' 對';};
- const start=()=>{n=+segVal(c,'n');const cards=shuffle(IT.slice(0,n).flatMap(x=>[x,x]));const cols=n<=4?4:n<=6?4:4;G.style.gridTemplateColumns=`repeat(${n===6?6:4},1fr)`;G.innerHTML=cards.map(x=>`<button class="mc" data-k="${x[1]}"><span class="b"></span><span class="f">${x[0]}<small>${x[1]}</small></span></button>`).join('');open=[];moves=0;got=0;st();O.hidden=true;
-  if(segVal(c,'peek')==='1'){lock=true;G.querySelectorAll('.mc').forEach(m=>m.classList.add('up'));setTimeout(()=>{G.querySelectorAll('.mc').forEach(m=>m.classList.remove('up'));lock=false;},3000);}else lock=false;};
- G.onclick=e=>{const m=e.target.closest('.mc');if(!m||lock||m.classList.contains('up'))return;m.classList.add('up');open.push(m);if(open.length===2){moves++;lock=true;const[a,b]=open;if(a.dataset.k===b.dataset.k){a.classList.add('got');b.classList.add('got');got++;open=[];lock=false;st();if(got===n){setTimeout(()=>{O.hidden=false;O.innerHTML=`<h3>全部找到了！</h3><span>${n} 對用了 ${moves} 次。下次試試「不偷看」或多一點牌。</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;},600);}}else{setTimeout(()=>{a.classList.remove('up');b.classList.remove('up');open=[];lock=false;},900);}st();}};
- O.querySelector('[data-start]').onclick=start;segs(c);}
-function initTrail(c){const S=c.querySelector('#trS'),A=c.querySelector('#trA'),O=c.querySelector('#trO');const TG='甲乙丙丁戊己庚辛';let seq=[],k=0,err=0,t0=0,iv=null,pts=[];
- const start=()=>{const n=+segVal(c,'n');const mode=segVal(c,'mode');seq=[];for(let i=0;i<n;i++)seq.push(mode==='num'?String(i+1):(i%2?TG[(i-1)/2]:String(i/2+1)));
-  const r=A.getBoundingClientRect();const w=r.width||1300,h=r.height||480;S.setAttribute('viewBox',`0 0 ${w} ${h}`);pts=[];let guard=0;
-  while(pts.length<n&&guard++<5000){const p=[50+Math.random()*(w-100),46+Math.random()*(h-92)];if(pts.every(q=>Math.hypot(q[0]-p[0],q[1]-p[1])>Math.min(110,w/7)))pts.push(p);}
-  while(pts.length<n)pts.push([50+Math.random()*(w-100),46+Math.random()*(h-92)]);
-  S.innerHTML='<g id="trL"></g>'+seq.map((s,i)=>`<g class="nd" data-i="${i}" transform="translate(${pts[i][0]},${pts[i][1]})"><circle r="32"/><text>${s}</text></g>`).join('');
-  k=0;err=0;c.querySelector('#trE').textContent='錯 0';O.hidden=true;t0=Date.now();clearInterval(iv);iv=setInterval(()=>c.querySelector('#trT').textContent=((Date.now()-t0)/1000).toFixed(1)+' 秒',100);};
- S.addEventListener('click',e=>{const g=e.target.closest('.nd');if(!g||!iv)return;const i=+g.dataset.i;if(i===k){g.classList.add('done');if(k>0){const a=pts[k-1],b=pts[k];S.querySelector('#trL').insertAdjacentHTML('beforeend',`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="var(--cc)" stroke-width="6" stroke-linecap="round"/>`);}k++;if(k===seq.length){clearInterval(iv);iv=null;const t=((Date.now()-t0)/1000).toFixed(1);setTimeout(()=>{O.hidden=false;O.innerHTML=`<h3>${t} 秒完成</h3><span>錯 ${err} 次。交替版比純數字版多花的時間，代表「轉換注意力」的負擔（連線測驗 B − A 的概念）。</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;},400);}}else if(!g.classList.contains('done')){err++;c.querySelector('#trE').textContent='錯 '+err;g.classList.add('bad');setTimeout(()=>g.classList.remove('bad'),400);}});
- O.querySelector('[data-start]').onclick=start;segs(c);}
-function initMkt(c){const IT=[['🥬','高麗菜',35],['🥚','一盒雞蛋',60],['🍌','一串香蕉',45],['🍅','番茄',30],['🌽','玉米',25],['🐟','虱目魚',120],['🍠','地瓜',40],['🍎','蘋果',50]];
- const A=c.querySelector('#mkA');let ok=0,need=0,paid=[];
- const sum=()=>paid.reduce((a,b)=>a+b,0);
- const render=()=>{const lv=+segVal(c,'lv');const items=shuffle(IT).slice(0,lv===1?1:lv===2?2:Math.random()<.5?2:3);const tot=items.reduce((a,b)=>a+b[2],0);need=tot;paid=[];
-  const bask=`<div class="basket">${items.map(x=>`<div class="itm"><i>${x[0]}</i>${x[1]}<b>${x[2]} 元</b></div>`).join('')}<div class="q">${lv<3?'一共要付多少？用右邊的錢付剛好。':'付一張 500 元，要找多少錢？'}</div></div>`;
-  if(lv<3){A.innerHTML=bask+`<div class="wallet"><div class="paid" id="mkP"><span>已經拿出</span><span class="sum">0 元</span><span class="tok"></span></div><div class="coins">${[1,5,10,50,100,500].map(v=>`<button class="${v>=100?'bi':'co'}" data-v="${v}">${v}</button>`).join('')}</div><div class="row"><button class="btn alt f1" id="mkU">收回一個</button><button class="btn cc f1" id="mkOK">付錢</button></div></div>`;
-   const P=A.querySelector('#mkP');const up=()=>{P.querySelector('.sum').textContent=sum()+' 元';P.querySelector('.tok').innerHTML=paid.map(v=>`<span>${v}</span>`).join('');};
-   A.querySelectorAll('.coins button').forEach(b=>b.onclick=()=>{paid.push(+b.dataset.v);up();});A.querySelector('#mkU').onclick=()=>{paid.pop();up();};
-   A.querySelector('#mkOK').onclick=()=>{if(sum()===need){ok++;c.querySelector('#mkS').textContent='答對 '+ok;P.innerHTML=`<span>老闆：剛好 ${need} 元，謝謝！</span><span class="sum" style="color:var(--ok)">答對了</span>`;setTimeout(render,1400);}else{shake(P);P.querySelector('.tok').insertAdjacentHTML('beforeend',`<span style="background:#ffd2cf">${sum()<need?'還不夠喔':'太多了，剛好就好'}</span>`);}};}
-  else{const ch=500-tot;const opts=shuffle([ch,ch+10,Math.max(5,ch-20)].filter((v,i,a)=>a.indexOf(v)===i));A.innerHTML=bask+`<div class="wallet"><div class="paid"><span>總共 ${tot} 元，付 500 元</span><span class="sum">找多少？</span></div><div class="choices">${opts.map(v=>`<button data-v="${v}">${v} 元</button>`).join('')}</div></div>`;
-   A.querySelectorAll('.choices button').forEach(b=>b.onclick=()=>{if(+b.dataset.v===ch){b.style.background='var(--ok)';b.style.color='#fff';ok++;c.querySelector('#mkS').textContent='答對 '+ok;setTimeout(render,1200);}else{b.style.background='#ffd2cf';shake(b);}});}};
- segs(c,()=>render());render();}
-function initSort(c){const SETS=[[['水果',['芭樂','蓮霧','鳳梨']],['蔬菜',['空心菜','絲瓜','高麗菜']],['交通工具',['公車','火車','腳踏車']]],[['廚房',['鍋鏟','菜刀','電鍋']],['浴室',['牙刷','毛巾','臉盆']],['臥室',['枕頭','棉被','鬧鐘']]],[['小吃',['肉圓','蚵仔煎','臭豆腐']],['節慶食物',['粽子','月餅','湯圓']],['飲料',['青草茶','珍珠奶茶','冬瓜茶']]]];
- const P=c.querySelector('#soP'),B=c.querySelector('#soB');let sel=null,done=0;
- const render=()=>{const s=SETS[+segVal(c,'set')];done=0;c.querySelector('#soS').textContent='0 / 9';B.innerHTML=s.map((x,i)=>`<div class="bin" data-i="${i}"><h4>${x[0]}</h4></div>`).join('');P.innerHTML=shuffle(s.flatMap((x,i)=>x[1].map(w=>[w,i]))).map(a=>`<button data-c="${a[1]}">${a[0]}</button>`).join('');sel=null;};
- P.onclick=e=>{const b=e.target.closest('button');if(!b)return;P.querySelectorAll('button').forEach(x=>x.classList.toggle('sel',x===b&&!x.classList.contains('sel')));sel=b.classList.contains('sel')?b:null;};
- B.onclick=e=>{const bin=e.target.closest('.bin');if(!bin||!sel)return;if(sel.dataset.c===bin.dataset.i){bin.insertAdjacentHTML('beforeend',`<span>${sel.textContent}</span>`);sel.remove();sel=null;done++;c.querySelector('#soS').textContent=done+' / 9'+(done===9?'　全部完成！':'');}else{shake(bin);shake(sel);}};
- segs(c,()=>render());render();}
+function initAG(c,id){const st=c.querySelector('.stage'),bar=c.querySelector('.tbar i'),O=c.querySelector('.gover'),qn=c.querySelector('.qn'),pb=c.querySelector('.agp');
+ const G=GAMES[id];let i=0,t0=0,phase='q',paused=false,pAt=0,running=false,cur=null,ctx=null;
+ const total=()=>G.total||10;
+ const dur=()=>+segVal(c,'spd')||3000;
+ const show=()=>{qn.textContent=G.label?G.label(i):'第 '+(i+1)+' / '+total()+' 題';};
+ function round(){cur=G.make(i,st,ctx,c)||{};phase='q';t0=performance.now();show();}
+ function loop(now){if(!running)return;if(paused){requestAnimationFrame(loop);return;}const el=now-t0,D=phase==='q'?dur():(G.rev||0);
+  bar.style.width=(phase==='q'?Math.max(0,1-el/D)*100:0)+'%';if(phase==='q'&&cur.tick)cur.tick(el,D);
+  if(el>=D){if(phase==='q'&&G.rev){phase='r';t0=now;cur.reveal&&cur.reveal();}else{i++;if(i>=total()){end();return;}round();}}
+  requestAnimationFrame(loop);}
+ function start(){O.hidden=true;i=0;paused=false;pb.textContent='暫停';ctx=G.setup?G.setup(c):{};let n=3;st.innerHTML='<div class="cd">3</div>';qn.textContent='預備';G.onStart&&G.onStart(c);
+  const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);running=true;round();requestAnimationFrame(loop);}else st.innerHTML='<div class="cd">'+n+'</div>';},800);c._cd=t;}
+ function end(){running=false;bar.style.width='0%';G.onEnd&&G.onEnd(c);O.hidden=false;O.innerHTML=`<h3>完成 ${total()} 題！</h3><span>${G.endMsg||'大家都很棒！可以換成更快的速度再挑戰一次。'}</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;}
+ pb.onclick=()=>{if(!running)return;paused=!paused;pb.textContent=paused?'繼續':'暫停';if(paused){pAt=performance.now();G.onPause&&G.onPause(c,true);}else{t0+=performance.now()-pAt;G.onPause&&G.onPause(c,false);}};
+ c.querySelector('.ags').onclick=()=>{if(!running)return;t0=-1e9;};
+ c._stop=()=>{if(running||c._cd){clearInterval(c._cd);c._cd=null;running=false;G.onEnd&&G.onEnd(c);O.hidden=false;O.querySelector('h3')&&0;}};
+ O.querySelector('[data-start]').onclick=start;segs(c);G.init&&G.init(c);st.innerHTML=G.idle?G.idle():'';}
+const COLS=[{n:'紅',c:'#e5484d'},{n:'藍',c:'#2f63d6'},{n:'黃',c:'#e0a800'},{n:'綠',c:'#2f9e5b'},{n:'紫',c:'#7c4fe0'}];
+const rnd=n=>Math.random()*n|0;
+function gridHTML(nums){return '<div class="ngrid">'+nums.map(n=>`<span data-n="${n}">${n}</span>`).join('')+'</div>';}
+const GAMES={
+ 'g-stroop':{idle:()=>'<div class="sw" style="color:#2f63d6">紅</div>',
+  make(i,st,ctx,c){let w=rnd(5),k=w;if(Math.random()<.85){do{k=rnd(5)}while(k===w);}st.innerHTML=`<div class="sw" style="color:${COLS[k].c}">${COLS[w].n}</div><div class="sans" style="visibility:hidden">念：<b style="color:${COLS[k].c}">${COLS[k].n}色</b></div>`;const a=st.querySelector('.sans');
+   return{tick:(el,D)=>{if(segVal(c,'ans')==='1'&&el>D*.6)a.style.visibility='visible';}};},
+  endMsg:'念錯沒關係！Stroop 效應就是：大腦會先「讀字」，要壓住這個自動反應才能說出顏色。'},
+ 'g-nback':{total:12,label:i=>i<2?'先記住（'+(i+1)+'/2）':'判斷 '+(i-1)+' / 10',
+  setup(){const a=[];for(let k=0;k<12;k++){if(k>=2&&Math.random()<.35)a.push(a[k-2]);else{let v;do{v=1+rnd(9)}while(k>=2&&v===a[k-2]||k>=1&&v===a[k-1]);a.push(v);}}return{a};},
+  idle:()=>'<div class="nb">7</div>',
+  make(i,st,ctx){const v=ctx.a[i],hit=i>=2&&ctx.a[i-2]===v;st.innerHTML=`<div class="nb">${v}</div><div class="clap" style="visibility:hidden">${hit?'<b>拍手！</b>跟上上個一樣':'不用拍手'}</div>`;const cl=st.querySelector('.clap');if(hit)cl.classList.add('hit');
+   return{tick:(el,D)=>{if(i>=2&&el>D*.62)cl.style.visibility='visible';}};},
+  endMsg:'2-back 要一邊記、一邊更新，是很好的工作記憶練習。可以改成「和上一個一樣」（1-back）降低難度。'},
+ 'g-jog':{idle:()=>'<div class="eq">5 + 3 = ?</div>',
+  make(i,st,ctx,c){const lv=+segVal(c,'lv');let a,b,op,ans;
+   if(lv===1){a=1+rnd(9);b=1+rnd(9);op=Math.random()<.6?'+':'−';if(op==='−'&&b>a)[a,b]=[b,a];}
+   else if(lv===2){a=10+rnd(40);b=2+rnd(9);op=Math.random()<.5?'+':'−';}
+   else{op=['+','−','×'][rnd(3)];if(op==='×'){a=2+rnd(8);b=2+rnd(8);}else{a=20+rnd(60);b=5+rnd(30);if(op==='−'&&b>a)[a,b]=[b,a];}}
+   ans=op==='+'?a+b:op==='−'?a-b:a*b;st.innerHTML=`<div class="eq">${a} ${op} ${b} = <span class="ea q">?</span></div><div class="feet"><i></i><i></i></div>`;const ea=st.querySelector('.ea');
+   return{tick:(el,D)=>{if(el>D*.68&&ea.classList.contains('q')){ea.textContent=ans;ea.classList.remove('q');}}};},
+  onStart:c=>musicPlay(c,true),onEnd:c=>musicPlay(c,false),onPause:(c,p)=>musicPlay(c,!p),
+  endMsg:'超慢跑約每分鐘 180 步、小步輕跑；加上算式就是「動作＋認知」的雙重任務訓練。'},
+ 'g-miss':{rev:1800,idle:()=>gridHTML([...Array(20)].map((_,k)=>k+1)),
+  make(i,st){const miss=1+rnd(21);const nums=shuffle([...Array(21)].map((_,k)=>k+1).filter(n=>n!==miss));st.innerHTML=gridHTML(nums)+`<div class="reveal" hidden>少了 <b>${miss}</b></div>`;
+   return{reveal:()=>{st.querySelector('.reveal').hidden=false;}};},
+  endMsg:'找缺少要邊掃描、邊在心裡排順序，練視覺搜尋和工作記憶。可以先從 1 到 10 開始。'},
+ 'g-dup':{rev:1800,idle:()=>gridHTML([...Array(20)].map((_,k)=>k+1)),
+  make(i,st){const all=[...Array(20)].map((_,k)=>k+1);const gone=rnd(20);const dup=all[(gone+1+rnd(19))%20];all[gone]=dup;const nums=shuffle(all);st.innerHTML=gridHTML(nums)+`<div class="reveal" hidden><b>${dup}</b> 出現兩次</div>`;
+   return{reveal:()=>{st.querySelector('.reveal').hidden=false;st.querySelectorAll('.ngrid span[data-n="'+dup+'"]').forEach(x=>x.classList.add('hl'));}};},
+  endMsg:'找重複比找缺少更難一點：不能只靠順序，要記住看過哪些數字。'}};
+/* music for 超慢跑: YouTube IFrame API where allowed (GitHub Pages), otherwise a link */
+let ytP=null,ytReady=false,ytWant=false;
+function initMusic(){document.querySelectorAll('.music[data-yt]').forEach(m=>{const id=m.dataset.yt;m.innerHTML=`<div class="mrow"><span class="mt"><b>超慢跑音樂</b> 按「開始」自動播放，結束或暫停時停止</span><a class="btn alt" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a><div class="ytbox"><div id="yt-${id}"></div></div></div>`;});
+ if(!/github\.io$|localhost|127\.0\.0\.1/.test(location.hostname))return;
+ window.onYouTubeIframeAPIReady=()=>{const el=document.querySelector('.music [id^="yt-"]');if(!el)return;ytP=new YT.Player(el.id,{width:200,height:113,videoId:el.id.slice(3),playerVars:{loop:1,playlist:el.id.slice(3),controls:1,rel:0,playsinline:1},events:{onReady:()=>{ytReady=true;if(ytWant)ytP.playVideo();}}});};
+ const sc=document.createElement('script');sc.src='https://www.youtube.com/iframe_api';document.head.appendChild(sc);}
+function musicPlay(c,on){ytWant=on;if(ytP&&ytReady){try{on?ytP.playVideo():ytP.pauseVideo();}catch(e){}}}
 function initRecall(c){const T=['火車','蘋果','雨傘','鋼琴','月亮'];const ALL=shuffle(T.concat(['汽車','香蕉','帽子','吉他','太陽','公車','芭樂','外套','星星','小提琴']));const G=c.querySelector('#rcG');
  const render=()=>{G.classList.remove('check');G.innerHTML=ALL.map(w=>`<button class="${T.includes(w)?'tt':''}">${w}</button>`).join('');};
  G.onclick=e=>{const b=e.target.closest('button');if(!b||G.classList.contains('check'))return;b.classList.toggle('on');};
@@ -1193,7 +1230,7 @@ const toc=document.getElementById('toc');
 toc.innerHTML=CH.map((c,ci)=>`<h4 style="--cc:${c.c}"><b></b>${c.n}</h4>`+SL.map((s,i)=>s.ch===ci?`<button data-i="${i}">${i+1}. ${s.title||'封面'}</button>`:'').join('')).join('');
 toc.onclick=e=>{const b=e.target.closest('button');if(!b)return;go(+b.dataset.i);toc.classList.remove('on');};
 let cur=-1;
-function go(i){closeZoom();zbtn.classList.remove('on');i=Math.max(0,Math.min(SL.length-1,i));if(document.body.classList.contains('mob')){SL[i].el.scrollIntoView({behavior:'smooth'});return;}if(mapOn)hideMap();else if(i===cur&&cur>=0)return;const prevCh=cur>=0?SL[cur].ch:-1;if(cur>=0)SL[cur].el.classList.remove('on');cur=i;const s=SL[i];s.el.classList.add('on');
+function go(i){closeZoom();if(cur>=0&&SL[cur]&&SL[cur].el._stop)SL[cur].el._stop();zbtn.classList.remove('on');i=Math.max(0,Math.min(SL.length-1,i));if(document.body.classList.contains('mob')){SL[i].el.scrollIntoView({behavior:'smooth'});return;}if(mapOn)hideMap();else if(i===cur&&cur>=0)return;const prevCh=cur>=0?SL[cur].ch:-1;if(cur>=0)SL[cur].el.classList.remove('on');cur=i;const s=SL[i];s.el.classList.add('on');
  if(s.init&&!s.done){s.done=true;try{s.init(s.el);}catch(err){console.error(err);}}
  if(s.el._onshow)setTimeout(s.el._onshow,60);
  document.getElementById('num').textContent=(i+1)+' / '+SL.length;document.getElementById('prog').style.width=((i+1)/SL.length*100)+'%';
@@ -1500,6 +1537,6 @@ let W3=null;
 
 /* start */
 const h=(location.hash.match(/^#s(\d+)$/)||[])[1];
-const wantMap=location.hash==='#map';layout();go(h?(+h-1):0);updatePassport();if(wantMap)showMap(1);addEventListener('resize',layout);
+initMusic();const wantMap=location.hash==='#map';layout();go(h?(+h-1):0);updatePassport();if(wantMap)showMap(1);addEventListener('resize',layout);
 </script>
 </body></html>
