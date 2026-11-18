@@ -1328,7 +1328,7 @@ document.getElementById('bZoom').onclick=()=>setPick(!document.body.classList.co
 deck.addEventListener('click',e=>{if(!document.body.classList.contains('zpick'))return;const z=zableOf(e.target);if(z){e.preventDefault();e.stopPropagation();openZoom(z);}},true);
 deck.addEventListener('dblclick',e=>{if(e.target.closest('button,input,canvas,a,select,textarea'))return;const z=zableOf(e.target);if(z){window.getSelection&&getSelection().removeAllRanges();openZoom(z);}});
 let zHover=null,zHide=null;const ui=document.getElementById('ui');
-deck.addEventListener('mouseover',e=>{const z=zableOf(e.target);if(!z)return;clearTimeout(zHide);if(z===zHover&&zbtn.classList.contains('on'))return;zHover=z;const r=z.getBoundingClientRect(),u=ui.getBoundingClientRect(),k=(window.STG&&STG.k)||1;zbtn.style.left=((r.right-u.left)/k-92)+'px';zbtn.style.top=((r.top-u.top)/k+6)+'px';zbtn.classList.add('on');});
+deck.addEventListener('mouseover',e=>{const z=zableOf(e.target);if(!z)return;if(z.matches('.game,.qz,.ad8,.steps')){zbtn.classList.remove('on');return;}clearTimeout(zHide);if(z===zHover&&zbtn.classList.contains('on'))return;zHover=z;const r=z.getBoundingClientRect(),u=ui.getBoundingClientRect(),k=(window.STG&&STG.k)||1;zbtn.style.left=((r.right-u.left)/k-92)+'px';zbtn.style.top=((r.top-u.top)/k+6)+'px';zbtn.classList.add('on');});
 deck.addEventListener('mouseleave',()=>{zHide=setTimeout(()=>zbtn.classList.remove('on'),300);});
 zbtn.addEventListener('mouseenter',()=>clearTimeout(zHide));
 zbtn.onclick=()=>{if(zHover)openZoom(zHover);};
