@@ -1,0 +1,1103 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta property="og:title" content="失智症評估及復健復能"><meta name="description" content="東海大學講座網頁簡報：失智症評估、復健復能與認知遊戲"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>記憶小島 失智評估與復能</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+/* Layout: full-window sunny 3D island (three.js) behind a 1600x900 scaled UI stage; slide cards sit right, the car parks at each chapter's landmark on the left. */
+:root{
+  --ink:#22304a; --ink2:#4a5874; --paper:#fffdf8; --line:#e6e1d6;
+  --sky1:#bfe4ff; --sky2:#fff3da;
+  --c0:#f2558f; --c1:#ef5a5a; --c2:#3d6fe0; --c3:#e9a100; --c4:#7c4fe0; --c5:#0f9a9a;
+  --ok:#1f9d63; --bad:#d9433f;
+  --fh:'Huninn','Noto Sans TC','PingFang TC',sans-serif;
+  --fb:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
+  --fn:'Fredoka','Huninn',sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:linear-gradient(180deg,var(--sky1) 0%,#e4f4ff 55%,var(--sky2) 100%);color:var(--ink);font-family:var(--fb);overflow:hidden;-webkit-font-smoothing:antialiased}
+#world{position:fixed;inset:0;width:100vw;height:100vh;display:block;touch-action:none}
+#ui{position:fixed;left:0;top:0;width:1600px;height:900px;transform-origin:0 0;pointer-events:none}
+#ui *{box-sizing:border-box}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--c2);outline-offset:2px}
+
+/* top bar */
+.top{position:absolute;left:36px;top:26px;right:36px;display:flex;align-items:center;gap:18px;pointer-events:none}
+.brand{pointer-events:auto;background:var(--paper);border-radius:999px;padding:10px 20px 10px 14px;display:flex;align-items:center;gap:10px;font-family:var(--fh);font-size:20px;box-shadow:0 4px 0 rgba(34,48,74,.12)}
+.brand i{width:26px;height:26px;border-radius:50%;background:conic-gradient(var(--c0),var(--c1),var(--c3),var(--c5),var(--c2),var(--c4),var(--c0));display:block}
+.chips{display:flex;gap:8px;pointer-events:auto}
+.chip{border:0;background:rgba(255,253,248,.78);border-radius:999px;padding:8px 16px;font-family:var(--fh);font-size:18px;color:var(--ink2);display:flex;align-items:center;gap:8px;transition:background .2s,transform .2s}
+.chip b{width:12px;height:12px;border-radius:50%;background:var(--cc)}
+.chip.on{background:var(--paper);color:var(--ink);transform:translateY(-2px);box-shadow:0 4px 0 color-mix(in srgb,var(--cc) 45%,transparent)}
+.chip:hover{background:var(--paper)}
+
+/* slides */
+#deck{position:absolute;inset:0}
+.slide{position:absolute;inset:0;display:none}
+.slide.on{display:block}
+.card{pointer-events:auto;position:absolute;left:600px;top:96px;width:960px;height:742px;background:var(--paper);border-radius:30px;padding:34px 44px 30px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 0 color-mix(in srgb,var(--cc) 28%,transparent),0 24px 60px rgba(34,48,74,.16);--tint:color-mix(in srgb,var(--cc) 11%,#fff);--tint2:color-mix(in srgb,var(--cc) 22%,#fff)}
+.slide.wide .card{left:70px;width:1460px}
+.slide.on .card{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+.tag{align-self:flex-start;background:var(--cc);color:#fff;font-family:var(--fh);font-size:17px;padding:5px 14px;border-radius:999px;letter-spacing:.04em}
+.slide[data-ch="3"] .tag{color:var(--ink)}
+.card h2{margin:0;font-family:var(--fh);font-weight:400;font-size:48px;line-height:1.15;text-wrap:balance}
+.lead{margin:-4px 0 0;font-size:22px;color:var(--ink2);line-height:1.5}
+.bd{flex:1;min-height:0;display:flex;flex-direction:column;gap:16px;font-size:22px;line-height:1.5}
+.src{font-size:14px;color:#7a8399;line-height:1.4}
+.src a{color:inherit}
+.grid{flex:1;display:grid;gap:16px;min-height:0}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.tile{background:var(--tint);border-radius:20px;padding:18px 22px;display:flex;flex-direction:column;justify-content:space-evenly;gap:6px;min-width:0}
+.tile h3{margin:0;font-family:var(--fh);font-weight:400;font-size:31px;line-height:1.25}
+.tile p{margin:0;font-size:22px;line-height:1.55}
+.tile ul.dots{font-size:22px}
+.tile .k{font-family:var(--fn);font-weight:600;font-size:17px;letter-spacing:.08em;color:color-mix(in srgb,var(--cc) 80%,var(--ink));text-transform:uppercase}
+.tile.solid{background:var(--cc);color:#fff}
+.slide[data-ch="3"] .tile.solid{color:var(--ink)}
+.tile.solid .k{color:inherit;opacity:.8}
+.tight .pill{font-size:.82em;padding:2px 11px}.tight .tile p{font-size:20.5px}.tight .tile h3{font-size:28px}
+.hl{background:linear-gradient(transparent 58%,color-mix(in srgb,var(--cc) 30%,transparent) 58%);padding:0 2px}
+.big{font-family:var(--fn);font-weight:700;color:var(--cc);line-height:1}
+.pill{display:inline-block;background:var(--tint2);border-radius:999px;padding:3px 14px;font-size:.92em;margin:3px 5px 3px 0}
+ul.dots{margin:0;padding-left:1.1em}
+ul.dots li{margin:2px 0}
+.row{display:flex;gap:16px;min-height:0}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.f1{flex:1}
+.note{background:#fff6dc;border-radius:16px;padding:12px 18px;font-size:19px;line-height:1.5}
+.tbl{flex:1;width:100%;border-collapse:separate;border-spacing:0;font-size:21px;line-height:1.45}
+.tbl th{font-family:var(--fh);font-weight:400;font-size:22px;text-align:left;background:var(--cc);color:#fff;padding:10px 16px}
+.slide[data-ch="3"] .tbl th{color:var(--ink)}
+.tbl th:first-child{border-radius:14px 0 0 0}.tbl th:last-child{border-radius:0 14px 0 0}
+.tbl td{padding:7px 16px;border-bottom:2px solid var(--line);vertical-align:middle}
+.tbl tr:nth-child(even) td{background:var(--tint)}
+.tbl td:first-child{font-family:var(--fh);font-size:22px;white-space:nowrap}
+.btn{border:0;background:var(--ink);color:#fff;border-radius:999px;padding:10px 22px;font-size:20px;font-family:var(--fh);box-shadow:0 4px 0 rgba(0,0,0,.18);transition:transform .12s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
+.btn.alt{background:var(--tint2);color:var(--ink)}
+.btn.cc{background:var(--cc)}
+.seg{display:inline-flex;background:var(--tint);border-radius:999px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:6px 16px;font-size:18px;font-family:var(--fh);color:var(--ink2)}
+.seg button.on{background:var(--paper);color:var(--ink);box-shadow:0 2px 0 rgba(34,48,74,.15)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+
+/* cover */
+.slide.cover::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,253,248,.9) 0,rgba(255,253,248,.72) 40%,rgba(255,253,248,0) 62%);pointer-events:none}
+body.mob .slide.cover::before{display:none}
+.slide.cover .card{left:64px;top:118px;width:820px;height:auto;background:transparent;box-shadow:none;padding:0;gap:20px;animation:none}
+.cover .kicker{font-family:var(--fh);font-size:26px;background:var(--paper);align-self:flex-start;padding:8px 22px;border-radius:999px;box-shadow:0 5px 0 rgba(34,48,74,.12)}
+.cover h1{margin:0;font-family:var(--fh);font-weight:400;font-size:112px;line-height:1.06;color:var(--ink);text-shadow:0 6px 0 #fff,0 0 1px #fff;letter-spacing:.01em}
+.cover h1 span{display:block;font-size:70px;color:var(--c2);margin-top:10px}
+.cover .meta{display:flex;gap:18px;align-items:stretch;margin-top:14px}
+.cover .who{background:var(--paper);border-radius:24px;padding:20px 26px;font-size:22px;line-height:1.6;box-shadow:0 6px 0 rgba(34,48,74,.12)}
+.cover .who b{font-family:var(--fh);font-weight:400;font-size:28px}
+.cover .qr{background:var(--paper);border-radius:24px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:15px;box-shadow:0 6px 0 rgba(34,48,74,.12)}
+.cover .qr img{width:132px;height:132px;image-rendering:pixelated}
+.cover .hint{font-family:var(--fh);font-size:21px;color:var(--ink2);display:flex;gap:10px;align-items:center}
+kbd{font-family:var(--fn);background:var(--paper);border-radius:8px;padding:2px 10px;box-shadow:0 3px 0 rgba(34,48,74,.2);font-size:.9em}
+
+/* bottom bar */
+.bar{position:absolute;right:40px;bottom:16px;display:flex;gap:10px;align-items:center;pointer-events:auto}
+.bar button{border:0;background:var(--paper);border-radius:999px;height:46px;min-width:46px;padding:0 16px;font-family:var(--fh);font-size:18px;color:var(--ink);box-shadow:0 4px 0 rgba(34,48,74,.14)}
+.bar .num{font-family:var(--fn);font-weight:600;font-size:19px;background:var(--paper);border-radius:999px;padding:9px 16px;box-shadow:0 4px 0 rgba(34,48,74,.14)}
+.bar .drive{background:var(--ink);color:#fff}
+.progress{position:absolute;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.5)}
+.progress i{display:block;height:100%;background:var(--ink);width:0;transition:width .4s}
+
+/* drive HUD */
+#hud{position:absolute;left:36px;bottom:24px;display:none;gap:14px;align-items:flex-end;pointer-events:auto}
+body.driving #hud{display:flex}
+body.driving #deck{display:none}
+.hudbox{background:var(--paper);border-radius:22px;padding:14px 20px;font-size:19px;line-height:1.6;box-shadow:0 5px 0 rgba(34,48,74,.14)}
+.hudbox b{font-family:var(--fh);font-weight:400;font-size:24px}
+#near{position:absolute;left:0;bottom:118px;white-space:nowrap;display:none;background:var(--ink);color:#fff;border:0;border-radius:22px;padding:16px 24px;font-family:var(--fh);font-size:24px;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+.pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px);gap:8px}
+.pad button{border:0;border-radius:18px;background:var(--paper);font-size:26px;box-shadow:0 4px 0 rgba(34,48,74,.14);touch-action:none;user-select:none}
+
+/* toc */
+#toc{position:absolute;left:36px;top:90px;width:430px;bottom:80px;background:var(--paper);border-radius:26px;padding:20px;overflow:auto;display:none;pointer-events:auto;box-shadow:0 20px 60px rgba(34,48,74,.2)}
+#toc.on{display:block}
+#toc h4{margin:12px 0 6px;font-family:var(--fh);font-weight:400;font-size:21px;display:flex;align-items:center;gap:8px}
+#toc h4 b{width:12px;height:12px;border-radius:50%;background:var(--cc)}
+#toc button{display:block;width:100%;text-align:left;border:0;background:transparent;border-radius:10px;padding:6px 10px;font-size:17px;color:var(--ink2)}
+#toc button:hover,#toc button.on{background:#f1ede4;color:var(--ink)}
+
+/* components */
+.agenda{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.agenda .it{display:grid;grid-template-columns:62px 1fr 92px;align-items:center;gap:18px;background:var(--t);border-radius:20px;padding:12px 20px}
+.agenda .it .n{width:54px;height:54px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--fn);font-weight:700;font-size:26px}
+.agenda .it h3{margin:0;font-family:var(--fh);font-weight:400;font-size:28px}
+.agenda .it p{margin:0;font-size:19px;color:var(--ink2)}
+.agenda .it .m{font-family:var(--fn);font-weight:600;font-size:26px;text-align:right}
+.words{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.word{background:var(--tint);border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-family:var(--fh);font-size:46px;transition:filter .3s}
+.word svg{width:96px;height:96px}
+.words.hide .word{filter:blur(22px) saturate(0)}
+.bars{display:flex;flex-direction:column;gap:12px}
+.barrow{display:grid;grid-template-columns:150px 1fr 90px;align-items:center;gap:12px;font-size:20px}
+.barrow .tr{height:30px;background:#f1ede4;border-radius:999px;overflow:hidden}
+.barrow .tr i{display:block;height:100%;background:var(--cc);border-radius:999px}
+.barrow .v{font-family:var(--fn);font-weight:600;text-align:right}
+.spectrum{display:grid;grid-template-columns:1fr 1fr 1.6fr;border-radius:18px;overflow:hidden;font-family:var(--fh);font-size:22px;text-align:center}
+.spectrum div{padding:12px 8px}
+.flipq{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fq{background:var(--tint);border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;font-size:20px;line-height:1.45}
+.fq .ans{display:flex;gap:8px}
+.fq .ans button{flex:1;border:0;border-radius:14px;padding:10px;font-family:var(--fh);font-size:19px;background:var(--paper);color:var(--ink)}
+.fq.done .ans button.right{background:var(--ok);color:#fff}
+.fq.done .ans button.wrongpick{background:var(--bad);color:#fff}
+.fq .why{display:none;font-size:17px;color:var(--ink2)}
+.fq.done .why{display:block}
+.flow{display:flex;align-items:stretch;gap:0;flex:1}
+.flow .st{flex:1;background:var(--tint);border-radius:18px;padding:16px 12px;display:flex;flex-direction:column;justify-content:space-evenly;text-align:center;gap:6px;position:relative}
+.flow .st h3{margin:0;font-family:var(--fh);font-weight:400;font-size:30px}
+.flow .st p{margin:0;font-size:20px;line-height:1.5}
+.flow .st .k{font-family:var(--fn);font-weight:700;color:var(--cc);font-size:40px}
+.flow .ar{width:26px;display:grid;place-items:center;color:var(--cc);font-size:26px;font-weight:900}
+.ad8{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.ad8 .q{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:12px;background:var(--tint);border-radius:14px;padding:3px 8px 3px 14px;font-size:21px}
+.ad8 .q .n{font-family:var(--fn);font-weight:700;color:var(--cc);font-size:22px}
+.ad8 .seg button{font-size:18px;padding:6px 14px}
+.ad8 .seg button.on.yes{background:var(--cc);color:#fff}
+.score{display:flex;align-items:center;gap:16px;background:var(--ink);color:#fff;border-radius:18px;padding:12px 20px;font-size:20px}
+.score .big{color:#fff;font-size:44px}
+.clockwrap{display:grid;grid-template-columns:420px 1fr;gap:22px;flex:1;min-height:0}
+.pad2{background:#fff;border:3px dashed var(--tint2);border-radius:24px;position:relative;overflow:hidden}
+.pad2 canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+.errs{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1}
+.err{background:var(--tint);border-radius:18px;padding:10px 14px;display:flex;gap:14px;align-items:center;font-size:19px;line-height:1.45}
+.err svg{width:120px;height:120px;flex:none}
+.err b{font-family:var(--fh);font-weight:400;font-size:25px;display:block}
+.cues{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:space-between}
+.cue{border:0;text-align:left;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:var(--tint);border-radius:16px;padding:10px 16px;font-size:23px;color:var(--ink);transition:background .2s}
+.cue .n{width:40px;height:40px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-family:var(--fn);font-weight:700}
+.cue.on{background:var(--cc);color:#fff}
+.cue.on .n{color:var(--cc)}
+.cuebox{background:var(--ink);color:#fff;border-radius:20px;padding:20px 24px;font-size:22px;line-height:1.6;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.cuebox .say{font-family:var(--fh);font-size:32px;line-height:1.35}
+.npi{display:flex;flex-wrap:wrap;gap:10px}
+.npi span{background:#fff;border-radius:999px;padding:8px 18px;font-size:22px}
+.calc{display:grid;grid-template-columns:1fr;gap:10px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:19px;color:inherit}
+.calc input{font-family:var(--fn);font-size:28px;font-weight:600;border:2px solid var(--tint2);border-radius:14px;padding:6px 12px;width:100%;color:var(--ink);background:#fff}
+.toolchips{display:flex;flex-wrap:wrap;gap:10px}
+.toolchips button{border:2px solid var(--tint2);background:#fff;border-radius:999px;padding:12px 24px;font-size:23px;font-family:var(--fh);color:var(--ink)}
+.toolchips button.on{background:var(--cc);color:#fff;border-color:var(--cc)}
+.toolchips button.rec{box-shadow:0 0 0 4px var(--ok)}
+.recbox{flex:1;background:var(--tint);border-radius:18px;padding:16px 22px;font-size:21px;line-height:1.6;display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.recbox.on{display:block;color:var(--ink)}
+.cst{flex:1;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:1fr 1fr;gap:10px}
+.cst div{background:var(--tint);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:var(--fh);font-size:21px;line-height:1.3;padding:6px}
+.cst div i{font-style:normal;font-family:var(--fn);font-weight:700;color:var(--cc);font-size:18px}
+.sr{background:var(--ink);color:#fff;border-radius:24px;padding:20px 24px;display:flex;flex-direction:column;gap:12px;justify-content:space-between}
+.sr .ring{width:170px;height:170px;margin:0 auto;position:relative}
+.sr .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.sr .ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--fn);font-size:40px;font-weight:600}
+.sr .msg{font-family:var(--fh);font-size:26px;text-align:center;min-height:2.6em;line-height:1.3}
+.sr .ladder{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.sr .ladder span{border-radius:999px;padding:3px 10px;background:rgba(255,255,255,.14);font-family:var(--fn);font-size:15px}
+.sr .ladder span.on{background:var(--c3);color:var(--ink)}
+.sr .ladder span.ok{background:rgba(255,255,255,.45);color:var(--ink)}
+.sr .btns{display:flex;gap:10px;justify-content:center}
+.combo{flex:1;display:grid;grid-template-columns:1fr 60px 1fr;align-items:stretch;gap:0}
+.combo .cb{background:var(--tint);border-radius:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:16px;gap:8px}
+.combo .cb .k{font-family:var(--fn);font-weight:600;color:var(--ink2);font-size:16px;letter-spacing:.1em}
+.combo .cb .v{font-family:var(--fh);font-size:56px;line-height:1.25}
+.combo .x{display:grid;place-items:center;font-family:var(--fn);font-size:44px;color:var(--cc)}
+.steps{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.step{display:grid;grid-template-columns:40px 1fr 140px;align-items:center;gap:12px;background:var(--tint);border-radius:14px;padding:8px 10px 8px 14px;font-size:23px}
+.step .n{font-family:var(--fn);font-weight:700;color:color-mix(in srgb,var(--cc) 75%,var(--ink));font-size:22px}
+.step button{border:0;border-radius:999px;padding:7px 0;font-family:var(--fh);font-size:19px;background:var(--paper);color:var(--ink)}
+.step button.s1{background:#d9f2e4;color:#11603b}.step button.s2{background:#fff0c2;color:#7a5600}.step button.s3{background:#ffd9d6;color:#8f2420}
+.dice{display:flex;flex-direction:column;gap:12px;flex:1}
+.qrgrid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.qrc{background:var(--tint);border-radius:22px;padding:14px;display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;text-decoration:none;color:var(--ink)}
+.qrc img{width:118px;height:118px;border-radius:10px;background:#fff;padding:6px;image-rendering:pixelated}
+.qrc h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:27px}
+.qrc p{margin:0;font-size:18px;line-height:1.45;color:var(--ink2)}
+.refs{margin:0;padding-left:1.3em;font-size:18px;line-height:1.6;columns:2;column-gap:36px;flex:1}
+.refs li{break-inside:avoid;margin-bottom:6px}
+
+/* games */
+.game{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+.gbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gbar .stat{margin-left:auto;display:flex;gap:10px}
+.gbar .stat span{background:var(--tint);border-radius:999px;padding:6px 16px;font-family:var(--fn);font-weight:600;font-size:19px}
+.garea{flex:1;min-height:0;background:var(--tint);border-radius:24px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.gover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:color-mix(in srgb,var(--tint) 90%,transparent);z-index:3;text-align:center;font-size:25px;padding:20px}
+.gover .btn{font-size:26px;padding:14px 40px}
+.gover h3{margin:0;font-family:var(--fh);font-weight:400;font-size:56px}
+.gover[hidden]{display:none!important}
+.stroopword{flex:1;display:grid;place-items:center;font-family:var(--fh);font-size:200px;line-height:1;transition:transform .1s}
+.stroopbtns{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 16px 16px}
+.stroopbtns button{border:0;border-radius:20px;height:96px;font-family:var(--fh);font-size:32px;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.flash-ok{animation:fok .3s}.flash-no{animation:fno .3s}
+@keyframes fok{50%{background:#c9f0da}}@keyframes fno{50%{background:#ffd2cf}}
+.mem{flex:1;display:grid;gap:12px;padding:16px}
+.mc{border:0;border-radius:18px;background:transparent;position:relative;padding:0;transition:transform .2s}
+.mc:active{transform:scale(.96)}
+.mc .f,.mc .b{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.mc .b{background:var(--cc);background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.28) 0 14%,transparent 15%),radial-gradient(circle at 72% 70%,rgba(255,255,255,.18) 0 18%,transparent 19%)}
+.mc .f{background:#fff;font-size:84px;line-height:1;opacity:0;transform:scale(.85)}
+.mc .f small{font-family:var(--fh);font-size:28px;color:var(--ink)}
+.mc.up .f{opacity:1;transform:none}.mc.up .b{opacity:0}
+.mc.got .f{background:#d9f2e4}
+.trail{flex:1;position:relative}
+.trail svg{position:absolute;inset:0;width:100%;height:100%}
+.trail .nd{cursor:pointer}
+.trail .nd circle{fill:#fff;stroke:var(--cc);stroke-width:4}
+.trail .nd text{font-family:var(--fh);font-size:30px;fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.trail .nd.done circle{fill:var(--cc)}
+.trail .nd.done text{fill:#fff}
+.trail .nd.bad circle{fill:#ffd2cf}
+.market{flex:1;display:grid;grid-template-columns:1.1fr 1fr;gap:14px;padding:16px;min-height:0}
+.basket{background:#fff;border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-evenly;gap:10px}
+.basket .itm{display:flex;align-items:center;gap:14px;font-family:var(--fh);font-size:28px}
+.basket .itm i{font-style:normal;font-size:52px}
+.basket .itm b{margin-left:auto;font-family:var(--fn);font-weight:600;font-size:30px;background:#fff6dc;border-radius:12px;padding:2px 12px}
+.basket .q{font-family:var(--fh);font-size:26px;color:var(--cc);border-top:2px dashed var(--line);padding-top:10px}
+.wallet{display:flex;flex-direction:column;gap:10px;justify-content:space-between}
+.coins{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.coins button{border:0;border-radius:18px;height:70px;font-family:var(--fn);font-weight:700;font-size:28px;color:var(--ink);box-shadow:0 4px 0 rgba(0,0,0,.14)}
+.coins .co{background:radial-gradient(circle at 35% 30%,#fff7cf,#e9c25a);border-radius:999px}
+.coins .bi{background:linear-gradient(135deg,#d7ecff,#a9cdf5)}
+.paid{background:#fff;border-radius:18px;padding:10px 16px;font-size:20px;min-height:84px;display:flex;flex-direction:column;gap:4px}
+.paid .sum{font-family:var(--fn);font-weight:700;font-size:34px}
+.paid .tok{display:flex;flex-wrap:wrap;gap:4px}
+.paid .tok span{background:#fff6dc;border-radius:999px;padding:0 8px;font-family:var(--fn);font-size:15px}
+.choices{display:grid;grid-template-columns:1fr;gap:10px;flex:1}
+.choices button{border:0;border-radius:18px;background:#fff;font-family:var(--fn);font-size:36px;font-weight:600;color:var(--ink);box-shadow:0 4px 0 rgba(0,0,0,.1)}
+.sort{flex:1;display:flex;flex-direction:column;gap:12px;padding:16px;min-height:0}
+.pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;min-height:62px}
+.pool button{border:0;background:#fff;border-radius:16px;padding:10px 20px;font-family:var(--fh);font-size:26px;color:var(--ink);box-shadow:0 4px 0 rgba(0,0,0,.1)}
+.pool button.sel{background:var(--ink);color:#fff;transform:translateY(-3px)}
+.bins{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bin{border:3px dashed color-mix(in srgb,var(--cc) 50%,#fff);background:rgba(255,255,255,.6);border-radius:22px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;font-size:22px;color:var(--ink)}
+.bin h4{margin:0;font-family:var(--fh);font-weight:400;font-size:30px;color:var(--cc)}
+.bin span{background:#fff;border-radius:12px;padding:4px 14px;font-family:var(--fh);font-size:22px}
+.recall{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:16px}
+.recall button{border:0;background:#fff;border-radius:18px;font-family:var(--fh);font-size:32px;color:var(--ink);box-shadow:0 4px 0 rgba(0,0,0,.1)}
+.recall button.on{background:var(--ink);color:#fff}
+.recall.check button.t{background:var(--ok);color:#fff}
+.recall.check button.on:not(.t){background:var(--bad);color:#fff}
+
+/* phone / narrow: reading mode */
+body.mob{overflow:auto}
+body.mob #world{opacity:.35;pointer-events:none}
+body.mob #ui{box-sizing:border-box;position:relative;transform:none!important;width:100%;height:auto;pointer-events:auto;padding:12px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+body.mob .top{position:relative;left:0;right:0;top:0;flex-wrap:wrap;margin-bottom:14px}
+body.mob .chips{flex-wrap:wrap}
+body.mob #deck{position:relative;display:flex;flex-direction:column;gap:20px}
+body.mob .slide{position:relative;display:block}
+body.mob .card,body.mob .slide.wide .card,body.mob .slide.cover .card{position:relative;left:0;top:0;width:100%;height:auto;padding:22px 18px;animation:none}
+body.mob .slide.cover .card{background:rgba(255,253,248,.9);padding:22px 18px;border-radius:26px}
+body.mob .cover h1{font-size:46px}body.mob .cover h1 span{font-size:30px}
+body.mob .cover .meta{flex-direction:column}
+body.mob .card h2{font-size:30px}
+body.mob .bd{font-size:17px}
+body.mob .grid,body.mob .flipq,body.mob .qrgrid,body.mob .errs,body.mob .clockwrap,body.mob .market,body.mob .bins{grid-template-columns:1fr!important}
+body.mob .words,body.mob .recall{grid-template-columns:repeat(3,1fr)}
+body.mob .cst{grid-template-columns:repeat(3,1fr);grid-template-rows:none}
+body.mob .flow{flex-direction:column}body.mob .flow .ar{width:auto;transform:rotate(90deg)}
+body.mob .combo{grid-template-columns:1fr}
+body.mob .tbl{font-size:15px;display:block;overflow-x:auto}
+body.mob .tbl td:first-child{white-space:normal}
+body.mob .refs{columns:1}
+body.mob .garea{min-height:420px}
+body.mob .stroopword{font-size:110px}
+body.mob .stroopbtns button{height:70px;font-size:22px}
+body.mob .bar,body.mob .progress,body.mob #hud{display:none}
+body.mob .pad2{height:320px}
+body.mob .row{flex-direction:column}
+body.mob .ad8 .q{grid-template-columns:28px 1fr}body.mob .ad8 .q .seg{grid-column:1/-1;justify-self:start}
+body.mob .stroopbtns{grid-template-columns:1fr 1fr}body.mob .coins{grid-template-columns:repeat(3,1fr)}body.mob .cst div{font-size:16px}
+body.mob .agenda .it{grid-template-columns:44px 1fr 60px}
+@media (prefers-reduced-motion:reduce){.slide.on .card{animation:none}.mc{transition:none}}
+</style></head><body>
+
+<canvas id="world" aria-hidden="true"></canvas>
+<div id="ui">
+  <div class="top">
+    <div class="brand"><i></i>記憶小島</div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <main id="deck"></main>
+  <aside id="toc" aria-label="目錄"></aside>
+  <div id="hud">
+    <div class="hudbox"><b>開車逛小島</b><br>方向鍵或 WASD 開車 · 靠近站牌按 <kbd>Enter</kbd> 進站 · <kbd>Esc</kbd> 回簡報</div>
+    <div class="pad" id="pad">
+      <span></span><button data-k="up" aria-label="前進">▲</button><span></span>
+      <button data-k="left" aria-label="左轉">◀</button><button data-k="down" aria-label="後退">▼</button><button data-k="right" aria-label="右轉">▶</button>
+    </div>
+    <button id="near"></button>
+  </div>
+  <div class="bar">
+    <button id="bToc" title="目錄 (T)">目錄</button>
+    <button id="bDrive" class="drive" title="自由開車 (D)">開車逛逛</button>
+    <button id="bPrev" aria-label="上一頁">◀</button>
+    <span class="num" id="num">1 / 1</span>
+    <button id="bNext" aria-label="下一頁">▶</button>
+    <button id="bFull" title="全螢幕 (F)">全螢幕</button>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+/* ============ chapters & slides ============ */
+const PAGES_URL='https://mattsue1003.github.io/dementia-assess-rehab/';
+const CH=[
+ {n:'起點',c:'var(--c0)',hex:0xf2558f},
+ {n:'認識失智',c:'var(--c1)',hex:0xef5a5a},
+ {n:'評估工具',c:'var(--c2)',hex:0x3d6fe0},
+ {n:'復健復能',c:'var(--c3)',hex:0xe9a100},
+ {n:'認知遊戲',c:'var(--c4)',hex:0x7c4fe0},
+ {n:'結語',c:'var(--c5)',hex:0x0f9a9a}
+];
+const SL=[];
+function S(ch,tag,title,body,o={}){SL.push(Object.assign({ch,tag,title,body},o));}
+function qrImg(url,cell=6){try{const q=qrcode(0,'M');q.addData(url);q.make();return '<img alt="QR code" src="'+q.createDataURL(cell,2)+'">';}catch(e){return '';}}
+const ICON={
+ train:'<svg viewBox="0 0 96 96"><rect x="20" y="14" width="56" height="58" rx="14" fill="#3d6fe0"/><rect x="28" y="24" width="40" height="20" rx="5" fill="#dff0ff"/><circle cx="34" cy="58" r="5" fill="#ffd44d"/><circle cx="62" cy="58" r="5" fill="#ffd44d"/><path d="M30 72l-8 12M66 72l8 12" stroke="#22304a" stroke-width="5" stroke-linecap="round"/></svg>',
+ apple:'<svg viewBox="0 0 96 96"><path d="M48 30c-10-8-30-6-30 18 0 20 14 36 22 36 4 0 5-2 8-2s4 2 8 2c8 0 22-16 22-36 0-24-20-26-30-18z" fill="#ef5a5a"/><path d="M48 30c0-8 4-14 10-18" stroke="#7a5230" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M52 22c8-6 16-4 18 0-6 6-14 6-18 0z" fill="#3fae6a"/></svg>',
+ umbrella:'<svg viewBox="0 0 96 96"><path d="M10 50a38 34 0 0 1 76 0z" fill="#7c4fe0"/><path d="M10 50q9-8 19 0 9-8 19 0 9-8 19 0 9-8 19 0" fill="#9f7cf0"/><path d="M48 50v26q0 8-8 8t-8-8" stroke="#22304a" stroke-width="5" fill="none" stroke-linecap="round"/></svg>',
+ piano:'<svg viewBox="0 0 96 96"><rect x="10" y="26" width="76" height="46" rx="6" fill="#22304a"/><g fill="#fff"><rect x="15" y="40" width="10" height="28" rx="2"/><rect x="27" y="40" width="10" height="28" rx="2"/><rect x="39" y="40" width="10" height="28" rx="2"/><rect x="51" y="40" width="10" height="28" rx="2"/><rect x="63" y="40" width="10" height="28" rx="2"/><rect x="75" y="40" width="7" height="28" rx="2"/></g><g fill="#22304a"><rect x="22" y="40" width="6" height="16"/><rect x="34" y="40" width="6" height="16"/><rect x="58" y="40" width="6" height="16"/><rect x="70" y="40" width="6" height="16"/></g></svg>',
+ moon:'<svg viewBox="0 0 96 96"><path d="M62 12a36 36 0 1 0 22 52A30 30 0 0 1 62 12z" fill="#ffcf3f"/><circle cx="40" cy="44" r="5" fill="#f0b400"/><circle cx="50" cy="66" r="4" fill="#f0b400"/></svg>'
+};
+
+/* ---- 起點 ---- */
+S(0,'','',`
+ <div class="kicker">東海大學 高齡健康與運動科學研究所 · 專題講座</div>
+ <h1>失智症評估<br>及復健復能<span>從篩檢到每天的生活</span></h1>
+ <div class="meta">
+   <div class="who"><b>鍾孟修 職能治療師</b><br>2026 年 11 月 19 日（四）10:30–11:30<br>語文館 A105</div>
+   <div class="qr">${qrImg(PAGES_URL,5)}掃描帶走簡報</div>
+ </div>
+ <div class="hint">按 <kbd>→</kbd> 開往下一站 · 按 <kbd>D</kbd> 自己開車逛小島</div>`,{cover:true});
+
+S(0,'今天的路線','一小時，開過五個站',`
+ <div class="agenda">
+  ${[['1','認識失智','台灣有多少人？失智和正常老化差在哪？','10′',1],
+     ['2','評估工具','篩檢、診斷、功能、身體：每一關要看什麼','15′',2],
+     ['3','復健復能','認知刺激、記憶策略、運動與生活重建','15′',3],
+     ['4','認知遊戲','現場玩六個遊戲，看它練到哪一種能力','15′',4],
+     ['5','結語','三件帶走的事＋提問','5′',5]].map(a=>`<div class="it" style="--c:var(--c${a[4]});--t:color-mix(in srgb,var(--c${a[4]}) 12%,#fff)"><div class="n">${a[0]}</div><div><h3>${a[1]}</h3><p>${a[2]}</p></div><div class="m">${a[3]}</div></div>`).join('')}
+ </div>`);
+
+S(0,'暖身 · 記住它們','先記住這五個詞',`
+ <p class="lead">請大家一起唸兩次。講座最後一站會請你回想，這就是「延遲回憶」。</p>
+ <div class="words" id="words">
+  <div class="word">${ICON.train}火車</div><div class="word">${ICON.apple}蘋果</div><div class="word">${ICON.umbrella}雨傘</div><div class="word">${ICON.piano}鋼琴</div><div class="word">${ICON.moon}月亮</div>
+ </div>
+ <div class="row" style="align-items:center"><button class="btn cc" onclick="document.getElementById('words').classList.toggle('hide')">蓋起來 / 打開</button><span class="src" style="font-size:17px">很多認知篩檢（Mini-Cog、ICOPE、MoCA）都用「記幾個詞，過幾分鐘再問」的設計。</span></div>`);
+
+/* ---- 認識失智 ---- */
+S(1,'認識失智 · 台灣現況','65 歲以上，每 100 人約有 8 位',`
+ <div class="row f1">
+  <div class="col" style="flex:0 0 330px">
+   <div class="tile solid f1" style="justify-content:center"><span class="k">社區失智盛行率</span><span class="big" style="color:#fff;font-size:120px">7.99<small style="font-size:50px">%</small></span><p>109–112 年全國社區失智症流行病學調查（65 歲以上）</p></div>
+   <div class="grid g2" style="flex:0 0 auto"><div class="tile"><span class="k">女性</span><span class="big" style="font-size:44px">9.36%</span></div><div class="tile"><span class="k">男性</span><span class="big" style="font-size:44px">6.35%</span></div></div>
+  </div>
+  <div class="col f1">
+   <div class="tile f1">
+    <h3>失智類型占比</h3>
+    <div class="bars">
+     <div class="barrow"><span>阿茲海默型</span><span class="tr"><i style="width:56.88%"></i></span><span class="v">56.88%</span></div>
+     <div class="barrow"><span>血管型</span><span class="tr"><i style="width:22.91%"></i></span><span class="v">22.91%</span></div>
+     <div class="barrow"><span>巴金森氏症失智</span><span class="tr"><i style="width:7.12%"></i></span><span class="v">7.12%</span></div>
+     <div class="barrow"><span>其他</span><span class="tr"><i style="width:13.09%;opacity:.45"></i></span><span class="v">13.09%</span></div>
+    </div>
+    <p>年紀越大盛行率越高；多數人住在社區，不在機構。<span class="hl">這也是運動、職能、護理人員在社區最常遇到的族群。</span></p>
+   </div>
+  </div>
+ </div>
+ <div class="src">資料：衛生福利部，全國社區失智症流行病學調查結果（國家衛生研究院執行，2024 年 3 月公布）。「其他」為 100% 減去前三項。</div>`);
+
+S(1,'認識失智 · 定義','失智症＝認知退步＋影響生活',`
+ <div class="spectrum"><div style="background:#eaf7ef">正常老化</div><div style="background:#fff1c9">輕度認知障礙 MCI</div><div style="background:#ffd9d6">失智症：輕度 → 中度 → 重度</div></div>
+ <div class="grid g2">
+  <div class="tile"><span class="k">Mild NCD · 輕度認知障礙</span><h3>退步了，但還能自己過日子</h3><ul class="dots"><li>一個以上認知領域比以前差，自己或家人察覺</li><li>測驗分數低於同年齡、同教育程度</li><li>複雜事務（理財、服藥）還能獨立，只是更費力或要靠筆記</li></ul></div>
+  <div class="tile solid"><span class="k">Major NCD · 失智症</span><h3>退步到需要別人幫忙</h3><ul class="dots"><li>一個以上認知領域明顯退步</li><li><b>日常生活的獨立性受到影響</b>，至少複雜活動要協助</li><li>不是只發生在譫妄期間，也不能用憂鬱等其他精神疾病解釋</li></ul></div>
+ </div>
+ <div class="note">判斷的關鍵不在「分數多低」，而在「生活有沒有被影響」。這正是評估日常功能的理由。</div>
+ <div class="src">依 DSM-5 神經認知障礙症（Neurocognitive Disorders）診斷準則整理。</div>`);
+
+S(1,'認識失智 · 六大認知領域','認知不只是「記憶」',`
+ <div class="grid g3">
+  ${[['複雜注意力','Attention','同時聽兩個人講話就亂掉；煮飯被電話打斷就忘了關火'],
+     ['執行功能','Executive','規劃一桌菜的順序、做決定、出錯時調整'],
+     ['學習與記憶','Memory','剛說過的事又問一次；新學的事記不住'],
+     ['語言','Language','叫不出東西名稱，常說「那個、那個」'],
+     ['知覺動作','Perceptual-motor','停車對不準、在熟悉路口迷路、用不好工具'],
+     ['社會認知','Social cognition','看不懂別人表情、說話不顧場合、個性改變']].map(a=>`<div class="tile"><span class="k">${a[1]}</span><h3>${a[0]}</h3><p>${a[2]}</p></div>`).join('')}
+ </div>
+ <div class="src">DSM-5 的六個認知領域。評估時要問「哪一個領域、影響到哪件生活事」。</div>`);
+
+S(1,'認識失智 · 十大警訊','失智警訊 vs 正常老化',`
+ <table class="tbl">
+  <tr><th>警訊</th><th>失智症可能的樣子</th><th>正常老化</th></tr>
+  ${[['記憶減退影響生活','忘記的頻率高，經提醒也想不起來','偶爾忘記，事後會想起來'],
+     ['無法勝任熟悉的事','煮了幾十年的菜，忘了步驟','偶爾要人幫忙設定新電器'],
+     ['言語表達出問題','常想不出詞，用「那個」代替','偶爾話到嘴邊說不出來'],
+     ['喪失時間地點概念','在熟悉的社區迷路','偶爾搞錯星期幾，之後想起'],
+     ['判斷力變差','大熱天穿厚外套、被推銷買一堆','偶爾做了不好的決定'],
+     ['抽象思考困難','看不懂帳單、不會用提款機','複雜的事要多想一下'],
+     ['東西擺放錯亂','遙控器放進冰箱','暫時找不到東西'],
+     ['行為與情緒改變','情緒起伏大，找不到原因','有原因的情緒反應'],
+     ['個性改變','變得多疑、冷漠、焦慮','個性隨年紀略有改變'],
+     ['活動及開創力喪失','整天坐著，對嗜好失去興趣','偶爾不想出門社交']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
+ </table>
+ <div class="src">整理自台灣失智症協會「失智症十大警訊」。</div>`,{wide:true});
+
+S(1,'認識失智 · 小測驗','是老化，還是警訊？',`
+ <p class="lead">點選你的判斷，會顯示理由。</p>
+ <div class="flipq" id="fq">
+  ${[['想不起昨天午餐吃什麼，經人提醒就想起來了。','a','經提醒能想起，是提取比較慢。'],
+     ['在住了 30 年的社區迷路，找不到回家的路。','w','熟悉環境迷路：時間地點概念與視空間退步。'],
+     ['把錢包放進冰箱，自己也說不出為什麼。','w','東西放在不合常理的位置。'],
+     ['一時叫不出老同學的名字，晚上突然想起。','a','話到嘴邊、事後想起，屬正常。'],
+     ['同一件事跟鄰居講了三次，每次都像第一次講。','w','近期記憶沒有留下來，是常見早期徵兆。'],
+     ['新手機的功能要多學幾次才會。','a','學新科技較慢，但學得會。']].map((q,i)=>`<div class="fq" data-a="${q[1]}"><span>${q[0]}</span><span class="why">${q[2]}</span><div class="ans"><button data-v="a">正常老化</button><button data-v="w">失智警訊</button></div></div>`).join('')}
+ </div>`,{init:initFQ});
+
+S(1,'認識失智 · 常見類型','不同類型，先壞掉的地方不一樣',`
+ <div class="grid g2">
+  <div class="tile"><span class="k">Alzheimer's</span><h3>阿茲海默型</h3><p>最常見。近期記憶先退，慢慢擴及語言、定向、視空間；病程漸進。</p></div>
+  <div class="tile"><span class="k">Vascular</span><h3>血管型</h3><p>中風或小血管病變後出現，可能階梯式惡化；常見執行功能、處理速度變慢，合併步態問題。</p></div>
+  <div class="tile"><span class="k">Lewy body</span><h3>路易氏體</h3><p>認知時好時壞、鮮明的視幻覺、巴金森症狀，容易跌倒；對部分抗精神病藥物很敏感。</p></div>
+  <div class="tile"><span class="k">Frontotemporal</span><h3>額顳葉型</h3><p>發病較年輕。先出現個性、行為改變（失去抑制、冷漠）或語言障礙，記憶反而保留較久。</p></div>
+ </div>
+ <div class="note">實務上常是<b>混合型</b>。對復能來說，知道類型就知道要先保護什麼：路易氏體先管跌倒，額顳葉先處理行為，阿茲海默先建外在記憶系統。</div>`);
+
+S(1,'認識失智 · 病程','用 CDR 看病程，用生活看需要',`
+ <div class="grid g4">
+  ${[['0.5','疑似／極輕度','偶爾健忘，複雜事務開始吃力','建立記憶輔具、維持運動與社交'],
+     ['1','輕度','理財、服藥、交通、購物（IADL）要人幫','簡化流程、藥盒與提醒、陪同外出'],
+     ['2','中度','穿衣順序、洗澡（BADL）要提示，可能迷路','任務分析、步驟圖卡、環境標示'],
+     ['3','重度','多數 BADL 要協助，行動與吞嚥變差','擺位、轉移位、感官刺激、照顧者訓練']].map(a=>`<div class="tile"><span class="k">CDR</span><span class="big" style="font-size:64px">${a[0]}</span><h3>${a[1]}</h3><p>${a[2]}</p><p style="border-top:2px dashed var(--tint2);padding-top:8px"><b>介入重點</b><br>${a[3]}</p></div>`).join('')}
+ </div>
+ <div class="src">CDR（Clinical Dementia Rating，臨床失智評估量表）0 = 正常。功能退化大致是 IADL 先、BADL 後。</div>`);
+
+S(1,'認識失智 · 可以預防的部分','14 個可改變的危險因子',`
+ <div class="row f1">
+  <div class="tile solid" style="flex:0 0 250px;justify-content:center;text-align:center"><span class="big" style="color:#fff;font-size:96px">45<small style="font-size:44px">%</small></span><p>的失智症，理論上可以靠處理這些因子來預防或延後</p></div>
+  <div class="grid g3 f1 tight">
+   <div class="tile"><span class="k">早年</span><h3>教育</h3><p>受教育較少</p></div>
+   <div class="tile"><span class="k">中年</span><h3>身體與血管</h3><p><span class="pill">缺乏運動</span><span class="pill">高血壓</span><span class="pill">糖尿病</span><span class="pill">肥胖</span><span class="pill">高 LDL 膽固醇</span><span class="pill">吸菸</span><span class="pill">過量飲酒</span><span class="pill">聽力損失</span><span class="pill">憂鬱</span><span class="pill">頭部外傷</span></p></div>
+   <div class="tile"><span class="k">晚年</span><h3>環境與連結</h3><p><span class="pill">社交孤立</span><span class="pill">空氣污染</span><span class="pill">視力損失</span></p></div>
+  </div>
+ </div>
+ <div class="note">高齡運動科學的強項：運動、血壓、血糖、體重，加上把人帶出門的社交。這幾項都在清單上。</div>
+ <div class="src">Livingston G, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission. Lancet 2024.</div>`);
+
+/* ---- 評估 ---- */
+S(2,'評估工具 · 流程','評估是一條路，不是一張表',`
+ <div class="flow">
+  ${[['1','察覺','家人、社區據點發現改變','AD8'],['2','篩檢','社區或門診快速篩','SPMSQ · Mini-Cog · ICOPE'],['3','診斷','醫師問病史、抽血、影像','MMSE · MoCA · CASI'],['4','分期','嚴重度','CDR'],['5','功能需求','生活、情緒、照顧者','ADL · IADL · NPI · ZBI'],['6','計畫與追蹤','設目標、定期再評','GAS · 重測']].map((a,i)=>`${i?'<div class="ar">›</div>':''}<div class="st"><span class="k">${a[0]}</span><h3>${a[1]}</h3><p>${a[2]}</p><p><b>${a[3]}</b></p></div>`).join('')}
+ </div>
+ <div class="note"><b>篩檢不等於診斷。</b>篩檢異常要轉介神經內科、精神科或失智共同照護中心；診斷由醫師做。職能、物理治療與運動專業最常負責第 5、6 步。</div>`,{wide:true});
+
+S(2,'評估工具 · 面向','一個人要從六個面向看',`
+ <div class="grid g3">
+  ${[['認知','哪些領域退步？','MMSE、MoCA、CASI、畫時鐘'],['日常功能','做得到 vs 實際有沒有做','巴氏量表、Lawton IADL、觀察式任務'],['行為與情緒','遊走、妄想、憂鬱、睡眠','NPI、老年憂鬱量表 GDS'],['身體','步態、平衡、跌倒、營養、聽力視力','步速、TUG、雙重任務、握力'],['照顧者','累不累？懂不懂？','Zarit 照顧者負荷量表'],['環境與社會','家裡安全嗎？有沒有人陪？','居家訪視、社會資源盤點']].map(a=>`<div class="tile"><h3>${a[0]}</h3><p>${a[1]}</p><p><span class="pill">${a[2]}</span></p></div>`).join('')}
+ </div>`);
+
+S(2,'評估工具 · 社區篩檢','四個常用的快速篩檢',`
+ <table class="tbl">
+  <tr><th>工具</th><th>誰回答</th><th>內容</th><th>時間</th><th>需要進一步評估</th></tr>
+  <tr><td>AD8 極早期失智篩檢</td><td>家屬或本人</td><td>8 題「這幾年有沒有改變」</td><td>約 3 分</td><td>≥ 2 分</td></tr>
+  <tr><td>SPMSQ 簡易心智狀態問卷</td><td>施測者問長者</td><td>10 題：日期、地點、記憶、連續減 3</td><td>約 5 分</td><td>錯 3 題以上（依教育程度 ±1）</td></tr>
+  <tr><td>Mini-Cog</td><td>施測者</td><td>記 3 個詞＋畫時鐘＋回想</td><td>約 3 分</td><td>總分 5 分，&lt; 3 分（部分研究用 &lt; 4）</td></tr>
+  <tr><td>ICOPE 認知</td><td>施測者</td><td>記 3 個詞、時間與地點定向、回想</td><td>約 2 分</td><td>任一題答錯</td></tr>
+ </table>
+ <div class="note">SPMSQ 也是長照照管評估會用到的工具；ICOPE（WHO 長者功能整合照護）是國健署推動的長者功能評估，認知是六大功能之一。</div>`,{wide:true});
+
+S(2,'評估工具 · AD8 試填','AD8：問的是「改變」',`
+ <p class="lead">想一位你熟悉的長輩，跟幾年前比，以下是否有改變？</p>
+ <div class="ad8" id="ad8">
+  ${['判斷力上的困難（例如落入圈套或騙局、財務上不好的決定）','對活動和嗜好的興趣降低','重複相同的問題、故事和陳述','在學習如何使用工具、電器或小器具上有困難','忘記正確的月份和年份','處理複雜的財務上有困難（例如繳費、所得稅）','記住約會的時間有困難','有持續的思考和記憶方面的問題'].map((q,i)=>`<div class="q"><span class="n">${i+1}</span><span>${q}</span><span class="seg"><button class="yes" data-v="1">是，有改變</button><button data-v="0">沒有</button><button data-v="0">不知道</button></span></div>`).join('')}
+ </div>
+ <div class="score"><span class="big" id="ad8s">0</span><span id="ad8t">分。勾「是，有改變」才算 1 分；≥ 2 分建議進一步評估。</span></div>`,{wide:true,init:initAD8});
+
+S(2,'評估工具 · 臨床量表','醫院常見的四個量表',`
+ <div class="grid g2">
+  <div class="tile"><span class="k">MMSE · 30 分</span><h3>簡短智能測驗</h3><p>定向、記憶、注意力與計算、語言、建構。用得最久、最普遍；受教育程度影響大，對輕微退步較不敏感。</p></div>
+  <div class="tile"><span class="k">MoCA · 30 分</span><h3>蒙特利爾認知評估</h3><p>多了執行功能（連線、畫時鐘）、視空間與延遲回憶，對 MCI 比較敏感。原版切點 26 分，教育 ≤ 12 年加 1 分；施測需完成官方訓練認證。</p></div>
+  <div class="tile"><span class="k">CASI · 100 分</span><h3>認知能力篩檢測驗</h3><p>涵蓋九個認知領域，可換算出 MMSE 分數；台灣研究與門診常用。</p></div>
+  <div class="tile solid"><span class="k">CDR · 0 到 3</span><h3>臨床失智評估量表</h3><p>訪談本人與家屬，看記憶、定向、判斷、社區事務、家居嗜好、自我照顧六個面向，用來<b>分期</b>，身障鑑定也會用。</p></div>
+ </div>
+ <div class="src">量表多有版權與施測規範，請使用正式授權版本並接受訓練後施測。</div>`);
+
+S(2,'評估工具 · 畫時鐘','畫一個時鐘：一張圖看很多能力',`
+ <div class="clockwrap">
+  <div class="col">
+   <div class="pad2 f1"><canvas id="clk"></canvas></div>
+   <div class="row"><button class="btn cc" id="clkCircle">先畫好圓圈</button><button class="btn alt" id="clkClear">清除</button></div>
+  </div>
+  <div class="col">
+   <div class="note" style="font-size:22px"><b>指導語：</b>「請畫一個時鐘，把數字都填上，再把時間畫成 <b>11 點 10 分</b>。」</div>
+   <div class="errs">
+    <div class="err">${clockSVG('crowd')}<span><b>數字擠一邊</b>計畫與視空間</span></div>
+    <div class="err">${clockSVG('pull')}<span><b>指針指到 10</b>被「10」字拉走：抽象思考、執行功能</span></div>
+    <div class="err">${clockSVG('miss')}<span><b>缺數字或重複</b>注意力、記憶、監控</span></div>
+    <div class="err">${clockSVG('none')}<span><b>沒有指針或寫字代替</b>概念理解、執行功能</span></div>
+   </div>
+  </div>
+ </div>`,{wide:true,init:initClock});
+
+S(2,'評估工具 · 日常功能','先看 IADL：最早出問題的地方',`
+ <div class="grid g2">
+  <div class="tile"><span class="k">BADL · 巴氏量表 0–100</span><h3>基本日常生活</h3><p><span class="pill">進食</span><span class="pill">移位</span><span class="pill">個人衛生</span><span class="pill">如廁</span><span class="pill">洗澡</span><span class="pill">平地走動</span><span class="pill">上下樓梯</span><span class="pill">穿脫衣褲鞋襪</span><span class="pill">大便控制</span><span class="pill">小便控制</span></p><p>中度以後才明顯下降。</p></div>
+  <div class="tile solid"><span class="k">IADL · Lawton 8 項</span><h3>工具性日常生活</h3><p><span class="pill" style="background:rgba(255,255,255,.25)">打電話</span><span class="pill" style="background:rgba(255,255,255,.25)">購物</span><span class="pill" style="background:rgba(255,255,255,.25)">備餐</span><span class="pill" style="background:rgba(255,255,255,.25)">家事</span><span class="pill" style="background:rgba(255,255,255,.25)">洗衣</span><span class="pill" style="background:rgba(255,255,255,.25)">外出交通</span><span class="pill" style="background:rgba(255,255,255,.25)">服藥</span><span class="pill" style="background:rgba(255,255,255,.25)">理財</span></p><p><b>服藥、理財、交通</b>常是第一個出錯的。</p></div>
+ </div>
+ <div class="note">問卷問的是「能不能」，家人回答常偏高或偏低。最準的方法是<b>請長者實際做一次</b>，看他卡在哪一步（下一頁）。</div>`);
+
+S(2,'評估工具 · 觀察式評估','看他做，記下你給了多少提示',`
+ <div class="row f1">
+  <div class="cues f1" id="cues">
+   ${[['0','不需協助','自己完成'],['1','間接口語引導','「接下來呢？」'],['2','手勢引導','指一指熱水瓶'],['3','直接口語指示','「把熱水倒進杯子。」'],['4','肢體協助','扶著他的手一起倒'],['5','代為完成','照顧者幫他倒']].map(a=>`<button class="cue" data-say="${a[2]}" data-t="${a[1]}"><span class="n">${a[0]}</span><span><b>${a[1]}</b></span></button>`).join('')}
+  </div>
+  <div class="cuebox f1" id="cuebox">
+   <span>任務：泡一杯茶</span>
+   <span class="say">點左邊的提示等級</span>
+   <span style="font-size:19px;opacity:.85">提示由少到多給。紀錄「起始、組織、順序、安全判斷、完成」各步驟用到的最高等級，就知道該補哪一步。</span>
+  </div>
+ </div>
+ <div class="src">提示等級參考 Executive Function Performance Test（EFPT；Baum 等）：煮燕麥、打電話、服藥、付帳單四項任務。</div>`,{init:initCues});
+
+S(2,'評估工具 · 行為與照顧者','也要評估行為，以及照顧的人',`
+ <div class="row f1">
+  <div class="tile f1"><span class="k">NPI 神經精神量表 · 12 項</span><h3>行為與心理症狀（BPSD）</h3>
+   <div class="npi">${['妄想','幻覺','激動／攻擊','憂鬱','焦慮','欣快','冷漠','去抑制','易怒','異常動作行為','夜間行為','食慾改變'].map(x=>`<span>${x}</span>`).join('')}</div>
+   <p>每項看「頻率 × 嚴重度」，另外記照顧者的困擾程度。</p></div>
+  <div class="tile solid" style="flex:0 0 330px"><span class="k">ZBI · 22 題</span><h3>Zarit 照顧者負荷</h3><p>「你覺得因為照顧他，自己的時間不夠嗎？」<br>分數高代表要先幫照顧者減壓：喘息服務、支持團體、轉介資源。</p></div>
+ </div>
+ <div class="note">BPSD 常是照顧者撐不下去、長者入住機構的主因。復能計畫一定要把照顧者算進團隊。</div>`);
+
+S(2,'評估工具 · 身體與動作','運動科學的主場：走路也在看大腦',`
+ <div class="row f1">
+  <div class="grid g2 f1">
+   <div class="tile"><span class="k">步速</span><h3>&lt; 1.0 m/s</h3><p>6 公尺常速步行，亞洲肌少症共識的切點</p></div>
+   <div class="tile"><span class="k">TUG</span><h3>≥ 13.5 秒</h3><p>起身走 3 公尺回來坐下，社區長者跌倒風險較高</p></div>
+   <div class="tile"><span class="k">握力</span><h3>男 &lt; 28 · 女 &lt; 18 kg</h3><p>AWGS 2019 低肌力切點</p></div>
+   <div class="tile"><span class="k">雙重任務步行</span><h3>邊走邊倒數</h3><p>從 100 連續減 1 或減 7，或說動物名稱</p></div>
+  </div>
+  <div class="tile solid" style="flex:0 0 360px"><h3>雙重任務成本計算</h3>
+   <div class="calc"><label>單純走 10 公尺（秒）<input id="dt1" type="number" step="0.1" value="8.0"></label><label>邊走邊倒數（秒）<input id="dt2" type="number" step="0.1" value="10.5"></label></div>
+   <p id="dtout" style="font-size:22px"></p>
+   <p style="font-size:16px;opacity:.9">MCI 長者雙重任務步速下降 &gt; 20%，與日後進展為失智有關（Montero-Odasso, JAMA Neurology 2017）。</p>
+  </div>
+ </div>`,{wide:true,init:initDT});
+
+S(2,'評估工具 · 案例練習','陳阿公，79 歲：你會用哪些評估？',`
+ <div class="note" style="font-size:21px">退休公車司機，和太太同住。太太說近半年他<b>常重複問同一件事</b>、<b>忘記吃藥</b>，上個月<b>兩次搭錯公車</b>。阿公說：「我沒事啦。」散步速度比以前慢。</div>
+ <div class="toolchips" id="tools">
+  ${[['AD8（問太太）',1],['SPMSQ',1],['Mini-Cog',1],['MoCA',0],['Lawton IADL',1],['巴氏量表',0],['NPI',0],['Zarit 照顧者負荷',1],['步速＋雙重任務步行',1],['居家環境訪視',0],['服藥流程實作觀察',1]].map(a=>`<button data-r="${a[1]}">${a[0]}</button>`).join('')}
+ </div>
+ <div class="row"><button class="btn cc" id="toolsShow">看建議組合</button><span class="src" style="font-size:16px;align-self:center">先點你會選的，再看建議。</span></div>
+ <div class="recbox" id="toolsRec" data-ph="1"><span class="ph">先點你會選的工具，再按「看建議組合」。</span><span class="ans" hidden><b>建議：</b>家屬察覺改變先用 <b>AD8</b>；本人否認，用 <b>SPMSQ／Mini-Cog</b> 客觀篩檢，異常轉介醫師確診。他的問題集中在<b>服藥與交通（IADL）</b>，用 Lawton 加上<b>實際做一次服藥流程</b>，看卡在哪一步。走路變慢就測<b>步速與雙重任務</b>。太太是主要照顧者，用 <b>Zarit</b> 了解她的負荷。MoCA 等量表交給門診做即可；BADL 目前可能還沒受影響。</span>
+ </div>`,{init:initTools});
+
+/* ---- 復健復能 ---- */
+S(3,'復健復能 · 兩個概念','復健和復能，差在哪裡？',`
+ <div class="grid g2">
+  <div class="tile"><span class="k">Rehabilitation</span><h3>復健</h3><ul class="dots"><li>以<b>能力</b>為主：肌力、平衡、認知功能</li><li>常在醫院、診所、治療室</li><li>治療師主導，練「身體」</li></ul></div>
+  <div class="tile solid"><span class="k">Reablement</span><h3>復能</h3><ul class="dots"><li>以<b>生活目標</b>為主：「我想自己去市場」</li><li>在家裡、社區、真實情境</li><li>短期密集，教會長者與家人，之後自己做下去</li></ul></div>
+ </div>
+ <div class="note">長照 2.0 的「專業服務」由職能治療師、物理治療師等到家，以個案的生活目標擬定復能計畫（如 CA07 IADLs／ADLs 復能照護、CA08 個別化服務計畫）。失智者的目標常是：<b>自己吃藥、自己洗澡、還能去廟口泡茶。</b></div>`);
+
+S(3,'復健復能 · 三種認知介入','認知刺激、訓練、復健：別混在一起',`
+ <table class="tbl">
+  <tr><th>類型</th><th>做什麼</th><th>形式</th><th>適合誰</th><th>研究證據</th></tr>
+  <tr><td>認知刺激<br><small>Cognitive Stimulation</small></td><td>主題活動、討論、懷舊，整體刺激思考與社交</td><td>小團體</td><td>輕度到中度失智</td><td>可改善認知與生活品質，NICE 建議提供（CST）</td></tr>
+  <tr><td>認知訓練<br><small>Cognitive Training</small></td><td>標準化練習某種能力，難度漸增（記憶、注意力）</td><td>個人或團體、紙筆或電腦</td><td>健康長者、MCI</td><td>練到的能力會進步，轉移到生活的效果有限</td></tr>
+  <tr><td>認知復健<br><small>Cognitive Rehabilitation</small></td><td>針對個人的生活目標，用策略和環境改變去達成</td><td>一對一，在家中</td><td>輕度到中度失智</td><td>GREAT 試驗：目標達成度明顯提升</td></tr>
+ </table>
+ <div class="src">Clare L, Woods RT. Neuropsychol Rehabil 2004；Clare L, et al. GREAT trial, Alzheimer's &amp; Dementia 2019；NICE NG97（2018）。</div>`,{wide:true});
+
+S(3,'復健復能 · CST 認知刺激治療','CST：每週兩次、七週十四堂',`
+ <div class="cst">
+  ${['肢體遊戲','聲音','童年','食物','時事','人物與景物','字詞聯想','創作','物品分類','定向','用錢','數字遊戲','文字遊戲','團隊問答'].map((t,i)=>`<div><i>${i+1}</i>${t}</div>`).join('')}
+ </div>
+ <div class="grid g3" style="flex:0 0 auto">
+  <div class="tile"><h3>形式</h3><p>5–8 人，每次 45 分鐘，固定開場歌與團名</p></div>
+  <div class="tile"><h3>原則</h3><p>問「意見」不考「事實」：「你覺得哪個市場最熱鬧？」比「今天幾號？」好</p></div>
+  <div class="tile"><h3>在地化</h3><p>童年換成灶腳、柑仔店；聲音放台語老歌、市場叫賣聲</p></div>
+ </div>
+ <div class="src">Spector A, et al. Br J Psychiatry 2003。</div>`);
+
+S(3,'復健復能 · 記憶策略','記憶不好，也能學會新事情',`
+ <div class="grid g2 tight">
+  <div class="tile"><span class="k">Errorless learning</span><h3>無錯誤學習</h3><p>不要讓他猜。直接給正確答案、一起做對，避免錯誤被記住。</p></div>
+  <div class="tile"><span class="k">Spaced retrieval</span><h3>間隔提取</h3><p>答對就把間隔拉長，答錯就給答案、退回上一個間隔（下一頁示範）。</p></div>
+  <div class="tile"><span class="k">Vanishing cues</span><h3>逐步減少提示</h3><p>「藥…」→「ㄧ…」→ 自己想起。提示一點一點拿掉。</p></div>
+  <div class="tile"><span class="k">Procedural memory</span><h3>動作記憶</h3><p>做比說好記。每天同一時間、同一順序練習，變成習慣。</p></div>
+  <div class="tile solid" style="grid-column:span 2"><span class="k">External aids</span><h3>外在記憶輔具：讓環境替大腦記</h3><p>一週藥盒、白板行事曆、大字月曆、門口「出門檢查」卡（鑰匙、錢包、手機）、手機鬧鐘與語音提醒。</p></div>
+ </div>`);
+
+S(3,'復健復能 · 間隔提取示範','現場示範：間隔提取',`
+ <div class="row f1">
+  <div class="col f1">
+   <div class="tile f1"><span class="k">練習目標</span><h3>「眼鏡放在哪裡？」<br>→「電視旁邊的藍色盒子。」</h3>
+    <ul class="dots"><li>先說答案，請他唸一次（無錯誤學習）</li><li>計時到了就問同一題</li><li><b>答對</b>：間隔加倍</li><li><b>答錯</b>：直接告訴他，回到上一個成功的間隔</li><li>等待時可以聊天、做別的事</li></ul></div>
+   <div class="seg" id="srSpeed"><button class="on" data-m="0.25">課堂示範速度（÷4）</button><button data-m="1">真實速度</button></div>
+  </div>
+  <div class="sr f1" id="sr">
+   <div class="ladder" id="srLad"></div>
+   <div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="9"/><circle id="srArc" cx="50" cy="50" r="44" fill="none" stroke="#ffcf3f" stroke-width="9" stroke-linecap="round" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg><b id="srT">0</b></div>
+   <div class="msg" id="srMsg">按「開始」，先教一次答案。</div>
+   <div class="btns" id="srBtns"><button class="btn cc" id="srGo">開始</button></div>
+  </div>
+ </div>`,{init:initSR});
+
+S(3,'復健復能 · 運動處方','運動：證據最多的一帖藥',`
+ <div class="grid g3">
+  <div class="tile"><span class="k">WHO 2019</span><h3>降低認知退化風險指引</h3><p>建議認知正常的成人規律身體活動（強建議）；MCI 也建議（條件式建議）。</p></div>
+  <div class="tile"><span class="k">FINGER 2015</span><h3>芬蘭多面向介入</h3><p>運動＋飲食＋認知訓練＋血管風險管理，兩年後整體認知比對照組好。</p></div>
+  <div class="tile"><span class="k">U.S. POINTER 2025</span><h3>美國多面向生活型態</h3><p>2,111 位高風險長者。有結構、有人帶的課程，認知進步比自主組多一些。</p></div>
+ </div>
+ <div class="tile solid" style="flex:0 0 auto"><h3>給長者的劑量（WHO 2020 身體活動指引）</h3>
+  <div class="grid g3" style="flex:0 0 auto"><p><b>有氧</b><br>每週 150–300 分鐘中等強度</p><p><b>肌力</b><br>每週 ≥ 2 天，大肌群</p><p><b>平衡＋多元</b><br>每週 ≥ 3 天，預防跌倒</p></div></div>
+ <div class="src">WHO Risk reduction of cognitive decline and dementia, 2019；Ngandu T, et al. Lancet 2015；Baker LD, et al. JAMA 2025；WHO Guidelines on physical activity and sedentary behaviour, 2020。</div>`);
+
+S(3,'復健復能 · 雙重任務訓練','動作 × 認知：抽一題來做',`
+ <div class="combo" id="combo">
+  <div class="cb"><span class="k">MOTOR 動作</span><span class="v" id="cbM">坐著原地踏步</span></div>
+  <div class="x">×</div>
+  <div class="cb"><span class="k">COGNITIVE 認知</span><span class="v" id="cbC">說出 5 種水果</span></div>
+ </div>
+ <div class="row" style="align-items:center">
+  <div class="seg" id="cbLv"><button data-l="0" class="on">入門</button><button data-l="1">進階</button><button data-l="2">挑戰</button></div>
+  <button class="btn cc" id="cbGo">抽一題</button>
+  <span class="src" style="font-size:17px;flex:1">原則：動作先單獨做穩，再加認知；一次只加一種難度；安全第一（有椅子、有扶手）。</span>
+ </div>`,{init:initCombo});
+
+S(3,'復健復能 · 任務分析','把一件事拆小：自己泡早餐牛奶',`
+ <p class="lead">點每一步切換表現：<b style="color:#11603b">自己做</b> → <b style="color:#7a5600">要提示</b> → <b style="color:#8f2420">要協助</b>。找出卡關的那一步，只補那一步。</p>
+ <div class="steps" id="steps">
+  ${['走到廚房，拿出固定位置的杯子','打開櫃子拿奶粉罐（罐上貼大字標籤）','用量匙舀 3 匙（量匙放在罐子裡）','按熱水瓶出水，倒到杯子的線','用湯匙攪拌','把奶粉罐蓋好放回原位','坐下來喝，杯子放到水槽'].map((s,i)=>`<div class="step"><span class="n">${i+1}</span><span>${s}</span><button>自己做</button></div>`).join('')}
+ </div>
+ <div class="note" id="stepNote">環境改造（固定位置、標籤、杯子畫線）往往比反覆練習更快見效。</div>`,{init:initSteps});
+
+S(3,'復健復能 · 環境調整','讓家幫忙記：六個環境重點',`
+ <div class="grid g3">
+  ${[['看得懂','標示用「圖＋字」，廁所門貼照片與大字'],['看得清','對比色：深色馬桶座、白飯配深色碗'],['夠亮','走道與廁所裝夜燈，減少陰影與反光'],['少一點','桌面只留要用的東西，減少選擇與干擾'],['固定','物品固定位置、作息固定順序'],['安全','瓦斯自動斷、熱水恆溫；走失預防：愛心手鍊、指紋捺印、定位裝置']].map(a=>`<div class="tile"><h3>${a[0]}</h3><p>${a[1]}</p></div>`).join('')}
+ </div>`);
+
+S(3,'復健復能 · 行為症狀','行為問題，先找原因：DICE',`
+ <div class="grid g4">
+  ${[['D','Describe 描述','什麼時候、在哪裡、跟誰、之前發生什麼？','傍晚 5 點，阿嬤一直要「回家」，拉門要出去。'],['I','Investigate 找原因','疼痛、便秘、餓、太吵、天黑看不清、照顧方式？','天暗了、房間沒開燈、晚餐還沒好，她以為要回去煮飯。'],['C','Create 擬定對策','調整環境、作息、溝通，給她能做的事','4 點半開燈、請她幫忙摘菜，聊她以前煮的拿手菜。'],['E','Evaluate 評估','有沒有改善？照顧者做得到嗎？','一週記錄：要出門次數從每天 4 次降到 1 次。']].map(a=>`<div class="tile"><span class="big" style="font-size:70px">${a[0]}</span><h3>${a[1]}</h3><p>${a[2]}</p><p class="note" style="font-size:17px">${a[3]}</p></div>`).join('')}
+ </div>
+ <div class="src">Kales HC, Gitlin LN, Lyketsos CG. J Am Geriatr Soc 2014。</div>`);
+
+S(3,'復健復能 · 資源','照顧者是團隊的一員',`
+ <div class="grid g2">
+  <div class="tile"><h3>失智共同照護中心</h3><p>協助確診、個案管理、照顧者課程，各縣市都有。</p></div>
+  <div class="tile"><h3>失智社區服務據點</h3><p>認知促進、緩和失智課程，照顧者支持團體。</p></div>
+  <div class="tile"><h3>長照專線 1966</h3><p>申請照管評估，取得居家服務、專業服務（復能）、喘息服務、輔具等。</p></div>
+  <div class="tile solid"><h3>失智症關懷專線</h3><p class="big" style="color:#22304a;font-size:46px">0800-474-580</p><p>台灣失智症協會（失智時，我幫您）</p></div>
+ </div>`);
+
+/* ---- 認知遊戲 ---- */
+S(4,'認知遊戲 · 設計原則','好的認知遊戲有這六個特質',`
+ <div class="grid g3">
+  ${[['剛剛好的挑戰','成功率大約七到八成，太難會退縮，太簡單會無聊'],['錯了不扣分','用無錯誤學習的精神：提示、示範、再來一次'],['有意義','連結他的生活與年代：市場、老歌、節慶'],['分級','同一個遊戲備好易、中、難三版'],['多感官','看、聽、摸、動作一起來'],['一起玩','輪流、合作、互相鼓勵，社交本身就是刺激']].map(a=>`<div class="tile"><h3>${a[0]}</h3><p>${a[1]}</p></div>`).join('')}
+ </div>
+ <div class="note">接下來六個遊戲可以直接在這份簡報玩。每個遊戲都標了練到的能力。</div>`);
+
+S(4,'遊戲 1 · 顏色字','說出字的「顏色」，不是字',`
+ <div class="game" id="g-stroop">
+  <div class="gbar"><span class="pill">抑制控制 · 執行功能</span><div class="seg" data-g="mode"><button class="on" data-v="ink">按顏色</button><button data-v="word">按字</button></div><div class="seg" data-g="lv"><button data-v="0">全部一致</button><button class="on" data-v="1">混合</button></div><div class="stat"><span id="stT">30 秒</span><span id="stS">0 分</span></div></div>
+  <div class="garea">
+   <div class="stroopword" id="stW">紅</div>
+   <div class="stroopbtns" id="stB"></div>
+   <div class="gover" id="stO"><h3>顏色字</h3><span>畫面出現一個字，按下它的<b>顏色</b>。三十秒內答對越多越好。</span><button class="btn cc" data-start>開始</button></div>
+  </div>
+ </div>`,{wide:true,init:initStroop});
+
+S(4,'遊戲 2 · 翻牌配對','記住位置，找出一對',`
+ <div class="game" id="g-mem">
+  <div class="gbar"><span class="pill">工作記憶 · 視空間</span><div class="seg" data-g="n"><button data-v="4">4 對</button><button class="on" data-v="6">6 對</button><button data-v="8">8 對</button></div><div class="seg" data-g="peek"><button class="on" data-v="1">先看 3 秒</button><button data-v="0">不偷看</button></div><div class="stat"><span id="mmM">0 次</span><span id="mmP">0 對</span></div></div>
+  <div class="garea"><div class="mem" id="mmG"></div><div class="gover" id="mmO"><h3>翻牌配對</h3><span>翻兩張，一樣就留著。找出所有台灣水果。</span><button class="btn cc" data-start>開始</button></div></div>
+ </div>`,{wide:true,init:initMem});
+
+S(4,'遊戲 3 · 連連看','照順序點：1 → 2 → 3 …',`
+ <div class="game" id="g-trail">
+  <div class="gbar"><span class="pill">注意力 · 處理速度 · 轉換</span><div class="seg" data-g="mode"><button class="on" data-v="num">數字 1→2→3</button><button data-v="alt">交替 1→甲→2→乙</button></div><div class="seg" data-g="n"><button data-v="8">8 個</button><button class="on" data-v="12">12 個</button><button data-v="16">16 個</button></div><div class="stat"><span id="trT">0.0 秒</span><span id="trE">錯 0</span></div></div>
+  <div class="garea"><div class="trail" id="trA"><svg id="trS"></svg></div><div class="gover" id="trO"><h3>連連看</h3><span>依順序點圓圈。交替版是「數字、天干」輪流：1、甲、2、乙、3、丙…</span><button class="btn cc" data-start>開始</button></div></div>
+ </div>`,{wide:true,init:initTrail});
+
+S(4,'遊戲 4 · 菜市場算錢','去菜市場：要付多少？',`
+ <div class="game" id="g-mkt">
+  <div class="gbar"><span class="pill">計算 · 執行功能 · 生活應用</span><div class="seg" data-g="lv"><button class="on" data-v="1">買一樣</button><button data-v="2">買兩樣</button><button data-v="3">付 500 找零</button></div><div class="stat"><span id="mkS">答對 0</span></div></div>
+  <div class="garea"><div class="market" id="mkA"></div></div>
+ </div>`,{wide:true,init:initMkt});
+
+S(4,'遊戲 5 · 分類','放進對的籃子',`
+ <div class="game" id="g-sort">
+  <div class="gbar"><span class="pill">概念形成 · 語意記憶</span><div class="seg" data-g="set"><button class="on" data-v="0">蔬果交通</button><button data-v="1">家裡房間</button><button data-v="2">台灣味</button></div><div class="stat"><span id="soS">0 / 9</span></div></div>
+  <div class="garea"><div class="sort"><div class="pool" id="soP"></div><div class="bins" id="soB"></div></div></div>
+ </div>`,{wide:true,init:initSort});
+
+S(4,'遊戲 6 · 回想時間','還記得一開始的五個詞嗎？',`
+ <div class="game" id="g-rec">
+  <div class="gbar"><span class="pill">延遲回憶 · 再認</span><span style="font-size:19px">第一步：先在紙上寫下記得的。第二步：從下面點選。</span><div class="stat"><button class="btn cc" id="rcC">對答案</button><button class="btn alt" id="rcR">重來</button></div></div>
+  <div class="garea"><div class="recall" id="rcG"></div></div>
+  <div class="note" id="rcN">自由回想想不起來，但看到選項就認得：多半是「提取」慢。連選項都認不出來：「記進去」（編碼）就有困難，阿茲海默症早期常見。</div>
+ </div>`,{wide:true,init:initRecall});
+
+S(4,'認知遊戲 · 更多資源','帶回去用的遊戲網站',`
+ <div class="qrgrid">
+  ${[['elder-brain-games','樂齡動腦遊戲館','猜歌、猜老物件、翻牌、顏色字、買菜記憶等 13 個遊戲'],
+     ['one-set-many-games','一題多玩','同一份題目，換 27 種玩法，可自己出題'],
+     ['order-different-slides','長者遊戲簡報生成器','找缺少、找不同、數一數、影子配對，做成投影片'],
+     ['pop-song-guess','台灣金曲猜歌','依年代分組的國台語老歌，懷舊團體好用'],
+     ['dementia-talk','失智溝通紙偶劇場','29 個情境，對照好的與不好的回應方式'],
+     ['oldsongdance','音樂律動資料庫','378 支坐姿、站姿律動影片，依年代篩選']].map(a=>`<a class="qrc" href="https://mattsue1003.github.io/${a[0]}/" target="_blank" rel="noopener">${qrImg('https://mattsue1003.github.io/'+a[0]+'/',4)}<span><h3>${a[1]}</h3><p>${a[2]}</p></span></a>`).join('')}
+ </div>`,{wide:true});
+
+/* ---- 結語 ---- */
+S(5,'結語 · 帶走三件事','今天帶走三件事',`
+ <div class="grid g3">
+  <div class="tile"><span class="big" style="font-size:72px">1</span><h3>看生活，不只看分數</h3><p>失智的定義就是「影響生活」。IADL 與實際操作觀察，比量表分數更能告訴你要幫什麼。</p></div>
+  <div class="tile"><span class="big" style="font-size:72px">2</span><h3>目標要是他的</h3><p>復能從「他想做什麼」開始，用策略、環境、提示等級，讓他自己做到。</p></div>
+  <div class="tile"><span class="big" style="font-size:72px">3</span><h3>動起來，一起玩</h3><p>運動是證據最多的介入；遊戲要剛剛好、錯了不扣分、有人陪。</p></div>
+ </div>
+ <div class="tile solid" style="flex:0 0 auto"><h3>分組討論（5 分鐘）</h3><p>你的家人或服務對象中，有沒有一件「他很想自己做」的事？用今天的方法，你會怎麼評估、怎麼拆步驟、怎麼設計一個遊戲幫他練？</p></div>`);
+
+S(5,'結語 · 參考資料','參考資料',`
+ <ol class="refs">
+  <li>衛生福利部。全國社區失智症流行病學調查結果，2024。</li>
+  <li>American Psychiatric Association. DSM-5: Neurocognitive Disorders. 2013.</li>
+  <li>台灣失智症協會。失智症十大警訊。</li>
+  <li>Livingston G, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission. Lancet. 2024.</li>
+  <li>Galvin JE, et al. The AD8: a brief informant interview to detect dementia. Neurology. 2005.</li>
+  <li>Pfeiffer E. A short portable mental status questionnaire (SPMSQ). J Am Geriatr Soc. 1975.</li>
+  <li>Borson S, et al. The Mini-Cog. Int J Geriatr Psychiatry. 2000.</li>
+  <li>World Health Organization. Integrated Care for Older People (ICOPE) handbook. 2019.</li>
+  <li>Nasreddine ZS, et al. The Montreal Cognitive Assessment, MoCA. J Am Geriatr Soc. 2005.</li>
+  <li>Morris JC. The Clinical Dementia Rating (CDR). Neurology. 1993.</li>
+  <li>Baum CM, et al. Executive Function Performance Test. Am J Occup Ther. 2008.</li>
+  <li>Cummings JL, et al. The Neuropsychiatric Inventory. Neurology. 1994.</li>
+  <li>Chen LK, et al. Asian Working Group for Sarcopenia: 2019 consensus. J Am Med Dir Assoc. 2020.</li>
+  <li>Montero-Odasso M, et al. Dual-task gait and incident dementia in MCI. JAMA Neurol. 2017.</li>
+  <li>Clare L, Woods RT. Cognitive training and cognitive rehabilitation for people with early-stage Alzheimer's disease. Neuropsychol Rehabil. 2004.</li>
+  <li>Clare L, et al. Individual goal-oriented cognitive rehabilitation (GREAT trial). Alzheimers Dement. 2019.</li>
+  <li>Spector A, et al. Efficacy of cognitive stimulation therapy. Br J Psychiatry. 2003.</li>
+  <li>NICE. Dementia: assessment, management and support (NG97). 2018.</li>
+  <li>Ngandu T, et al. The FINGER trial. Lancet. 2015.</li>
+  <li>Baker LD, et al. U.S. POINTER randomized clinical trial. JAMA. 2025.</li>
+  <li>WHO. Risk reduction of cognitive decline and dementia: guidelines. 2019.</li>
+  <li>WHO. Guidelines on physical activity and sedentary behaviour. 2020.</li>
+  <li>Kales HC, Gitlin LN, Lyketsos CG. The DICE approach. J Am Geriatr Soc. 2014.</li>
+ </ol>`,{wide:true});
+
+S(5,'終點','謝謝大家，開車回家路上小心',`
+ <div class="row f1" style="align-items:stretch">
+  <div class="tile f1" style="justify-content:center"><h3 style="font-size:64px">歡迎提問</h3><p style="font-size:30px;line-height:1.6">鍾孟修 職能治療師<br>愛迪樂</p><p style="font-size:24px">按 <kbd>D</kbd> 可以自己開車，把五個站再逛一次。</p></div>
+  <div class="tile solid" style="flex:0 0 330px;align-items:center;text-align:center">${qrImg(PAGES_URL,6).replace('<img','<img style="width:230px;height:230px;background:#fff;border-radius:16px;padding:10px;image-rendering:pixelated"')}<p>掃描帶走這份簡報<br>遊戲都可以在手機上玩</p></div>
+ </div>`);
+
+/* ============ helpers for slide widgets ============ */
+function clockSVG(t){
+ let s='<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#fff" stroke="#22304a" stroke-width="3"/>';
+ const num=(n,a,r=34)=>{const x=50+Math.sin(a)*r,y=50-Math.cos(a)*r;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="11" font-family="Fredoka,sans-serif" text-anchor="middle" dominant-baseline="central" fill="#22304a">${n}</text>`;};
+ if(t==='crowd'){for(let i=1;i<=12;i++)s+=num(i,(i/12)*Math.PI*1.05-0.2,32);}
+ else{for(let i=1;i<=12;i++){if(t==='miss'&&(i===4||i===8||i===9))continue;s+=num(t==='miss'&&i===10?'7':i,i/12*Math.PI*2);}}
+ if(t==='none'){s+='<text x="50" y="52" font-size="11" text-anchor="middle" fill="#ef5a5a" font-family="Huninn,sans-serif">11:10</text>';}
+ else if(t==='pull'){s+='<line x1="50" y1="50" x2="22" y2="38" stroke="#ef5a5a" stroke-width="4" stroke-linecap="round"/><line x1="50" y1="50" x2="36" y2="26" stroke="#ef5a5a" stroke-width="3" stroke-linecap="round"/>';}
+ else{s+='<line x1="50" y1="50" x2="40" y2="30" stroke="#22304a" stroke-width="4" stroke-linecap="round"/><line x1="50" y1="50" x2="74" y2="36" stroke="#22304a" stroke-width="3" stroke-linecap="round"/>';}
+ return s+'<circle cx="50" cy="50" r="3" fill="#22304a"/></svg>';
+}
+function segs(root,cb){root.querySelectorAll('.seg[data-g]').forEach(sg=>sg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));cb&&cb(sg.dataset.g,b.dataset.v);}));}
+function segVal(root,g){const b=root.querySelector('.seg[data-g="'+g+'"] button.on');return b?b.dataset.v:null;}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+const shake=el=>{el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');};
+
+function initFQ(c){c.querySelectorAll('.fq').forEach(f=>f.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||f.classList.contains('done'))return;f.classList.add('done');f.querySelectorAll('button').forEach(x=>{if(x.dataset.v===f.dataset.a)x.classList.add('right');});if(b.dataset.v!==f.dataset.a)b.classList.add('wrongpick');}));}
+function initAD8(c){const upd=()=>{const n=c.querySelectorAll('.ad8 button.on.yes').length;c.querySelector('#ad8s').textContent=n;c.querySelector('#ad8t').textContent=n>=2?'分：達到 ≥ 2 分，建議到失智共照中心或神經內科進一步評估。（AD8 是篩檢，不是診斷）':'分。勾「是，有改變」才算 1 分；≥ 2 分建議進一步評估。';};
+ c.querySelectorAll('.ad8 .seg').forEach(sg=>sg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));upd();}));}
+function initClock(c){const cv=c.querySelector('#clk');const ctx=cv.getContext('2d');let draw=false,last=null;
+ const fit=()=>{const r=cv.getBoundingClientRect();if(!r.width)return;const img=cv.width?ctx.getImageData(0,0,cv.width,cv.height):null;cv.width=r.width*2;cv.height=r.height*2;ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=5;ctx.strokeStyle='#22304a';};
+ const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height];};
+ cv.addEventListener('pointerdown',e=>{if(!cv.width||cv.width<10)fit();draw=true;last=pos(e);cv.setPointerCapture(e.pointerId);});
+ cv.addEventListener('pointermove',e=>{if(!draw)return;const p=pos(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p;});
+ cv.addEventListener('pointerup',()=>draw=false);
+ c.querySelector('#clkClear').onclick=()=>{fit();};
+ c.querySelector('#clkCircle').onclick=()=>{fit();ctx.beginPath();ctx.arc(cv.width/2,cv.height/2,Math.min(cv.width,cv.height)*0.42,0,Math.PI*2);ctx.stroke();};
+ c._onshow=()=>{if(!cv.width||cv.width<10||cv.width===300)fit();};}
+function initCues(c){const box=c.querySelector('#cuebox');c.querySelectorAll('.cue').forEach(b=>b.onclick=()=>{c.querySelectorAll('.cue').forEach(x=>x.classList.toggle('on',x===b));box.children[0].textContent='等級 '+b.querySelector('.n').textContent+'：'+b.dataset.t;box.children[1].textContent=b.dataset.say;});}
+function initDT(c){const a=c.querySelector('#dt1'),b=c.querySelector('#dt2'),o=c.querySelector('#dtout');const u=()=>{const t1=+a.value,t2=+b.value;if(!(t1>0&&t2>0)){o.textContent='請輸入秒數';return;}const v1=10/t1,v2=10/t2,d=(v1-v2)/v1*100;o.innerHTML=`單任務 <b>${v1.toFixed(2)}</b> m/s · 雙任務 <b>${v2.toFixed(2)}</b> m/s<br>雙重任務成本 <b style="font-size:40px;font-family:var(--fn)">${d.toFixed(0)}%</b>${d>20?'<br>超過 20%，值得追蹤':''}`;};a.oninput=b.oninput=u;u();}
+function initTools(c){c.querySelectorAll('#tools button').forEach(b=>b.onclick=()=>b.classList.toggle('on'));c.querySelector('#toolsShow').onclick=()=>{c.querySelectorAll('#tools button').forEach(b=>b.classList.toggle('rec',b.dataset.r==='1'));const rb=c.querySelector('#toolsRec');rb.classList.add('on');rb.querySelector('.ph').hidden=true;rb.querySelector('.ans').hidden=false;};}
+function initSR(c){const base=[0,30,60,120,240,480,960];let mult=.25,idx=0,lastOk=0,timer=null,end=0,dur=0;
+ const lad=c.querySelector('#srLad'),msg=c.querySelector('#srMsg'),btns=c.querySelector('#srBtns'),T=c.querySelector('#srT'),arc=c.querySelector('#srArc');
+ const lab=s=>s<60?s+'秒':(s/60)+'分';
+ const drawL=()=>{lad.innerHTML=base.slice(1).map((s,i)=>`<span class="${i+1===idx?'on':(i+1<=lastOk?'ok':'')}">${lab(s)}</span>`).join('');};
+ const setB=h=>{btns.innerHTML=h;};
+ const tick=()=>{const left=Math.max(0,end-Date.now());T.textContent=Math.ceil(left/1000);arc.style.strokeDashoffset=276.5*(1-left/dur);if(left<=0){clearInterval(timer);timer=null;ask();}};
+ const wait=()=>{idx=Math.min(idx,base.length-1);const sec=base[idx]*mult;dur=sec*1000;end=Date.now()+dur;drawL();msg.textContent='等待 '+lab(base[idx])+(mult<1?'（示範縮短）':'')+'，先聊別的…';setB('<button class="btn alt" id="srSkip">跳過等待</button>');btns.querySelector('#srSkip').onclick=()=>{end=Date.now();};clearInterval(timer);timer=setInterval(tick,100);tick();};
+ const ask=()=>{msg.textContent='現在問：「眼鏡放在哪裡？」';setB('<button class="btn" style="background:#1f9d63" id="srY">答對</button><button class="btn" style="background:#d9433f" id="srN">答錯</button>');btns.querySelector('#srY').onclick=()=>{lastOk=idx;if(idx>=base.length-1){msg.textContent='16 分鐘也答對了！下次練習從這個間隔開始。';drawL();setB('<button class="btn cc" id="srGo">再來一次</button>');btns.querySelector('#srGo').onclick=start;return;}idx++;wait();};btns.querySelector('#srN').onclick=()=>{msg.textContent='直接說答案：「電視旁邊的藍色盒子。」請他唸一次。';idx=Math.max(1,lastOk);setB('<button class="btn cc" id="srC">繼續</button>');btns.querySelector('#srC').onclick=wait;};};
+ const start=()=>{idx=1;lastOk=0;msg.textContent='先教：「眼鏡放在電視旁邊的藍色盒子。」請他唸一次。';T.textContent='0';arc.style.strokeDashoffset=0;drawL();setB('<button class="btn cc" id="srC">他唸對了，開始計時</button>');btns.querySelector('#srC').onclick=wait;};
+ c.querySelector('#srGo').onclick=start;drawL();
+ c.querySelector('#srSpeed').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;c.querySelectorAll('#srSpeed button').forEach(x=>x.classList.toggle('on',x===b));mult=+b.dataset.m;});}
+function initCombo(c){const M=[['坐著原地踏步','坐著交替抬膝','坐著拍手再拍膝'],['站著扶椅子踏步','站著側跨步','站著腳跟腳尖交替'],['直線走 5 公尺','繞椅子走 8 字','走路時跨過地上的線']];
+ const C=[['說出 5 種水果','跟著數 1 到 10','說出今天星期幾'],['從 50 倒數','說出 5 個台北的地名','聽到「紅」就拍手'],['從 100 連續減 3','說出「ㄅ」開頭的詞','邊走邊接唱一首老歌']];
+ let lv=0;const go=()=>{c.querySelector('#cbM').textContent=M[lv][Math.random()*3|0];c.querySelector('#cbC').textContent=C[lv][Math.random()*3|0];};
+ c.querySelector('#cbGo').onclick=go;c.querySelector('#cbLv').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;c.querySelectorAll('#cbLv button').forEach(x=>x.classList.toggle('on',x===b));lv=+b.dataset.l;go();});}
+function initSteps(c){const L=['自己做','要提示','要協助'];c.querySelectorAll('.step button').forEach(b=>{b.dataset.s=0;b.onclick=()=>{let s=(+b.dataset.s+1)%3;b.dataset.s=s;b.textContent=L[s];b.className=s?'s'+(s+1):'';const hard=[...c.querySelectorAll('.step button')].map((x,i)=>+x.dataset.s?i+1:0).filter(Boolean);c.querySelector('#stepNote').textContent=hard.length?'需要補的步驟：第 '+hard.join('、')+' 步。想想看：改環境（標籤、固定位置、畫線）還是給提示？':'環境改造（固定位置、標籤、杯子畫線）往往比反覆練習更快見效。';};});}
+
+/* ---- games ---- */
+function initStroop(c){const COL=[{n:'紅',c:'#e5484d'},{n:'藍',c:'#3d6fe0'},{n:'黃',c:'#d9a000'},{n:'綠',c:'#2f9e5b'}];
+ const W=c.querySelector('#stW'),B=c.querySelector('#stB'),O=c.querySelector('#stO'),A=c.querySelector('.garea');let cur=null,score=0,tot=0,t0=0,iv=null;
+ B.innerHTML=COL.map((x,i)=>`<button data-i="${i}" style="background:${x.c}">${x.n}色</button>`).join('');
+ const next=()=>{const w=Math.random()*4|0;let k=w;if(segVal(c,'lv')==='1'&&Math.random()<.7){do{k=Math.random()*4|0}while(k===w);}cur={w,k};W.textContent=COL[w].n;W.style.color=COL[k].c;};
+ const end=()=>{clearInterval(iv);iv=null;O.hidden=false;O.innerHTML=`<h3>${score} 分</h3><span>答對 ${score} / ${tot}（正確率 ${tot?Math.round(score/tot*100):0}%）<br>換成「按字」或「全部一致」，比較看看哪個比較快。這就是 Stroop 效應。</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;};
+ const start=()=>{score=0;tot=0;O.hidden=true;t0=Date.now();next();c.querySelector('#stS').textContent='0 分';clearInterval(iv);iv=setInterval(()=>{const l=30-(Date.now()-t0)/1000;c.querySelector('#stT').textContent=Math.max(0,Math.ceil(l))+' 秒';if(l<=0)end();},200);};
+ B.onclick=e=>{const b=e.target.closest('button');if(!b||!iv)return;const ans=segVal(c,'mode')==='ink'?cur.k:cur.w;tot++;const ok=+b.dataset.i===ans;if(ok)score++;A.classList.remove('flash-ok','flash-no');void A.offsetWidth;A.classList.add(ok?'flash-ok':'flash-no');c.querySelector('#stS').textContent=score+' 分';next();};
+ O.querySelector('[data-start]').onclick=start;segs(c);next();}
+function initMem(c){const IT=[['🍌','香蕉'],['🍍','鳳梨'],['🍉','西瓜'],['🥭','芒果'],['🍇','葡萄'],['🍊','橘子'],['🍓','草莓'],['🍎','蘋果']];
+ const G=c.querySelector('#mmG'),O=c.querySelector('#mmO');let open=[],moves=0,got=0,n=6,lock=false;
+ const st=()=>{c.querySelector('#mmM').textContent=moves+' 次';c.querySelector('#mmP').textContent=got+' / '+n+' 對';};
+ const start=()=>{n=+segVal(c,'n');const cards=shuffle(IT.slice(0,n).flatMap(x=>[x,x]));const cols=n<=4?4:n<=6?4:4;G.style.gridTemplateColumns=`repeat(${n===6?6:4},1fr)`;G.innerHTML=cards.map(x=>`<button class="mc" data-k="${x[1]}"><span class="b"></span><span class="f">${x[0]}<small>${x[1]}</small></span></button>`).join('');open=[];moves=0;got=0;st();O.hidden=true;
+  if(segVal(c,'peek')==='1'){lock=true;G.querySelectorAll('.mc').forEach(m=>m.classList.add('up'));setTimeout(()=>{G.querySelectorAll('.mc').forEach(m=>m.classList.remove('up'));lock=false;},3000);}else lock=false;};
+ G.onclick=e=>{const m=e.target.closest('.mc');if(!m||lock||m.classList.contains('up'))return;m.classList.add('up');open.push(m);if(open.length===2){moves++;lock=true;const[a,b]=open;if(a.dataset.k===b.dataset.k){a.classList.add('got');b.classList.add('got');got++;open=[];lock=false;st();if(got===n){setTimeout(()=>{O.hidden=false;O.innerHTML=`<h3>全部找到了！</h3><span>${n} 對用了 ${moves} 次。下次試試「不偷看」或多一點牌。</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;},600);}}else{setTimeout(()=>{a.classList.remove('up');b.classList.remove('up');open=[];lock=false;},900);}st();}};
+ O.querySelector('[data-start]').onclick=start;segs(c);}
+function initTrail(c){const S=c.querySelector('#trS'),A=c.querySelector('#trA'),O=c.querySelector('#trO');const TG='甲乙丙丁戊己庚辛';let seq=[],k=0,err=0,t0=0,iv=null,pts=[];
+ const start=()=>{const n=+segVal(c,'n');const mode=segVal(c,'mode');seq=[];for(let i=0;i<n;i++)seq.push(mode==='num'?String(i+1):(i%2?TG[(i-1)/2]:String(i/2+1)));
+  const r=A.getBoundingClientRect();const w=r.width||1300,h=r.height||480;S.setAttribute('viewBox',`0 0 ${w} ${h}`);pts=[];let guard=0;
+  while(pts.length<n&&guard++<5000){const p=[50+Math.random()*(w-100),46+Math.random()*(h-92)];if(pts.every(q=>Math.hypot(q[0]-p[0],q[1]-p[1])>Math.min(110,w/7)))pts.push(p);}
+  while(pts.length<n)pts.push([50+Math.random()*(w-100),46+Math.random()*(h-92)]);
+  S.innerHTML='<g id="trL"></g>'+seq.map((s,i)=>`<g class="nd" data-i="${i}" transform="translate(${pts[i][0]},${pts[i][1]})"><circle r="32"/><text>${s}</text></g>`).join('');
+  k=0;err=0;c.querySelector('#trE').textContent='錯 0';O.hidden=true;t0=Date.now();clearInterval(iv);iv=setInterval(()=>c.querySelector('#trT').textContent=((Date.now()-t0)/1000).toFixed(1)+' 秒',100);};
+ S.addEventListener('click',e=>{const g=e.target.closest('.nd');if(!g||!iv)return;const i=+g.dataset.i;if(i===k){g.classList.add('done');if(k>0){const a=pts[k-1],b=pts[k];S.querySelector('#trL').insertAdjacentHTML('beforeend',`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="var(--cc)" stroke-width="6" stroke-linecap="round"/>`);}k++;if(k===seq.length){clearInterval(iv);iv=null;const t=((Date.now()-t0)/1000).toFixed(1);setTimeout(()=>{O.hidden=false;O.innerHTML=`<h3>${t} 秒完成</h3><span>錯 ${err} 次。交替版比純數字版多花的時間，代表「轉換注意力」的負擔（連線測驗 B − A 的概念）。</span><button class="btn cc" data-start>再玩一次</button>`;O.querySelector('[data-start]').onclick=start;},400);}}else if(!g.classList.contains('done')){err++;c.querySelector('#trE').textContent='錯 '+err;g.classList.add('bad');setTimeout(()=>g.classList.remove('bad'),400);}});
+ O.querySelector('[data-start]').onclick=start;segs(c);}
+function initMkt(c){const IT=[['🥬','高麗菜',35],['🥚','一盒雞蛋',60],['🍌','一串香蕉',45],['🍅','番茄',30],['🌽','玉米',25],['🐟','虱目魚',120],['🍠','地瓜',40],['🍎','蘋果',50]];
+ const A=c.querySelector('#mkA');let ok=0,need=0,paid=[];
+ const sum=()=>paid.reduce((a,b)=>a+b,0);
+ const render=()=>{const lv=+segVal(c,'lv');const items=shuffle(IT).slice(0,lv===1?1:lv===2?2:Math.random()<.5?2:3);const tot=items.reduce((a,b)=>a+b[2],0);need=tot;paid=[];
+  const bask=`<div class="basket">${items.map(x=>`<div class="itm"><i>${x[0]}</i>${x[1]}<b>${x[2]} 元</b></div>`).join('')}<div class="q">${lv<3?'一共要付多少？用右邊的錢付剛好。':'付一張 500 元，要找多少錢？'}</div></div>`;
+  if(lv<3){A.innerHTML=bask+`<div class="wallet"><div class="paid" id="mkP"><span>已經拿出</span><span class="sum">0 元</span><span class="tok"></span></div><div class="coins">${[1,5,10,50,100,500].map(v=>`<button class="${v>=100?'bi':'co'}" data-v="${v}">${v}</button>`).join('')}</div><div class="row"><button class="btn alt f1" id="mkU">收回一個</button><button class="btn cc f1" id="mkOK">付錢</button></div></div>`;
+   const P=A.querySelector('#mkP');const up=()=>{P.querySelector('.sum').textContent=sum()+' 元';P.querySelector('.tok').innerHTML=paid.map(v=>`<span>${v}</span>`).join('');};
+   A.querySelectorAll('.coins button').forEach(b=>b.onclick=()=>{paid.push(+b.dataset.v);up();});A.querySelector('#mkU').onclick=()=>{paid.pop();up();};
+   A.querySelector('#mkOK').onclick=()=>{if(sum()===need){ok++;c.querySelector('#mkS').textContent='答對 '+ok;P.innerHTML=`<span>老闆：剛好 ${need} 元，謝謝！</span><span class="sum" style="color:var(--ok)">答對了</span>`;setTimeout(render,1400);}else{shake(P);P.querySelector('.tok').insertAdjacentHTML('beforeend',`<span style="background:#ffd2cf">${sum()<need?'還不夠喔':'太多了，剛好就好'}</span>`);}};}
+  else{const ch=500-tot;const opts=shuffle([ch,ch+10,Math.max(5,ch-20)].filter((v,i,a)=>a.indexOf(v)===i));A.innerHTML=bask+`<div class="wallet"><div class="paid"><span>總共 ${tot} 元，付 500 元</span><span class="sum">找多少？</span></div><div class="choices">${opts.map(v=>`<button data-v="${v}">${v} 元</button>`).join('')}</div></div>`;
+   A.querySelectorAll('.choices button').forEach(b=>b.onclick=()=>{if(+b.dataset.v===ch){b.style.background='var(--ok)';b.style.color='#fff';ok++;c.querySelector('#mkS').textContent='答對 '+ok;setTimeout(render,1200);}else{b.style.background='#ffd2cf';shake(b);}});}};
+ segs(c,()=>render());render();}
+function initSort(c){const SETS=[[['水果',['芭樂','蓮霧','鳳梨']],['蔬菜',['空心菜','絲瓜','高麗菜']],['交通工具',['公車','火車','腳踏車']]],[['廚房',['鍋鏟','菜刀','電鍋']],['浴室',['牙刷','毛巾','臉盆']],['臥室',['枕頭','棉被','鬧鐘']]],[['小吃',['肉圓','蚵仔煎','臭豆腐']],['節慶食物',['粽子','月餅','湯圓']],['飲料',['青草茶','珍珠奶茶','冬瓜茶']]]];
+ const P=c.querySelector('#soP'),B=c.querySelector('#soB');let sel=null,done=0;
+ const render=()=>{const s=SETS[+segVal(c,'set')];done=0;c.querySelector('#soS').textContent='0 / 9';B.innerHTML=s.map((x,i)=>`<div class="bin" data-i="${i}"><h4>${x[0]}</h4></div>`).join('');P.innerHTML=shuffle(s.flatMap((x,i)=>x[1].map(w=>[w,i]))).map(a=>`<button data-c="${a[1]}">${a[0]}</button>`).join('');sel=null;};
+ P.onclick=e=>{const b=e.target.closest('button');if(!b)return;P.querySelectorAll('button').forEach(x=>x.classList.toggle('sel',x===b&&!x.classList.contains('sel')));sel=b.classList.contains('sel')?b:null;};
+ B.onclick=e=>{const bin=e.target.closest('.bin');if(!bin||!sel)return;if(sel.dataset.c===bin.dataset.i){bin.insertAdjacentHTML('beforeend',`<span>${sel.textContent}</span>`);sel.remove();sel=null;done++;c.querySelector('#soS').textContent=done+' / 9'+(done===9?'　全部完成！':'');}else{shake(bin);shake(sel);}};
+ segs(c,()=>render());render();}
+function initRecall(c){const T=['火車','蘋果','雨傘','鋼琴','月亮'];const ALL=shuffle(T.concat(['汽車','香蕉','帽子','吉他','太陽','公車','芭樂','外套','星星','小提琴']));const G=c.querySelector('#rcG');
+ const render=()=>{G.classList.remove('check');G.innerHTML=ALL.map(w=>`<button class="${T.includes(w)?'tt':''}">${w}</button>`).join('');};
+ G.onclick=e=>{const b=e.target.closest('button');if(!b||G.classList.contains('check'))return;b.classList.toggle('on');};
+ c.querySelector('#rcC').onclick=()=>{G.querySelectorAll('button.tt').forEach(b=>b.classList.add('t'));G.classList.add('check');const hit=[...G.querySelectorAll('button.on.t')].length,fa=[...G.querySelectorAll('button.on:not(.t)')].length;c.querySelector('#rcN').innerHTML=`你選對 <b>${hit}</b> 個、多選 <b>${fa}</b> 個（綠色是正確答案）。自由回想想不起來、看到選項就認得：多半是「提取」慢；連選項都認不出來：「記進去」（編碼）就有困難，阿茲海默症早期常見。`;};
+ c.querySelector('#rcR').onclick=render;render();}
+
+/* ============ build deck & nav ============ */
+const deck=document.getElementById('deck');
+SL.forEach((s,i)=>{const el=document.createElement('section');el.className='slide'+(s.wide?' wide':'')+(s.cover?' cover':'');el.dataset.ch=s.ch;el.style.setProperty('--cc',CH[s.ch].c);el.id='s'+(i+1);
+ el.innerHTML=s.cover?`<div class="card">${s.body}</div>`:`<div class="card"><span class="tag">${s.tag}</span><h2>${s.title}</h2><div class="bd">${s.body}</div></div>`;deck.appendChild(el);s.el=el;});
+const chips=document.getElementById('chips');
+chips.innerHTML=CH.map((c,i)=>`<button class="chip" data-c="${i}" style="--cc:${c.c}"><b></b>${c.n}</button>`).join('');
+chips.onclick=e=>{const b=e.target.closest('.chip');if(!b)return;go(SL.findIndex(s=>s.ch===+b.dataset.c));};
+const toc=document.getElementById('toc');
+toc.innerHTML=CH.map((c,ci)=>`<h4 style="--cc:${c.c}"><b></b>${c.n}</h4>`+SL.map((s,i)=>s.ch===ci?`<button data-i="${i}">${i+1}. ${s.title||'封面'}</button>`:'').join('')).join('');
+toc.onclick=e=>{const b=e.target.closest('button');if(!b)return;go(+b.dataset.i);toc.classList.remove('on');};
+let cur=-1;
+function go(i){i=Math.max(0,Math.min(SL.length-1,i));if(i===cur&&cur>=0)return;const prevCh=cur>=0?SL[cur].ch:-1;if(cur>=0)SL[cur].el.classList.remove('on');cur=i;const s=SL[i];s.el.classList.add('on');
+ if(s.init&&!s.done){s.done=true;try{s.init(s.el);}catch(err){console.error(err);}}
+ if(s.el._onshow)setTimeout(s.el._onshow,60);
+ document.getElementById('num').textContent=(i+1)+' / '+SL.length;document.getElementById('prog').style.width=((i+1)/SL.length*100)+'%';
+ chips.querySelectorAll('.chip').forEach(b=>b.classList.toggle('on',+b.dataset.c===s.ch));toc.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+ try{history.replaceState(null,'','#s'+(i+1));}catch(e){}
+ W3&&W3.toStation(s.ch,s.cover?'cover':s.wide?'wide':'card');}
+/* mobile: init all slides so widgets work in reading mode */
+function layout(){const mob=innerWidth<820||innerHeight<480;document.body.classList.toggle('mob',mob);const ui=document.getElementById('ui');
+ if(mob){ui.style.transform='none';SL.forEach(s=>{s.el.classList.add('on');if(s.init&&!s.done){s.done=true;try{s.init(s.el)}catch(e){}}});}
+ else{const k=Math.min(innerWidth/1600,innerHeight/900);ui.style.transform=`translate(${(innerWidth-1600*k)/2}px,${(innerHeight-900*k)/2}px) scale(${k})`;SL.forEach((s,i)=>s.el.classList.toggle('on',i===cur));}
+ W3&&W3.resize();}
+document.getElementById('bPrev').onclick=()=>go(cur-1);document.getElementById('bNext').onclick=()=>go(cur+1);
+document.getElementById('bToc').onclick=()=>toc.classList.toggle('on');
+document.getElementById('bFull').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});}catch(e){}};
+document.getElementById('bDrive').onclick=()=>setDrive(!document.body.classList.contains('driving'));
+function setDrive(on){document.body.classList.toggle('driving',on);document.getElementById('bDrive').textContent=on?'回到簡報':'開車逛逛';W3&&W3.setDrive(on);if(!on)W3&&W3.toStation(SL[cur].ch,SL[cur].cover?'cover':SL[cur].wide?'wide':'card');}
+const KEYS={};
+addEventListener('keydown',e=>{const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;const k=e.key;
+ if(document.body.classList.contains('driving')){if(k==='Escape'||k==='d'||k==='D'){setDrive(false);return;}if(k==='Enter'){W3.enterNear();return;}KEYS[k.toLowerCase()]=true;if(k.startsWith('Arrow')||k===' ')e.preventDefault();return;}
+ if(k==='ArrowRight'||k==='PageDown'||(k===' '&&!(tg&&tg.tagName==='BUTTON'))){e.preventDefault();go(cur+1);}
+ else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();go(cur-1);}
+ else if(k==='Home')go(0);else if(k==='End')go(SL.length-1);
+ else if(k==='t'||k==='T')toc.classList.toggle('on');
+ else if(k==='d'||k==='D')setDrive(true);
+ else if(k==='f'||k==='F')document.getElementById('bFull').click();
+ else if(k==='Escape')toc.classList.remove('on');});
+addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=false;});
+document.querySelectorAll('#pad button').forEach(b=>{const k='pad'+b.dataset.k;b.addEventListener('pointerdown',e=>{KEYS[k]=true;e.preventDefault();});['pointerup','pointerleave','pointercancel'].forEach(t=>b.addEventListener(t,()=>KEYS[k]=false));});
+document.getElementById('near').onclick=()=>W3.enterNear();
+
+/* ============ 3D island ============ */
+let W3=null;
+(function(){
+ if(!window.THREE){return;}
+ const canvas=document.getElementById('world');
+ let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});}catch(e){return;}
+ renderer.setPixelRatio(Math.min(2,devicePixelRatio||1));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+ const scene=new THREE.Scene();scene.fog=new THREE.Fog(0xe4f4ff,220,520);
+ const camera=new THREE.PerspectiveCamera(30,innerWidth/innerHeight,1,800);
+ const gm=new THREE.DataTexture(new Uint8Array([120,190,255]),3,1,THREE.LuminanceFormat);gm.minFilter=gm.magFilter=THREE.NearestFilter;gm.needsUpdate=true;
+ const MC={};const M=(c,o)=>{const k=c+JSON.stringify(o||{});return MC[k]||(MC[k]=new THREE.MeshToonMaterial(Object.assign({color:c,gradientMap:gm},o||{})));};
+ const add=(geo,mat,x=0,y=0,z=0,par=scene,sh=true)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=sh;m.receiveShadow=true;par.add(m);return m;};
+ scene.add(new THREE.HemisphereLight(0xffffff,0xe9d2b4,.5));
+ const sun=new THREE.DirectionalLight(0xfff1dc,.62);sun.position.set(50,90,30);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);const sc=sun.shadow.camera;sc.left=-80;sc.right=80;sc.top=80;sc.bottom=-80;sc.near=10;sc.far=250;sun.shadow.bias=-0.0006;scene.add(sun);
+ /* sea + island */
+ const water=add(new THREE.CircleGeometry(420,64),M(0x5fc4e4),0,-1.2,0,scene,false);water.rotation.x=-Math.PI/2;water.receiveShadow=false;
+ const ripples=[];for(let i=0;i<2;i++){const r=add(new THREE.TorusGeometry(68+i*4,.5,6,96),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.7}),0,-1,0,scene,false);r.rotation.x=Math.PI/2;ripples.push(r);}
+ add(new THREE.CylinderGeometry(64,67,4.6,72),M(0xf4d39a),0,-2.3,0);
+ const grass=add(new THREE.CylinderGeometry(61,62,.8,72),M(0xa6dca0),0,.3,0);
+ const Y0=.7;
+ /* road */
+ const N=6,R=38;const SA=[];const P=[];for(let i=0;i<N;i++){const a=Math.PI*0.5+i*Math.PI*2/N;SA.push(a);const rr=R+(i%2?3:-2);P.push(new THREE.Vector3(Math.cos(a)*rr,Y0,Math.sin(a)*rr));}
+ const curve=new THREE.CatmullRomCurve3(P,true,'centripetal');
+ {const segs=360,pos=[],idx=[];for(let i=0;i<=segs;i++){const t=i/segs,p=curve.getPoint(t),tg=curve.getTangent(t);const nx=-tg.z,nz=tg.x;const l=Math.hypot(nx,nz);pos.push(p.x+nx/l*3.4,Y0+.06,p.z+nz/l*3.4,p.x-nx/l*3.4,Y0+.06,p.z-nz/l*3.4);if(i<segs){const a=i*2;idx.push(a,a+1,a+2,a+1,a+3,a+2);}}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();const road=new THREE.Mesh(g,M(0xf3ece2,{side:THREE.DoubleSide}));road.receiveShadow=true;scene.add(road);
+  for(let i=0;i<segs;i+=6){const p=curve.getPoint(i/segs),tg=curve.getTangent(i/segs);const d=add(new THREE.BoxGeometry(.35,.05,1.6),M(0xffcf3f),p.x,Y0+.1,p.z,scene,false);d.rotation.y=Math.atan2(tg.x,tg.z);}}
+ const distRoad=(x,z)=>{let m=1e9;for(let i=0;i<120;i++){const p=curve.getPoint(i/120);m=Math.min(m,Math.hypot(p.x-x,p.z-z));}return m;};
+ /* station landmark positions (inward) */
+ const LM=SA.map((a,i)=>{const p=P[i];const ang=Math.atan2(p.z,p.x);const r=Math.hypot(p.x,p.z)-13;return new THREE.Vector3(Math.cos(ang)*r,Y0,Math.sin(ang)*r);});
+ const anim=[];
+ const grp=(i)=>{const g=new THREE.Group();g.position.copy(LM[i]);g.rotation.y=-Math.atan2(LM[i].z,LM[i].x)+Math.PI/2;scene.add(g);return g;};
+ const WHITE=M(0xffffff),INK=M(0x2a3550);
+ /* 0 start gate */
+ {const g=grp(0);const pink=M(0xf2558f),yel=M(0xffcf3f);
+  add(new THREE.CylinderGeometry(.7,.8,9,12),pink,-6,4.5,0,g);add(new THREE.CylinderGeometry(.7,.8,9,12),pink,6,4.5,0,g);
+  const cv=document.createElement('canvas');cv.width=512;cv.height=96;const x=cv.getContext('2d');for(let i=0;i<16;i++)for(let j=0;j<3;j++){x.fillStyle=(i+j)%2?'#22304a':'#fff';x.fillRect(i*32,j*32,32,32);}
+  const beam=add(new THREE.BoxGeometry(14,2.2,1.4),[yel,yel,yel,yel,new THREE.MeshToonMaterial({map:new THREE.CanvasTexture(cv),gradientMap:gm}),new THREE.MeshToonMaterial({map:new THREE.CanvasTexture(cv),gradientMap:gm})],0,9.4,0,g);
+  [[-7.5,0xf2558f],[-6.2,0xffcf3f],[6.4,0x3d6fe0],[7.6,0x7c4fe0]].forEach((b,k)=>{const s=add(new THREE.SphereGeometry(1.1,16,12),M(b[1]),b[0],12+k%2,1,g);anim.push(t=>{s.position.y=12+(k%2)+Math.sin(t*1.6+k)*.5;});});
+  for(let k=0;k<6;k++){const cn=add(new THREE.ConeGeometry(.7,1.8,10),M(k%2?0xffffff:0xef5a5a),-4+k*1.6,1.6,6,g);}
+ }
+ /* 1 brain */
+ {const g=grp(1);add(new THREE.CylinderGeometry(4.2,4.8,2,24),WHITE,0,1,0,g);const br=new THREE.Group();br.position.y=6.4;g.add(br);const pk=M(0xff9eb0),pk2=M(0xff8aa1);
+  add(new THREE.SphereGeometry(1,24,18),pk,0,0,0,br).scale.set(3.6,2.7,4.4);
+  for(let i=0;i<40;i++){const u=Math.acos(1-(i+.5)/40*1.1),v=i*2.4;const x=Math.sin(u)*Math.cos(v)*3.5,y=Math.cos(u)*2.6,z=Math.sin(u)*Math.sin(v)*4.3;if(Math.abs(x)<.5)continue;add(new THREE.SphereGeometry(1.15,14,10),i%3?pk:pk2,x,y-.2,z,br);}
+  add(new THREE.BoxGeometry(.5,3.4,8.4),M(0xe86b86),0,.6,0,br);
+  anim.push(t=>{br.rotation.y=Math.sin(t*.5)*.5;br.position.y=6.4+Math.sin(t*1.3)*.25;});
+  for(let k=0;k<5;k++){const sp=add(new THREE.OctahedronGeometry(.45),M(0xffcf3f),0,0,0,g,false);anim.push(t=>{const a=t*.9+k*1.256;sp.position.set(Math.cos(a)*6.5,7+Math.sin(t*2+k)*1.2,Math.sin(a)*6.5);sp.rotation.y=t*2;});}
+ }
+ /* 2 clock tower */
+ {const g=grp(2);const blue=M(0x3d6fe0);add(new THREE.BoxGeometry(4.6,13,4.6),blue,0,6.5,0,g);add(new THREE.ConeGeometry(3.8,4.4,4),M(0xffcf3f),0,15.2,0,g).rotation.y=Math.PI/4;
+  const cv=document.createElement('canvas');cv.width=cv.height=256;const x=cv.getContext('2d');x.fillStyle='#fff';x.beginPath();x.arc(128,128,124,0,7);x.fill();x.fillStyle='#22304a';for(let i=0;i<12;i++){const a=i/12*Math.PI*2;x.beginPath();x.arc(128+Math.sin(a)*100,128-Math.cos(a)*100,i%3?5:10,0,7);x.fill();}
+  const fm=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv)});
+  for(let s=0;s<4;s++){const f=new THREE.Group();f.rotation.y=s*Math.PI/2;g.add(f);const face=add(new THREE.CircleGeometry(1.9,32),fm,0,10.4,2.32,f,false);const hh=add(new THREE.BoxGeometry(.28,1.1,.1),INK,0,10.4,2.4,f,false);hh.geometry.translate(0,.5,0);const mh=add(new THREE.BoxGeometry(.2,1.6,.1),M(0xef5a5a),0,10.4,2.42,f,false);mh.geometry.translate(0,.75,0);anim.push(t=>{mh.rotation.z=-t*1.2;hh.rotation.z=-t*.1;});}
+  const clip=add(new THREE.BoxGeometry(3.4,4.4,.3),M(0x9c7a55),5,2.6,1,g);clip.rotation.set(-.25,-.3,0);const paper=add(new THREE.BoxGeometry(3,3.8,.1),WHITE,0,-.1,.2,clip,false);
+  for(let k=0;k<4;k++){add(new THREE.BoxGeometry(2.1,.18,.05),M(k===0?0x3d6fe0:0xb8c3d9),-.2,1.1-k*.7,.08,paper,false);}
+  const ck=add(new THREE.BoxGeometry(.5,.5,.06),M(0x1f9d63),1.05,1.1,.1,paper,false);
+ }
+ /* 3 rehab park */
+ {const g=grp(3);const y=M(0xffcf3f),w=WHITE;for(let k=0;k<4;k++)add(new THREE.BoxGeometry(6,1+k*1,1.8),k%2?y:w,0,(1+k)/2,-2.7+k*1.8,g);
+  [-3.2,3.2].forEach(x=>{for(let k=0;k<4;k++)add(new THREE.CylinderGeometry(.14,.14,2.6,6),INK,x,1.8+k*1,-2.7+k*1.8,g,false);const rail=add(new THREE.CylinderGeometry(.16,.16,7.4,8),M(0xef5a5a),x,4.3,0,g);rail.rotation.x=Math.PI/2-Math.atan2(3,5.4)*.0+(-0.5);});
+  const db=new THREE.Group();db.position.set(-7,4,2);g.add(db);add(new THREE.CylinderGeometry(.3,.3,4.4,10),INK,0,0,0,db).rotation.z=Math.PI/2;[-1.9,1.9].forEach(x=>{add(new THREE.CylinderGeometry(1.3,1.3,.9,18),M(0x3d6fe0),x,0,0,db).rotation.z=Math.PI/2;});
+  anim.push(t=>{db.position.y=4+Math.abs(Math.sin(t*2))*2;db.rotation.y=t*.6;});
+  const bench=new THREE.Group();bench.position.set(7,0,2);bench.rotation.y=-.5;g.add(bench);add(new THREE.BoxGeometry(4.4,.4,1.4),M(0xc58b5c),0,1.4,0,bench);add(new THREE.BoxGeometry(4.4,1.2,.3),M(0xc58b5c),0,2.3,-.6,bench);[-1.8,1.8].forEach(x=>add(new THREE.BoxGeometry(.3,1.4,1.2),INK,x,.7,0,bench));
+  const ball=add(new THREE.SphereGeometry(1.2,20,14),M(0x7c4fe0),2,1.2,5,g);anim.push(t=>{ball.position.y=1.2+Math.abs(Math.sin(t*2.6))*1.5;});
+ }
+ /* 4 games */
+ {const g=grp(4);const dc=document.createElement('canvas');const faces=[1,2,3,4,5,6].map(n=>{const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,128,128);x.fillStyle=n===1?'#ef5a5a':'#22304a';const P={1:[[64,64]],2:[[34,34],[94,94]],3:[[30,30],[64,64],[98,98]],4:[[34,34],[94,34],[34,94],[94,94]],5:[[30,30],[98,30],[64,64],[30,98],[98,98]],6:[[34,28],[94,28],[34,64],[94,64],[34,100],[94,100]]}[n];P.forEach(p=>{x.beginPath();x.arc(p[0],p[1],n===1?20:12,0,7);x.fill();});return new THREE.MeshToonMaterial({map:new THREE.CanvasTexture(c),gradientMap:gm});});
+  const die=add(new THREE.BoxGeometry(3.6,3.6,3.6),faces,-4,6,0,g);anim.push(t=>{die.rotation.x=t*.7;die.rotation.y=t*.9;die.position.y=6+Math.sin(t*1.5)*.6;});
+  const cols=[0x7c4fe0,0xffcf3f,0x3d6fe0,0xef5a5a,0x0f9a9a];let k=0;for(let r=0;r<3;r++)for(let q=0;q<3-r;q++){add(new THREE.BoxGeometry(1.8,1.8,1.8),M(cols[k++%5]),3+q*1.9+r*.95,.9+r*1.8,-1,g);}
+  ['A','7','?'].forEach((s,i)=>{const c=document.createElement('canvas');c.width=128;c.height=176;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,128,176);x.strokeStyle='#7c4fe0';x.lineWidth=8;x.strokeRect(8,8,112,160);x.fillStyle=i===1?'#ef5a5a':'#22304a';x.font='bold 90px Fredoka, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(s,64,92);const cd=add(new THREE.BoxGeometry(2.6,3.6,.15),[M(0xffffff),M(0xffffff),M(0xffffff),M(0xffffff),new THREE.MeshToonMaterial({map:new THREE.CanvasTexture(c),gradientMap:gm}),M(0x7c4fe0)],-2+i*3,1.9,4.5,g);cd.rotation.y=(i-1)*.35;anim.push(t=>{cd.rotation.z=Math.sin(t*1.2+i)*.08;});});
+ }
+ /* 5 lighthouse */
+ {const g=grp(5);for(let k=0;k<5;k++){add(new THREE.CylinderGeometry(2.6-k*.3,2.9-k*.3,2.6,20),k%2?M(0x0f9a9a):WHITE,0,1.3+k*2.6,0,g);}
+  add(new THREE.CylinderGeometry(1.6,1.6,.4,20),INK,0,13.2,0,g);const lamp=add(new THREE.CylinderGeometry(1.2,1.2,1.8,16),new THREE.MeshBasicMaterial({color:0xfff1a8}),0,14.3,0,g,false);add(new THREE.ConeGeometry(1.8,1.8,16),M(0xef5a5a),0,16.1,0,g);
+  const beam=new THREE.Mesh(new THREE.ConeGeometry(2.2,18,16,1,true),new THREE.MeshBasicMaterial({color:0xfff3b0,transparent:true,opacity:.28,side:THREE.DoubleSide,depthWrite:false}));beam.geometry.translate(0,-9,0);beam.rotation.z=Math.PI/2;const bh=new THREE.Group();bh.position.y=14.3;bh.add(beam);g.add(bh);anim.push(t=>{bh.rotation.y=t*.8;});
+  add(new THREE.CylinderGeometry(4.5,5,1,20),M(0xd9d2c6),0,.5,0,g);
+ }
+ /* text: big ground title + station signs */
+ const signs=[];
+ function makeText(){
+  const c=document.createElement('canvas');c.width=2048;c.height=640;const x=c.getContext('2d');x.textAlign='center';x.textBaseline='middle';x.fillStyle='rgba(34,48,74,.88)';x.font='200px Huninn, "Noto Sans TC", sans-serif';x.fillText('記憶小島',1024,230);x.font='96px Huninn, "Noto Sans TC", sans-serif';x.fillStyle='rgba(61,111,224,.9)';x.fillText('失智症評估 × 復健復能',1024,480);
+  const t=new THREE.Mesh(new THREE.PlaneGeometry(30,9.4),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));t.rotation.x=-Math.PI/2;t.rotation.z=-(SA[0]-Math.PI/2)*0+0;t.position.set(0,Y0+.12,4);
+  t.rotation.order='YXZ';t.rotation.y=-(SA[0])+Math.PI/2;t.rotation.x=-Math.PI/2;scene.add(t);
+  CH.forEach((ch,i)=>{const cv=document.createElement('canvas');cv.width=512;cv.height=160;const x=cv.getContext('2d');x.fillStyle='#fffdf8';x.beginPath();x.roundRect?x.roundRect(8,8,496,144,72):x.rect(8,8,496,144);x.fill();x.fillStyle='#'+ch.hex.toString(16).padStart(6,'0');x.beginPath();x.arc(84,80,42,0,7);x.fill();x.fillStyle='#fff';x.font='600 54px Fredoka, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(i?String(i):'GO',84,82);x.fillStyle='#22304a';x.font='68px Huninn, "Noto Sans TC", sans-serif';x.textAlign='left';x.fillText(ch.n,146,84);
+   const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,depthWrite:false}));sp.scale.set(9.6,3,1);const lp=LM[i];sp.position.set(lp.x,i===2?21:i===5?20.5:16,lp.z);sp.visible=i===curCh;scene.add(sp);signs.push(sp);});
+ }
+ (document.fonts&&document.fonts.load?Promise.race([Promise.all([document.fonts.load('80px Huninn'),document.fonts.load('600 40px Fredoka')]),new Promise(r=>setTimeout(r,2500))]):Promise.resolve()).then(makeText,makeText);
+ /* trees, rocks, flowers */
+ const rnd=(a,b)=>a+Math.random()*(b-a);
+ const trunk=M(0xb48a6a),cone1=M(0x6cc58a),cone2=M(0x55b87a),blos=M(0xff9fbb),blos2=M(0xffbfd2),rock=M(0xc9c0dc);
+ let placed=0,guard=0;while(placed<70&&guard++<3000){const a=rnd(0,Math.PI*2),r=Math.sqrt(Math.random())*57;const x=Math.cos(a)*r,z=Math.sin(a)*r;if(distRoad(x,z)<6)continue;if(LM.some(l=>Math.hypot(l.x-x,l.z-z)<10))continue;if(Math.hypot(x,z+4)<16&&Math.abs(z)<14)continue;
+  const tg=new THREE.Group();tg.position.set(x,Y0,z);const s=rnd(.8,1.4);tg.scale.setScalar(s);scene.add(tg);const type=Math.random();
+  if(type<.45){add(new THREE.CylinderGeometry(.3,.4,1.6,6),trunk,0,.8,0,tg);add(new THREE.ConeGeometry(2,3.6,7),cone1,0,3,0,tg);add(new THREE.ConeGeometry(1.5,2.8,7),cone2,0,4.6,0,tg);}
+  else if(type<.85){add(new THREE.CylinderGeometry(.3,.45,2,6),trunk,0,1,0,tg);add(new THREE.IcosahedronGeometry(2,0),Math.random()<.5?blos:blos2,0,3.4,0,tg);add(new THREE.IcosahedronGeometry(1.3,0),blos2,1.2,4.3,.4,tg);}
+  else{add(new THREE.DodecahedronGeometry(1.2,0),rock,0,.5,0,tg).scale.set(1.3,.7,1);}placed++;}
+ /* clouds */
+ const clouds=[];for(let i=0;i<9;i++){const c=new THREE.Group();const cm=new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xf4f8ff,emissiveIntensity:.5});for(let k=0;k<4;k++){const s=new THREE.Mesh(new THREE.SphereGeometry(rnd(2.6,4.4),14,10),cm);s.position.set(k*3.2-5,rnd(-.6,.8),rnd(-1.5,1.5));c.add(s);}c.position.set(rnd(-120,120),rnd(38,56),rnd(-120,120));c.userData.v=rnd(1,2.4);scene.add(c);clouds.push(c);}
+ /* boats */
+ const boats=[];for(let i=0;i<3;i++){const b=new THREE.Group();add(new THREE.BoxGeometry(3,1,1.4),M(i%2?0xef5a5a:0x3d6fe0),0,0,0,b);const sail=add(new THREE.ConeGeometry(1.2,3,3),WHITE,0,2,0,b);scene.add(b);b.userData={r:80+i*14,a:i*2.1,v:.05+i*.02};boats.push(b);}
+ /* crates to push */
+ const crates=[];const cm2=[0xffcf3f,0xef5a5a,0x3d6fe0,0x7c4fe0,0xffffff];
+ function crate(x,z,s){const m=add(new THREE.BoxGeometry(s,s,s),M(cm2[crates.length%5]),x,Y0+s/2,z);m.userData={s,vx:0,vy:0,vz:0,av:0};crates.push(m);}
+ [[0,-6],[6,-14],[-8,10],[12,6],[-14,-4],[4,14],[-4,-16]].forEach((p,i)=>{for(let k=0;k<3;k++)crate(p[0]+k*1.3,p[1]+(k%2)*1.2,1.2);});
+ /* car */
+ const car=new THREE.Group();scene.add(car);
+ {const body=M(0xef5a5a),dark=M(0x2a3550);add(new THREE.BoxGeometry(2.8,1.1,4.4),body,0,1.1,0,car);add(new THREE.BoxGeometry(2.5,1.1,2.2),WHITE,0,2.15,-.4,car);add(new THREE.BoxGeometry(2.55,.5,1.4),M(0x9fd4ff),0,2.2,.75,car,false);add(new THREE.BoxGeometry(3,.25,4.6),M(0xffcf3f),0,.6,0,car);
+  [[-.9,2.25],[.9,2.25]].forEach(p=>add(new THREE.BoxGeometry(.5,.35,.1),new THREE.MeshBasicMaterial({color:0xfff6c0}),p[0],1.2,p[1],car,false));
+  add(new THREE.CylinderGeometry(.06,.06,1.6,6),dark,-1,3.4,-1.2,car);const flag=add(new THREE.BoxGeometry(.05,.6,.9),M(0x3d6fe0),-1,3.9,-.8,car,false);
+  car.userData.wheels=[];[[-1.45,1.4],[1.45,1.4],[-1.45,-1.4],[1.45,-1.4]].forEach(p=>{const w=add(new THREE.CylinderGeometry(.65,.65,.5,14),dark,p[0],.65,p[1],car);w.rotation.z=Math.PI/2;car.userData.wheels.push(w);});}
+ let carT=0,drv=null,driving=false;const carV={v:0,h:0};
+ function placeOnCurve(t){t=((t%1)+1)%1;const p=curve.getPoint(t);car.position.set(p.x,Y0,p.z);}
+ placeOnCurve(0);{const tg=curve.getTangent(0);car.rotation.y=Math.atan2(tg.x,tg.z);}
+ /* camera rig */
+ const rig={tx:0,ty:0,tz:0,th:SA[0],dist:78,el:.62,shift:.18};const want={tx:0,ty:0,tz:0,th:SA[0],dist:78,el:.62,shift:.18};
+ let curCh=0;
+ function focus(i,mode){const lm=LM[i],p=P[i];want.tx=(lm.x*.62+p.x*.38);want.ty=4;want.tz=(lm.z*.62+p.z*.38);want.th=Math.atan2(p.z,p.x)+.38;want.dist=mode==='wide'?92:mode==='cover'?84:74;want.el=mode==='cover'?.5:.6;want.shift=mode==='cover'?-.2:mode==='wide'?0:.2;}
+ function toStation(i,mode){curCh=i;signs.forEach((sp,k)=>sp.visible=driving||k===i);if(driving)return;focus(i,mode);const target=i/N;let d=target-((carT%1)+1)%1;if(d>.5)d-=1;if(d<-.5)d+=1;if(Math.abs(d)<1e-4){return;}drv={from:carT,to:carT+d,t0:performance.now(),dur:Math.min(3200,900+Math.abs(d)*6000),mode};}
+ let userTh=0,drag=null;
+ canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,th:userTh};});addEventListener('pointerup',()=>drag=null);addEventListener('pointermove',e=>{if(drag)userTh=drag.th-(e.clientX-drag.x)*.006;});
+ function setDrive(on){driving=on;signs.forEach((sp,k)=>sp.visible=on||k===curCh);if(on){drv=null;carV.v=0;carV.h=car.rotation.y;}else{/* snap car back to the road nearest station when leaving */ const tt=curCh/N;carT=tt;placeOnCurve(tt);const tg=curve.getTangent(tt);car.rotation.y=Math.atan2(tg.x,tg.z);}}
+ let nearI=-1;const nearBtn=document.getElementById('near');
+ function enterNear(){if(nearI<0)return;const idx=SL.findIndex(s=>s.ch===nearI);setDrive(false);document.body.classList.remove('driving');document.getElementById('bDrive').textContent='開車逛逛';cur=-1;SL.forEach(s=>s.el.classList.remove('on'));go(idx);}
+ const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+ let last=performance.now();const clock0=performance.now();
+ function frame(now){const dt=Math.max(0,Math.min(.05,(now-last)/1000));last=now;const t=(now-clock0)/1000;
+  anim.forEach(f=>f(t));clouds.forEach(c=>{c.position.x+=c.userData.v*dt;if(c.position.x>140)c.position.x=-140;});boats.forEach(b=>{const u=b.userData;u.a+=u.v*dt;b.position.set(Math.cos(u.a)*u.r,-.6+Math.sin(t*2+u.r)*.15,Math.sin(u.a)*u.r);b.rotation.y=-u.a;});
+  ripples.forEach((r,i)=>{const s=1+Math.sin(t*1.2+i*1.6)*.012;r.scale.set(s,s,s);r.material.opacity=.45+Math.sin(t*1.2+i*1.6)*.25;});
+  let speed=0;
+  if(driving){const up=KEYS['arrowup']||KEYS['w']||KEYS['padup'],dn=KEYS['arrowdown']||KEYS['s']||KEYS['paddown'],lf=KEYS['arrowleft']||KEYS['a']||KEYS['padleft'],rt=KEYS['arrowright']||KEYS['d']||KEYS['padright'];
+   carV.v+=((up?24:0)-(dn?18:0))*dt;carV.v*=Math.pow(.25,dt);carV.v=Math.max(-8,Math.min(22,carV.v));const steer=(lf?1:0)-(rt?1:0);carV.h+=steer*dt*2.4*Math.max(-1,Math.min(1,carV.v/6));
+   let nx=car.position.x+Math.sin(carV.h)*carV.v*dt,nz=car.position.z+Math.cos(carV.h)*carV.v*dt;const rr=Math.hypot(nx,nz);if(rr>57){nx*=57/rr;nz*=57/rr;carV.v*=.5;}
+   LM.forEach(l=>{const d=Math.hypot(nx-l.x,nz-l.z);if(d<6){nx=l.x+(nx-l.x)/d*6;nz=l.z+(nz-l.z)/d*6;carV.v*=.6;}});
+   car.position.x=nx;car.position.z=nz;car.rotation.y=carV.h;speed=carV.v;
+   want.tx=nx;want.ty=2;want.tz=nz;want.dist=60;want.el=.72;want.shift=0;want.th=Math.atan2(nz,nx)+.3;if(rr<8)want.th=rig.th;
+   let ni=-1,nd=1e9;P.forEach((p,i)=>{const d=Math.min(Math.hypot(p.x-nx,p.z-nz),Math.hypot(LM[i].x-nx,LM[i].z-nz));if(d<nd){nd=d;ni=i;}});nearI=nd<11?ni:-1;nearBtn.style.display=nearI>=0?'block':'none';if(nearI>=0)nearBtn.textContent='進入〈'+CH[nearI].n+'〉站  Enter';
+  }else if(drv){let k=Math.min(1,(now-drv.t0)/drv.dur);const e=ease(k);const tt=drv.from+(drv.to-drv.from)*e;const p0=car.position.clone();placeOnCurve(tt);carT=tt;const tg=curve.getTangent(((tt%1)+1)%1);let h=Math.atan2(tg.x,tg.z);if(drv.to<drv.from)h+=Math.PI;car.rotation.y=h;speed=p0.distanceTo(car.position)/Math.max(dt,1e-3);
+   if(k<1){const mid=Math.sin(k*Math.PI);rig.dist+= (want.dist+14*mid-rig.dist)*.0;}
+   if(k>=1){carT=drv.to;drv=null;}}
+  car.userData.wheels.forEach(w=>w.rotation.x+=speed*dt/.65*Math.sign(1));car.position.y=Y0+Math.abs(Math.sin(t*14))*Math.min(.12,Math.abs(speed)*.006);
+  /* crates */
+  crates.forEach(c=>{const u=c.userData;const dx=c.position.x-car.position.x,dz=c.position.z-car.position.z,d=Math.hypot(dx,dz);if(d<2.6&&Math.abs(speed)>.5){const f=Math.max(4,Math.abs(speed))*.9;u.vx+=dx/d*f;u.vz+=dz/d*f;u.vy+=f*.35;u.av+=f*.5;}
+   if(u.vx||u.vy||u.vz){c.position.x+=u.vx*dt;c.position.z+=u.vz*dt;c.position.y+=u.vy*dt;u.vy-=30*dt;c.rotation.y+=u.av*dt;c.rotation.x+=u.av*dt*.5;if(c.position.y<Y0+u.s/2){c.position.y=Y0+u.s/2;u.vy=-u.vy*.3;if(Math.abs(u.vy)<1)u.vy=0;u.vx*=.7;u.vz*=.7;u.av*=.6;c.rotation.x*=.6;}const r=Math.hypot(c.position.x,c.position.z);if(r>60){c.position.x*=60/r;c.position.z*=60/r;u.vx=-u.vx*.3;u.vz=-u.vz*.3;}if(Math.abs(u.vx)+Math.abs(u.vz)<.05&&u.vy===0){u.vx=u.vz=0;}}});
+  /* camera damping */
+  const a=1-Math.pow(.025,dt);if(drv&&!driving){want.tx=car.position.x*.5+want.tx*.5;}
+  ['tx','ty','tz','dist','el','shift'].forEach(k=>rig[k]+=(want[k]-rig[k])*a);let dth=want.th+userTh-rig.th;while(dth>Math.PI)dth-=Math.PI*2;while(dth<-Math.PI)dth+=Math.PI*2;rig.th+=dth*a*.8;if(!drag)userTh*=Math.pow(.4,dt);
+  const ch=Math.cos(rig.el),sh=Math.sin(rig.el);camera.position.set(rig.tx+Math.cos(rig.th)*rig.dist*ch,rig.ty+rig.dist*sh,rig.tz+Math.sin(rig.th)*rig.dist*ch);camera.lookAt(rig.tx,rig.ty,rig.tz);
+  const w=innerWidth,h=innerHeight;const mob=document.body.classList.contains('mob');camera.setViewOffset(w,h,mob?0:w*rig.shift,0,w,h);
+  renderer.render(scene,camera);requestAnimationFrame(frame);}
+ function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}
+ resize();focus(0,'cover');Object.assign(rig,JSON.parse(JSON.stringify(want)));rig.dist=104;rig.el=.78;rig.th-=.5;
+ requestAnimationFrame(frame);
+ W3={toStation,resize,setDrive,enterNear,rig,want,camera};
+})();
+
+/* start */
+const h=(location.hash.match(/^#s(\d+)$/)||[])[1];
+layout();go(h?(+h-1):0);addEventListener('resize',layout);
+</script>
+</body></html>
