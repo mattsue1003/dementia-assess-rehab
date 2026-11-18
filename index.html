@@ -214,10 +214,10 @@ body.driving #deck{display:none}
 .step button{border:0;border-radius:999px;padding:7px 0;font-family:var(--fh);font-size:19px;background:var(--paper);color:var(--ink)}
 .step button.s1{background:#d9f2e4;color:#11603b}.step button.s2{background:#fff0c2;color:#7a5600}.step button.s3{background:#ffd9d6;color:#8f2420}
 .dice{display:flex;flex-direction:column;gap:12px;flex:1}
-.qrgrid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.qrc{background:var(--tint);border-radius:22px;padding:14px;display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;text-decoration:none;color:var(--ink)}
-.qrc img{width:118px;height:118px;border-radius:10px;background:#fff;padding:6px;image-rendering:pixelated}
-.qrc h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:27px}
+.qrgrid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.qrc{background:var(--tint);border-radius:22px;padding:14px;display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:center;text-decoration:none;color:var(--ink)}
+.qrc img{width:104px;height:104px;border-radius:10px;background:#fff;padding:6px;image-rendering:pixelated}
+.qrc h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:23px;line-height:1.3}
 .qrc p{margin:0;font-size:18px;line-height:1.45;color:var(--ink2)}
 .refs{margin:0;padding-left:1.3em;font-size:15px;line-height:1.42;columns:2;column-gap:36px;flex:1}
 .refs li{break-inside:avoid;margin-bottom:6px}
@@ -397,7 +397,7 @@ a.qrlink:hover,a.qr:hover{outline:3px solid var(--cc);outline-offset:2px}
 body.mapping #map{display:block}
 body.mapping #deck{display:none}
 #mapLines{position:absolute;inset:0;width:1600px;height:900px;overflow:visible}
-.mhub{position:absolute;transform:translate(-50%,-50%);background:var(--ink);color:#fff;border-radius:999px;padding:10px 24px;font-family:var(--fh);font-size:22px;text-align:center;white-space:nowrap;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.mhub{display:none}
 .mhub small{display:block;font-family:var(--fb);font-size:14px;opacity:.8}
 .mcard{position:absolute;width:340px;pointer-events:auto;background:var(--paper);border:4px solid var(--cc);border-radius:20px;box-shadow:0 8px 0 color-mix(in srgb,var(--cc) 35%,transparent),0 18px 40px rgba(34,48,74,.18);overflow:hidden;transition:transform .2s}
 .mcard:hover{transform:translateY(-4px)}
@@ -516,7 +516,7 @@ body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size
     <div class="chips" id="chips"></div>
     <button class="passport" id="pp" title="學習護照"></button>
   </div>
-  <div id="map"><svg id="mapLines" viewBox="0 0 1600 900"></svg><div class="mhub" id="mhub">失智症評估及復健復能<small>點任何一個看板，前往那一站</small></div><div id="mapCards"></div><div class="maptip">按 <kbd>→</kbd> 前往閃爍的下一站 · <kbd>M</kbd> 開關地圖</div></div>
+  <div id="map"><svg id="mapLines" viewBox="0 0 1600 900"></svg><div class="mhub" id="mhub"></div><div id="mapCards"></div><div class="maptip">點任何一個看板前往那一站 · <kbd>→</kbd> 前往閃爍的下一站 · <kbd>M</kbd> 開關地圖</div></div>
   <main id="deck"></main>
   <button id="zbtn" title="放大這一塊 (雙擊也可以)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>放大</button>
   <aside id="toc" aria-label="目錄"></aside>
@@ -1020,7 +1020,9 @@ S(4,'認知遊戲 · 更多資源','帶回去用的遊戲網站',`
      ['order-different-slides','長者遊戲簡報生成器','找缺少、找不同、數一數、影子配對，做成投影片'],
      ['pop-song-guess','台灣金曲猜歌','依年代分組的國台語老歌，懷舊團體好用'],
      ['dementia-talk','失智溝通紙偶劇場','29 個情境，對照好的與不好的回應方式'],
-     ['oldsongdance','音樂律動資料庫','378 支坐姿、站姿律動影片，依年代篩選']].map(a=>`<a class="qrc" href="https://mattsue1003.github.io/${a[0]}/" target="_blank" rel="noopener">${qrImg('https://mattsue1003.github.io/'+a[0]+'/',4)}<span><h3>${a[1]}</h3><p>${a[2]}</p></span></a>`).join('')}
+     ['oldsongdance','音樂律動資料庫','378 支坐姿、站姿律動影片，依年代篩選'],
+     ['taiwan-taste-island','台灣好味島','22 縣市名產與景點的 3D 小島，附任務卡'],
+     ['japan-dayservice-activity-videos','日本團康影片資料庫','350 支日本日照團康與體操，中文整理玩法']].map(a=>`<a class="qrc" href="https://mattsue1003.github.io/${a[0]}/" target="_blank" rel="noopener">${qrImg('https://mattsue1003.github.io/'+a[0]+'/',4)}<span><h3>${a[1]}</h3><p>${a[2]}</p></span></a>`).join('')}
  </div>`,{wide:true});
 
 /* ---- 結語 ---- */
@@ -1261,7 +1263,7 @@ window.mapAssign=(pts)=>{const cx=800,cy=470;{const ang=pts.map(p=>Math.atan2(p[
 window.onMapFrame=(pts,hub)=>{if(!slotOf)return;
  const h=document.getElementById('mhub');h.style.left=hub[0]+'px';h.style.top=hub[1]+'px';
  let svg='';pts.forEach((p,i)=>{const sl=SLOTS[slotOf[i]];const ex=sl[0]<800?sl[0]+340:sl[0],ey=sl[1]+100;const col=['#f2558f','#ef5a5a','#3d6fe0','#e9a100','#7c4fe0','#0f9a9a'][i];
-  svg+=`<path d="M${hub[0]} ${hub[1]} Q${(hub[0]+p[0])/2} ${(hub[1]+p[1])/2-40} ${p[0]} ${p[1]}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;
+  {const dx=p[0]-hub[0],dy=p[1]-hub[1],L=Math.hypot(dx,dy)||1,R=Math.min(150,L*.55);const sx=hub[0]+dx/L*R,sy=hub[1]+dy/L*R*.75;svg+=`<path d="M${sx} ${sy} Q${(sx+p[0])/2} ${(sy+p[1])/2-30} ${p[0]} ${p[1]}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;}
   svg+=`<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${col}" stroke-width="4" stroke-dasharray="2 9" stroke-linecap="round"/><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="${col}" stroke="#fff" stroke-width="4"/>`;});
  document.getElementById('mapLines').innerHTML=svg;};
 function showMap(nc){if(document.body.classList.contains('mob'))return;nextCh=Math.max(0,Math.min(CH.length-1,nc==null?(cur>=0?Math.min(CH.length-1,SL[cur].ch+1):1):nc));mapOn=true;document.body.classList.add('mapping');toc.classList.remove('on');renderMap();chips.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));W3&&W3.toMap();try{history.replaceState(null,'','#map');}catch(e){}}
