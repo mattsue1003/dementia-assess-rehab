@@ -492,6 +492,7 @@ body.mob .offlinks{grid-template-columns:1fr 1fr}
 @keyframes step{0%,45%{opacity:1;transform:translateY(-12px)}50%,100%{opacity:.25;transform:none}}
 .ngrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;width:min(100%,980px)}
 .ngrid span{background:#fff;border-radius:18px;display:grid;place-items:center;font-family:var(--fn);font-weight:700;font-size:66px;height:104px;color:var(--ink);box-shadow:0 4px 0 var(--tint2)}
+.ngrid.g44{grid-template-columns:repeat(4,1fr);width:min(100%,820px)}.ngrid.g44 span{height:104px;font-size:70px}
 .ngrid.g43{grid-template-columns:repeat(4,1fr);width:min(100%,860px)}.ngrid.g43 span{height:138px;font-size:88px}
 .ngrid span.hl{background:var(--bad);color:#fff}
 .reveal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:#fff;font-family:var(--fh);font-size:56px;padding:18px 44px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
@@ -502,7 +503,7 @@ body.mob .offlinks{grid-template-columns:1fr 1fr}
 .ytbox{width:180px;height:101px;border-radius:10px;overflow:hidden;background:#000}
 .ytbox:empty,.ytbox:has(div:empty){display:none}
 .ytbox iframe{width:180px;height:101px;border:0}
-body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size:70px}body.mob .ngrid span,body.mob .ngrid.g43 span{font-size:30px;height:56px}
+body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size:70px}body.mob .ngrid span,body.mob .ngrid.g43 span,body.mob .ngrid.g44 span{font-size:30px;height:56px}
 @media (prefers-reduced-motion:reduce){.slide.on .card{animation:none}.mc{transition:none}}
 </style></head><body>
 
@@ -994,9 +995,9 @@ AG('遊戲 3 · 超慢跑算式','原地超慢跑，同時算算式','g-jog','�
 AG('遊戲 4 · 找缺少','1 到 13，少了哪一個？','g-miss','視覺搜尋 · 注意力',
  '<div class="seg" data-g="spd"><button class="on" data-v="5000">5 秒</button><button data-v="8000">8 秒</button><button data-v="12000">12 秒</button></div>',
  ['找缺少的數字','4 × 3 的格子裡放了 1 到 13 其中 12 個數字，有一個不見了。<br>5 秒內找出<b>少了哪一個</b>，時間到會公布答案。']);
-AG('遊戲 5 · 找重複','1 到 20，哪一個出現兩次？','g-dup','視覺搜尋 · 注意力',
+AG('遊戲 5 · 找重複','1 到 15，哪一個出現兩次？','g-dup','視覺搜尋 · 注意力',
  '<div class="seg" data-g="spd"><button class="on" data-v="5000">5 秒</button><button data-v="8000">8 秒</button><button data-v="12000">12 秒</button></div>',
- ['找重複的數字','4 × 5 的格子裡有 1 到 20，但其中<b>一個數字出現兩次</b>（所以有一個數字不見了）。<br>5 秒內找出重複的那一個。']);
+ ['找重複的數字','4 × 4 的格子裡有 1 到 15，其中<b>一個數字出現兩次</b>。<br>5 秒內找出重複的那一個。']);
 S(4,'遊戲 6 · 回想時間','還記得一開始的五個詞嗎？',`
  <div class="game" id="g-rec">
   <div class="gbar"><span class="pill">延遲回憶 · 再認</span><span style="font-size:19px">第一步：先在紙上寫下記得的。第二步：從下面點選。</span><div class="stat"><button class="btn cc" id="rcC">對答案</button><button class="btn alt" id="rcR">重來</button></div></div>
@@ -1203,8 +1204,8 @@ const GAMES={
   make(i,st){const miss=1+rnd(13);const nums=shuffle([...Array(13)].map((_,k)=>k+1).filter(n=>n!==miss));st.innerHTML=gridHTML(nums,'g43')+`<div class="reveal" hidden>少了 <b>${miss}</b></div>`;
    return{reveal:()=>{st.querySelector('.reveal').hidden=false;}};},
   endMsg:'找缺少要邊掃描、邊在心裡排順序，練視覺搜尋和工作記憶。想加難度可以把時間調短。'},
- 'g-dup':{rev:1800,idle:()=>gridHTML([...Array(20)].map((_,k)=>k+1)),
-  make(i,st){const all=[...Array(20)].map((_,k)=>k+1);const gone=rnd(20);const dup=all[(gone+1+rnd(19))%20];all[gone]=dup;const nums=shuffle(all);st.innerHTML=gridHTML(nums)+`<div class="reveal" hidden><b>${dup}</b> 出現兩次</div>`;
+ 'g-dup':{rev:1800,idle:()=>gridHTML([...Array(15)].map((_,k)=>k+1).concat([8]),'g44'),
+  make(i,st){const dup=1+rnd(15);const nums=shuffle([...Array(15)].map((_,k)=>k+1).concat([dup]));st.innerHTML=gridHTML(nums,'g44')+`<div class="reveal" hidden><b>${dup}</b> 出現兩次</div>`;
    return{reveal:()=>{st.querySelector('.reveal').hidden=false;st.querySelectorAll('.ngrid span[data-n="'+dup+'"]').forEach(x=>x.classList.add('hl'));}};},
   endMsg:'找重複比找缺少更難一點：不能只靠順序，要記住看過哪些數字。'}};
 /* music for 超慢跑: YouTube IFrame API where allowed (GitHub Pages), otherwise a link */
