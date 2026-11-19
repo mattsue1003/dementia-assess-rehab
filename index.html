@@ -523,14 +523,15 @@ body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size
 
 /* spotlight / laser pointer (mouse or phone remote) */
 #spot{position:fixed;inset:0;z-index:40;pointer-events:none;display:none;--x:50%;--y:50%;--r:150px}
-#spot.focus{display:block;background:radial-gradient(circle var(--r) at var(--x) var(--y),transparent 0,transparent calc(var(--r) - 2px),rgba(15,22,38,.72) var(--r))}
+#spot.focus{display:block;overflow:hidden}
+#spot.focus::before{content:"";position:absolute;left:var(--x);top:var(--y);width:calc(var(--r) * 2);height:calc(var(--r) * 2);margin:calc(var(--r) * -1) 0 0 calc(var(--r) * -1);border-radius:50%;box-shadow:0 0 0 300vmax rgba(15,22,38,.72),inset 0 0 0 3px rgba(255,255,255,.6)}
 #spot.laser{display:block}
 #spot.laser::after{content:"";position:absolute;left:var(--x);top:var(--y);width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#ff2a2a;box-shadow:0 0 0 6px rgba(255,42,42,.25),0 0 22px 6px rgba(255,42,42,.6)}
 .bar #bSpot.on{background:var(--ink);color:#fff}
 #remote{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(34,48,74,.55);backdrop-filter:blur(6px);padding:16px}
 #remote.on{display:flex}
-.rbox{background:var(--paper);border-radius:26px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;max-width:760px;box-shadow:0 24px 80px rgba(0,0,0,.3);font-size:18px;line-height:1.6}
-.rbox a.qrlink img{width:240px;height:240px;image-rendering:pixelated}
+  .rbox{--cc:var(--c2);background:var(--paper);border-radius:26px;padding:28px 32px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;max-width:820px;box-shadow:0 24px 80px rgba(0,0,0,.3);font-size:18px;line-height:1.6}
+.rbox a.qrlink img{width:280px;height:280px;image-rendering:pixelated}
 .rbox h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:30px}
 .rbox .rst{display:inline-block;margin-top:8px;border-radius:999px;padding:3px 14px;background:#f1ede4;font-family:var(--fh)}
 .rbox .rst.ok{background:#d9f2e4;color:#11603b}.rbox .rst.bad{background:#ffd9d6;color:#8f2420}
