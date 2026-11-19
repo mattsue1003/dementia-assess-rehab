@@ -219,6 +219,11 @@ body.driving #deck{display:none}
 .qrc img{width:104px;height:104px;border-radius:10px;background:#fff;padding:6px;image-rendering:pixelated}
 .qrc h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:23px;line-height:1.3}
 .qrc p{margin:0;font-size:18px;line-height:1.45;color:var(--ink2)}
+.qrgrid.tools3{grid-template-columns:repeat(3,1fr)}
+.qrc.tool{grid-template-columns:1fr;justify-items:center;text-align:center;align-content:space-evenly;padding:20px 18px}
+.qrc.tool img{width:150px;height:150px}
+.qrc.tool h3{font-size:27px}.qrc.tool p{font-size:18px}
+.qrc.tool em{display:inline-block;margin-top:10px;font-style:normal;font-family:var(--fh);font-size:19px;background:var(--cc);color:var(--ink);border-radius:999px;padding:5px 18px}
 .refs{margin:0;padding-left:1.3em;font-size:15px;line-height:1.42;columns:2;column-gap:36px;flex:1}
 .refs li{break-inside:avoid;margin-bottom:6px}
 
@@ -961,6 +966,13 @@ S(3,'復健復能 · 資源','照顧者是團隊的一員',`
  </div>`);
 
 /* ---- 認知遊戲 ---- */
+S(3,'復健復能 · 實用工具','開處方、查輔具：帶回去就能用',`
+ <div class="qrgrid tools3">
+  ${[['reablepre','復健復能處方箋','治療師勾選評估結果與目標，開出居家練習處方，可列印給家屬與照顧者。','開處方'],
+     ['longtermcare','輔具補助查詢','長照與身障輔具補助查詢：哪些品項、補助多少、怎麼申請。','查補助'],
+     ['long-term-care-assistive-devices-database','長照輔具資料庫','依功能、GMFCS、食衣住行樂分類查輔具，找出適合的選擇。','找輔具']].map(a=>`<a class="qrc tool" href="https://mattsue1003.github.io/${a[0]}/" target="_blank" rel="noopener"><span class="pill">${a[3]}</span>${qrImg('https://mattsue1003.github.io/'+a[0]+'/',5)}<span><h3>${a[1]}</h3><p>${a[2]}</p><em>點我開啟 ↗</em></span></a>`).join('')}
+ </div>
+ <div class="note">復能三步：<b>評估</b>（前一站的量表與觀察）→ <b>開處方</b>（具體、可在家練的動作與任務）→ <b>改環境與輔具</b>（讓他自己做得到）。</div>`);
 QZ(3,'復健復能 · 闖關測驗','復健復能 闖關測驗',[
  {q:'「復能」最核心的出發點是？',o:['治療師的專業判斷','個案自己的生活目標','量表分數','醫囑'],a:1,e:'復能從「他想做什麼」開始，在真實生活情境裡練。',s:'Clare L, et al. Alzheimers Dement 2019（GREAT 試驗）'},
  {q:'「答對就把間隔拉長，答錯就給答案、退回上一個間隔」是哪個技巧？',o:['無錯誤學習','間隔提取','逐步減少提示','認知刺激'],a:1,e:'間隔提取（spaced retrieval），適合教一個重要的新資訊。',s:'Clare L, Woods RT. Neuropsychol Rehabil 2004'},
