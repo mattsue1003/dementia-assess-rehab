@@ -230,7 +230,7 @@ body.driving #deck{display:none}
 .vcard iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .fxt td:first-child{color:color-mix(in srgb,var(--cc) 70%,var(--ink))}
 body.mob .fx{grid-template-columns:1fr}
-.qrgrid.tools3{grid-template-columns:repeat(3,1fr)}
+.qrgrid.tools3{grid-template-columns:repeat(2,1fr)}
 .qrc.tool{grid-template-columns:1fr;justify-items:center;text-align:center;align-content:space-evenly;padding:20px 18px}
 .qrc.tool img{width:150px;height:150px}
 .qrc.tool h3{font-size:27px}.qrc.tool p{font-size:18px}
@@ -520,11 +520,30 @@ body.mob .offlinks{grid-template-columns:1fr 1fr}
 .ytbox:empty,.ytbox:has(div:empty){display:none}
 .ytbox iframe{width:180px;height:101px;border:0}
 body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size:70px}body.mob .ngrid span,body.mob .ngrid.g43 span,body.mob .ngrid.g44 span{font-size:30px;height:56px}
+
+/* spotlight / laser pointer (mouse or phone remote) */
+#spot{position:fixed;inset:0;z-index:40;pointer-events:none;display:none;--x:50%;--y:50%;--r:150px}
+#spot.focus{display:block;background:radial-gradient(circle var(--r) at var(--x) var(--y),transparent 0,transparent calc(var(--r) - 2px),rgba(15,22,38,.72) var(--r))}
+#spot.laser{display:block}
+#spot.laser::after{content:"";position:absolute;left:var(--x);top:var(--y);width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#ff2a2a;box-shadow:0 0 0 6px rgba(255,42,42,.25),0 0 22px 6px rgba(255,42,42,.6)}
+.bar #bSpot.on{background:var(--ink);color:#fff}
+#remote{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(34,48,74,.55);backdrop-filter:blur(6px);padding:16px}
+#remote.on{display:flex}
+.rbox{background:var(--paper);border-radius:26px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;max-width:760px;box-shadow:0 24px 80px rgba(0,0,0,.3);font-size:18px;line-height:1.6}
+.rbox a.qrlink img{width:240px;height:240px;image-rendering:pixelated}
+.rbox h3{margin:0 0 6px;font-family:var(--fh);font-weight:400;font-size:30px}
+.rbox .rst{display:inline-block;margin-top:8px;border-radius:999px;padding:3px 14px;background:#f1ede4;font-family:var(--fh)}
+.rbox .rst.ok{background:#d9f2e4;color:#11603b}.rbox .rst.bad{background:#ffd9d6;color:#8f2420}
+.rbox .row{margin-top:10px;gap:10px}
+.rbox code{font-family:var(--fn);font-weight:600;font-size:20px;letter-spacing:.08em}
+@media (max-width:700px){.rbox{grid-template-columns:1fr;justify-items:center;text-align:center}.rbox a.qrlink img{width:200px;height:200px}}
 @media (prefers-reduced-motion:reduce){.slide.on .card{animation:none}.mc{transition:none}}
 </style></head><body>
 
 <canvas id="world" aria-hidden="true"></canvas>
 <div id="form" role="dialog" aria-modal="true" aria-label="評估表單"><div class="fbox"><div class="fhead"><h3 id="fT"></h3><button id="fR">清除重填</button><button id="fX">關閉 ✕</button></div><div class="fbody" id="fB"></div><div class="ffoot" id="fF"></div><div class="fsrc" id="fS"></div></div></div>
+<div id="spot" aria-hidden="true"></div>
+<div id="remote" role="dialog" aria-modal="true" aria-label="手機遙控"><div class="rbox"><span id="rQR"></span><div><h3>用手機遙控簡報</h3>用手機相機掃描左邊的 QR，就能在手機上<b>換頁、開地圖、聚焦、雷射筆、放大</b>。<br>配對碼 <code id="rCode"></code><br><span class="rst" id="rSt">連線中…</span><div class="row"><button class="btn cc" id="rNew">換一組配對碼</button><button class="btn alt" id="rX">關閉</button></div></div></div></div>
 <div id="zoom" role="dialog" aria-modal="true" aria-label="放大檢視"><button class="zx" aria-label="關閉放大">✕</button><span class="zhint">點空白處或按 Esc 關閉 · ← → 換頁</span></div>
 <div id="ui">
   <div class="top">
@@ -546,7 +565,9 @@ body.mob .sw{font-size:130px}body.mob .nb{font-size:140px}body.mob .eq{font-size
   </div>
   <div class="bar">
     <button id="bZoom" title="點選畫面上任一區塊放大 (Z)"><svg style="width:20px;height:20px;vertical-align:-4px;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg>放大</button>
+    <button id="bSpot" title="聚焦：聚光燈 → 雷射筆 → 關閉 (L)">聚焦</button>
     <button id="bMap" title="地圖 (M)">地圖</button>
+    <button id="bRemote" title="用手機遙控">手機遙控</button>
     <button id="bToc" title="目錄 (T)">目錄</button>
     <button id="bDrive" class="drive" title="自由開車 (D)">開車逛逛</button>
     <button id="bPrev" aria-label="上一頁">◀</button>
@@ -604,7 +625,7 @@ S(0,'','',`
    <a class="qr" href="${PAGES_URL}" target="_blank" rel="noopener">${qrImg(PAGES_URL,5)}掃描或點我帶走簡報</a>
    <a class="qr" href="${FB_URL}" target="_blank" rel="noopener">${qrImg(FB_URL,5)}追蹤我的粉絲專頁</a>
  </div>
- <div class="hint">按 <kbd>→</kbd> 往下 · <kbd>M</kbd> 地圖 · <kbd>Z</kbd> 或雙擊任一區塊放大 · <kbd>D</kbd> 開車</div>`,{cover:true});
+ <div class="hint"><kbd>→</kbd> 往下 · <kbd>M</kbd> 地圖 · <kbd>Z</kbd> 放大 · <kbd>L</kbd> 聚焦 · 手機掃 QR 可遙控</div>`,{cover:true});
 
 S(0,'開場 · 講師介紹','我是鍾孟修，職能治療師',`
  <div class="spk">
@@ -884,15 +905,28 @@ S(3,'復健復能 · 兩個概念','復健和復能，差在哪裡？',`
  </div>
  <div class="note">長照 2.0 的「專業服務」由職能治療師、物理治療師等到家，以個案的生活目標擬定復能計畫（如 CA07 IADLs／ADLs 復能照護、CA08 個別化服務計畫）。失智者的目標常是：<b>自己吃藥、自己洗澡、還能去廟口泡茶。</b></div>`);
 
-S(3,'復健復能 · 三種認知介入','認知刺激、訓練、復健：別混在一起',`
+S(3,'復健復能 · 三種認知介入','認知刺激、訓練、復能：別混在一起',`
  <table class="tbl">
   <tr><th>類型</th><th>做什麼</th><th>形式</th><th>適合誰</th><th>研究證據</th></tr>
   <tr><td>認知刺激<br><small>Cognitive Stimulation</small></td><td>主題活動、討論、懷舊，整體刺激思考與社交</td><td>小團體</td><td>輕度到中度失智</td><td>可改善認知與生活品質，NICE 建議提供（CST）</td></tr>
   <tr><td>認知訓練<br><small>Cognitive Training</small></td><td>標準化練習某種能力，難度漸增（記憶、注意力）</td><td>個人或團體、紙筆或電腦</td><td>健康長者、MCI</td><td>練到的能力會進步，轉移到生活的效果有限</td></tr>
-  <tr><td>認知復健<br><small>Cognitive Rehabilitation</small></td><td>針對個人的生活目標，用策略和環境改變去達成</td><td>一對一，在家中</td><td>輕度到中度失智</td><td>GREAT 試驗：目標達成度明顯提升</td></tr>
+  <tr><td>認知復能<br><small>Cognitive Rehabilitation</small></td><td>針對個人的生活目標，用策略和環境改變去達成</td><td>一對一，在家中</td><td>輕度到中度失智</td><td>GREAT 試驗：目標達成度明顯提升</td></tr>
  </table>
  <div class="src">Clare L, Woods RT. Neuropsychol Rehabil 2004；Clare L, et al. GREAT trial, Alzheimer's &amp; Dementia 2019；NICE NG97（2018）。</div>`,{wide:true});
 
+S(3,'復健復能 · 健腦手指操','動手也動腦：健腦手指操',`
+ <div class="fx">
+  <div class="col">
+   <button class="vcard" data-yt="1zIEGxapySE" data-t="健腦手指操｜鍾孟修 職能治療師"><span class="vplay"></span><b>健腦手指操</b><small>鍾孟修 職能治療師 · YouTube</small></button>
+   <div class="tile solid" style="flex:0 0 auto"><h3>先看、再跟、最後自己做</h3><p>放慢示範，一次只加一個新動作；跟不上就回到上一步，結束在大家都做得到的動作。</p></div>
+  </div>
+  <div class="grid g2">
+   <div class="tile"><span class="k">練到什麼</span><h3>注意力與轉換</h3><p>左右手做不同的動作、聽口令換手，練專注、抑制與動作計畫。</p></div>
+   <div class="tile"><span class="k">怎麼分級</span><h3>易 → 中 → 難</h3><p>單手 → 雙手同步 → 雙手不同；再加上數數、唱歌就是雙重任務。</p></div>
+   <div class="tile"><span class="k">放進生活</span><h3>連到功能</h3><p>做完接著扣釦子、拿藥盒、撿豆子，讓手指靈活度直接用在生活上。</p></div>
+   <div class="tile"><span class="k">安全</span><h3>不痛為原則</h3><p>關節炎或中風手可縮小動作範圍，錯了不糾正，笑著再來一次。</p></div>
+  </div>
+ </div>`,{wide:true});
 S(3,'復健復能 · CST 認知刺激治療','CST：每週兩次、七週十四堂',`
  <div class="cst">
   ${['肢體遊戲','聲音','童年','食物','時事','人物與景物','字詞聯想','創作','物品分類','定向','用錢','數字遊戲','文字遊戲','團隊問答'].map((t,i)=>`<div><i>${i+1}</i>${t}</div>`).join('')}
@@ -993,10 +1027,9 @@ S(3,'復健復能 · 資源','照顧者是團隊的一員',`
  </div>`);
 
 /* ---- 認知遊戲 ---- */
-S(3,'復健復能 · 實用工具','開處方、查輔具：帶回去就能用',`
+S(3,'復健復能 · 實用工具','開處方、找輔具：帶回去就能用',`
  <div class="qrgrid tools3">
   ${[['reablepre','復健復能處方箋','治療師勾選評估結果與目標，開出居家練習處方，可列印給家屬與照顧者。','開處方'],
-     ['longtermcare','輔具補助查詢','長照與身障輔具補助查詢：哪些品項、補助多少、怎麼申請。','查補助'],
      ['long-term-care-assistive-devices-database','長照輔具資料庫','依功能、GMFCS、食衣住行樂分類查輔具，找出適合的選擇。','找輔具']].map(a=>`<a class="qrc tool" href="https://mattsue1003.github.io/${a[0]}/" target="_blank" rel="noopener"><span class="pill">${a[3]}</span>${qrImg('https://mattsue1003.github.io/'+a[0]+'/',5)}<span><h3>${a[1]}</h3><p>${a[2]}</p><em>點我開啟 ↗</em></span></a>`).join('')}
  </div>
  <div class="note">復能三步：<b>評估</b>（前一站的量表與觀察）→ <b>開處方</b>（具體、可在家練的動作與任務）→ <b>改環境與輔具</b>（讓他自己做得到）。</div>`);
@@ -1283,6 +1316,7 @@ function go(i){closeZoom();if(cur>=0&&SL[cur]&&SL[cur].el._stop)SL[cur].el._stop
  chips.querySelectorAll('.chip').forEach(b=>b.classList.toggle('on',+b.dataset.c===s.ch));toc.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
  try{history.replaceState(null,'','#s'+(i+1));}catch(e){}
  if(document.body.classList.contains('zpick'))setTimeout(markZables,30);
+ if(typeof pubState==='function')setTimeout(pubState,50);
  W3&&W3.toStation(s.ch,s.cover?'cover':s.wide?'wide':'card');}
 /* ---- mind-map of billboards ---- */
 let mapOn=false,nextCh=1;
@@ -1308,7 +1342,7 @@ window.onMapFrame=(pts,hub)=>{if(!slotOf)return;
   {const dx=p[0]-hub[0],dy=p[1]-hub[1],L=Math.hypot(dx,dy)||1,R=Math.min(150,L*.55);const sx=hub[0]+dx/L*R,sy=hub[1]+dy/L*R*.75;svg+=`<path d="M${sx} ${sy} Q${(sx+p[0])/2} ${(sy+p[1])/2-30} ${p[0]} ${p[1]}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;}
   svg+=`<path d="M${p[0]} ${p[1]} L${ex} ${ey}" fill="none" stroke="${col}" stroke-width="4" stroke-dasharray="2 9" stroke-linecap="round"/><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="${col}" stroke="#fff" stroke-width="4"/>`;});
  document.getElementById('mapLines').innerHTML=svg;};
-function showMap(nc){if(document.body.classList.contains('mob'))return;nextCh=Math.max(0,Math.min(CH.length-1,nc==null?(cur>=0?Math.min(CH.length-1,SL[cur].ch+1):1):nc));mapOn=true;document.body.classList.add('mapping');toc.classList.remove('on');renderMap();chips.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));W3&&W3.toMap();try{history.replaceState(null,'','#map');}catch(e){}}
+function showMap(nc){setTimeout(()=>typeof pubState==='function'&&pubState(),60);if(document.body.classList.contains('mob'))return;nextCh=Math.max(0,Math.min(CH.length-1,nc==null?(cur>=0?Math.min(CH.length-1,SL[cur].ch+1):1):nc));mapOn=true;document.body.classList.add('mapping');toc.classList.remove('on');renderMap();chips.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));W3&&W3.toMap();try{history.replaceState(null,'','#map');}catch(e){}}
 function hideMap(){mapOn=false;document.body.classList.remove('mapping');}
 function next(){if(mapOn){go(SL.findIndex(s=>s.ch===nextCh));return;}const n=SL[cur+1];if(n&&n.ch!==SL[cur].ch){showMap(n.ch);return;}go(cur+1);}
 function prev(){if(mapOn){const c=cur;cur=-1;go(c);return;}go(cur-1);}
@@ -1361,6 +1395,41 @@ document.getElementById('fB').addEventListener('click',e=>{const b=e.target.clos
 document.getElementById('fX').onclick=()=>fEl.classList.remove('on');document.getElementById('fR').onclick=()=>openForm(fKey);
 fEl.addEventListener('click',e=>{if(e.target===fEl)fEl.classList.remove('on');});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-form]');if(b&&!b.closest('#form')){if(document.body.classList.contains('zpick'))return;openForm(b.dataset.form);}});
+
+/* ---- spotlight / laser pointer ---- */
+const spot=document.getElementById('spot');let spotMode=0,spotR=150;const SPOT=['','focus','laser'];
+function setSpot(m){spotMode=m;spot.className=SPOT[m];const b=document.getElementById('bSpot');b.classList.toggle('on',m>0);b.textContent=['聚焦','聚光燈','雷射筆'][m];}
+function spotAt(x,y){spot.style.setProperty('--x',x+'px');spot.style.setProperty('--y',y+'px');}
+function spotSize(d){spotR=Math.max(60,Math.min(480,spotR+d));spot.style.setProperty('--r',spotR+'px');}
+document.getElementById('bSpot').onclick=()=>setSpot((spotMode+1)%3);
+addEventListener('mousemove',e=>{if(spotMode&&!remoteDriving)spotAt(e.clientX,e.clientY);},{passive:true});
+addEventListener('wheel',e=>{if(spotMode===1&&(e.shiftKey||e.altKey)){spotSize(e.deltaY<0?20:-20);e.preventDefault();}},{passive:false});
+/* ---- phone remote over a public MQTT relay (works on GitHub Pages; the artifact viewer blocks websockets) ---- */
+let mq=null,room='',remoteDriving=false,rdTimer=null;
+const rEl=document.getElementById('remote'),rSt=document.getElementById('rSt');
+function newRoom(){room=Math.random().toString(36).slice(2,8);try{localStorage.setItem('tunghai-room',room);}catch(e){}return room;}
+function getRoom(){try{room=localStorage.getItem('tunghai-room')||'';}catch(e){}return room||newRoom();}
+const T=s=>'mattsue1003/deck-dementia/'+room+'/'+s;
+function rStatus(t,c){rSt.textContent=t;rSt.className='rst'+(c?' '+c:'');}
+function pubState(){if(!mq||!mq.connected)return;const s=SL[cur]||{};mq.publish(T('state'),JSON.stringify({i:cur,n:SL.length,title:s.title||'封面',tag:s.tag||'',ch:s.ch,chs:CH.map(c=>c.n),map:mapOn,spot:spotMode,zoom:!!zcur}),{retain:true});}
+function onCmd(m){let c;try{c=JSON.parse(m);}catch(e){return;}
+ if(c.a==='next')next();else if(c.a==='prev')prev();else if(c.a==='go')go(c.i);else if(c.a==='ch')go(SL.findIndex(s=>s.ch===c.ch));
+ else if(c.a==='map')mapOn?prev():showMap();else if(c.a==='spot')setSpot(c.m);else if(c.a==='size')spotSize(c.d);
+ else if(c.a==='pt'){remoteDriving=true;clearTimeout(rdTimer);rdTimer=setTimeout(()=>remoteDriving=false,4000);spotAt(c.x*innerWidth,c.y*innerHeight);}
+ else if(c.a==='zoom'){if(zcur){closeZoom();}else{const x=c.x*innerWidth,y=c.y*innerHeight;spot.style.display='none';const el=document.elementFromPoint(x,y);spot.style.display='';const z=zableOf(el);if(z)openZoom(z);}}
+ else if(c.a==='unzoom')closeZoom();
+ else if(c.a==='start'){const b=SL[cur].el.querySelector('.gover:not([hidden]) [data-start]');b&&b.click();}
+ setTimeout(pubState,80);}
+function connectRemote(){if(mq)return;if(!/github\.io$|localhost|127\.0\.0\.1/.test(location.hostname)){rStatus('手機遙控只在 GitHub Pages 版可用','bad');return;}
+ rStatus('連線中…');const go2=()=>{try{mq=mqtt.connect('wss://broker.emqx.io:8084/mqtt',{clientId:'deck-'+room+'-'+Math.random().toString(16).slice(2,6),reconnectPeriod:3000,connectTimeout:8000,clean:true});}catch(e){rStatus('連線失敗','bad');return;}
+  mq.on('connect',()=>{mq.subscribe(T('cmd'));rStatus('已連線，等手機掃描','ok');pubState();});
+  mq.on('message',(t,m)=>{if(t===T('cmd')){rStatus('手機已連上，可以開始操作','ok');onCmd(m.toString());}});
+  mq.on('offline',()=>rStatus('離線，重新連線中…','bad'));mq.on('error',()=>rStatus('連線失敗，檢查網路','bad'));};
+ if(window.mqtt)go2();else{const sc=document.createElement('script');sc.src='https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js';sc.onload=go2;sc.onerror=()=>rStatus('無法載入連線元件','bad');document.head.appendChild(sc);}}
+function showRemote(){getRoom();const url=PAGES_URL+'remote.html?r='+room;document.getElementById('rQR').innerHTML=qrA(url,7);document.getElementById('rCode').textContent=room.toUpperCase();rEl.classList.add('on');connectRemote();}
+document.getElementById('bRemote').onclick=showRemote;document.getElementById('rX').onclick=()=>rEl.classList.remove('on');
+rEl.addEventListener('click',e=>{if(e.target===rEl)rEl.classList.remove('on');});
+document.getElementById('rNew').onclick=()=>{if(mq){try{mq.end(true);}catch(e){}mq=null;}newRoom();showRemote();};
 /* ---- zoom: any block on a card can pop out enlarged ---- */
 const ZSEL='.tile,.tbl,.note,.fq,.gq,.err,.qrc,.flow,.spectrum,.ad8,.cues,.cuebox,.combo,.words,.steps,.sr,.game,.qz,.gamecard,.fbcard,.roles,.ppb,.refs,.recbox,.toolchips,.cst,.calc,.lead,.agenda,.ice>.col>.tile,.spk .ph,.pad2,.errs,.bars';
 const zoomEl=document.getElementById('zoom'),zbtn=document.getElementById('zbtn');let zcur=null;
@@ -1397,6 +1466,10 @@ function setDrive(on){if(on&&mapOn)hideMap();document.body.classList.toggle('dri
 const KEYS={};
 addEventListener('keydown',e=>{const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;const k=e.key;
  if(fEl.classList.contains('on')){if(k==='Escape')fEl.classList.remove('on');return;}
+ if(rEl.classList.contains('on')){if(k==='Escape')rEl.classList.remove('on');return;}
+ if((k==='l'||k==='L')&&!document.body.classList.contains('driving')){setSpot((spotMode+1)%3);return;}
+ if(spotMode===1&&(k==='+'||k==='='||k==='-')){spotSize(k==='-'?-30:30);return;}
+ if(spotMode&&k==='Escape'){setSpot(0);return;}
  if(zcur&&k==='Escape'){closeZoom();return;}
  if(document.body.classList.contains('zpick')&&k==='Escape'){setPick(false);return;}
  if((k==='z'||k==='Z')&&!document.body.classList.contains('driving')){if(zcur)closeZoom();else setPick(!document.body.classList.contains('zpick'));return;}
@@ -1589,6 +1662,7 @@ let W3=null;
 
 /* start */
 const h=(location.hash.match(/^#s(\d+)$/)||[])[1];
+try{if(localStorage.getItem('tunghai-room')&&/github\.io$/.test(location.hostname)){getRoom();connectRemote();}}catch(e){}
 initMusic();const wantMap=location.hash==='#map';layout();go(h?(+h-1):0);updatePassport();if(wantMap)showMap(1);addEventListener('resize',layout);
 </script>
 </body></html>
